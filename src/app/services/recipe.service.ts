@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Recipe } from '../models/recipe.model';
+import { HttpClient } from '@angular/common/http';
 
-import { recipes } from './dummy.data';
+import { Recipe } from '../models/recipe.model';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -9,9 +11,9 @@ import { recipes } from './dummy.data';
 })
 export class RecipeService {
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
-  GetAllRecipes(): Recipe[] {
-    return recipes;
+  GetAllRecipes(): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(`${environment.apiUrl}/recipe`)
   }
 }
