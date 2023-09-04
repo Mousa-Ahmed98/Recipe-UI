@@ -1,0 +1,61 @@
+.recipe-container {
+  padding: 0 120px;
+  align-items: center;
+  margin: 100px;
+  margin-top: 20px;
+}
+  
+
+.recipe {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 50px;
+}
+  
+h2 {
+  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.recipe-image{
+  border-radius: 10px;
+}
+
+.ingredients, .steps {
+  margin-bottom: 10px;
+}
+
+.ingredient, .step {
+  background-color: #f8f8f8;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stepNo{
+  padding-bottom: 40px;
+  width: 100%;
+}
+
+/* :host ::ng-deep .ui-accordion {
+  width: 100%;
+} */
+
+.p-grid{
+  width: 100%;
+}
+
+button{
+  float: right;
+  margin-left: 5px;
+}
+

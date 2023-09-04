@@ -10,7 +10,10 @@ import { IndexComponent } from './index/index.component';
 import { ViewComponent } from './view/view.component';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
-
+import { AccordionModule } from 'primeng/accordion';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {PanelModule} from 'primeng/panel';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,12 @@ import { EditComponent } from './edit/edit.component';
     CommonModule,
     RecipeRoutingModule,
     CardModule,
-    ButtonModule
+    ButtonModule,
+    AccordionModule,
+    BrowserAnimationsModule,
+    PanelModule,
+    ConfirmPopupModule,
+
   ]
 })
 export class RecipeManagementModule { }
