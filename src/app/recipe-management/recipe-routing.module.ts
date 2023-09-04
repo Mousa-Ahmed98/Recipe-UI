@@ -6,9 +6,14 @@ import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
+  //{path: '', component: IndexComponent},
+
+
+
+
   { path: 'recipes', component: IndexComponent },
-  { path: 'recipes/:recipeId', component: ViewComponent },
   { path: 'recipes/create', component: CreateComponent },
+  { path: 'recipes/:recipeId', component: ViewComponent },
   { path: 'recipes/:recipeId/edit', component: EditComponent },
 ];
 
