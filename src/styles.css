@@ -1,2 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~primeflex/primeflex.css';
+/* @import "~bootstrap/dist/css/bootstrap.css." */
+
+@import "~bootstrap/dist/css/bootstrap.css";
+/* styles.css or styles.scss */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';

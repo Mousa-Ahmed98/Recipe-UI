@@ -7,6 +7,11 @@ import { EditComponent } from './edit/edit.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 const routes: Routes = [
+  //{path: '', component: IndexComponent},
+
+
+
+
   { path: 'recipes', component: IndexComponent },
   { path: 'recipes/create', component: CreateComponent },
   { path: 'recipes/:recipeId', component: ViewComponent },

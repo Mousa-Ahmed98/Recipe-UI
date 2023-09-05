@@ -24,5 +24,6 @@ export class IndexComponent {
 
   navigateToView(id: number){
     this.router.navigate(['/recipes', id]);  
+    //this.router.navigate(['/recipes/create']);
   }
 }

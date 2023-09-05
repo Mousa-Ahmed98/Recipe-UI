@@ -10,10 +10,13 @@ import {MenubarModule} from 'primeng/menubar';
 
 
 import { AppComponent } from './app.component';
+import { AddRecipeService } from './services/add-recipe.service';
+import { CreateComponent } from './recipe-management/create/create.component';
+import { CategoriesService } from './services/category.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,7 @@ import { AppComponent } from './app.component';
     MenubarModule,
 
   ],
-  providers: [],
+  providers: [AddRecipeService, CategoriesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
