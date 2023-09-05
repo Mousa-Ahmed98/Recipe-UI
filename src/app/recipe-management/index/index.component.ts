@@ -10,14 +10,16 @@ import { Router } from '@angular/router';
 })
 export class IndexComponent {
   
-  recipes: Recipe[];
+  recipes: Recipe[] = [];
   
   constructor(
     private recipeService: RecipeService, 
     private router: Router,
     )
   {
-    this.recipes = recipeService.GetAllRecipes();
+    this.recipeService.GetAllRecipes().subscribe(res =>{
+      this.recipes = res
+    });
   }
 
   navigateToView(id: number){
