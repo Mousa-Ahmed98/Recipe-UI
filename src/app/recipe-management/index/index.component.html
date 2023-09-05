@@ -3,9 +3,9 @@
 </div>
 <div class="card-list-container">
   <div class="card-list">
-    <p-card *ngFor="let recipe of recipes" class="card" (click)="navigateToView(recipe.id)">
+    <p-card *ngFor="let recipe of recipes" class="card" (click)="navigateToView(0)">
       <ng-template pTemplate="header">
-        <img src="{{ recipe.image }}" alt="Card Image" class="card-image">
+        <img src="{{ recipe.imageURL }}" alt="Card Image" class="card-image">
       </ng-template>
       <ng-template pTemplate="content">
         <p>{{ recipe.name }}</p>

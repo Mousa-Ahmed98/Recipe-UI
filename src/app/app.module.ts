@@ -17,7 +17,7 @@ import { CategoriesService } from './services/category.service';
     RecipeManagementModule,
     AppRoutingModule
   ],
-  providers: [AddRecipeService, CategoriesService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

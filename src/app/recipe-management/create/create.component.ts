@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Ingredient, Recipe, Step } from 'src/app/models/add-recipe.module';
+import { Ingredient, Recipe, Recipe2, Step } from 'src/app/models/add-recipe.module';
 import { Category } from 'src/app/models/category.model';
 import { AddRecipeService } from 'src/app/services/add-recipe.service';
 import { CategoriesService } from 'src/app/services/category.service';
+import { RecipeService } from 'src/app/services/recipe.service';
 
 
 export interface Food {
@@ -36,7 +37,7 @@ export class CreateComponent implements OnInit{
   localImageData: string; 
 
   
-  constructor(private addRecipeService: AddRecipeService,private categoryService:CategoriesService, private router:Router) {
+  constructor(private recipeService: RecipeService,private categoryService:CategoriesService, private router:Router) {
     this.localImageData = "";
     
     this.addForm = new FormGroup({
@@ -89,6 +90,7 @@ export class CreateComponent implements OnInit{
 
     reader.onload = (event: any) => {
       this.localImageData = event.target.result;
+      console.log("Image result");
       console.log(this.localImageData);
     };
 
@@ -123,19 +125,21 @@ export class CreateComponent implements OnInit{
     }
     // Create an instance of Recipe
     
-    const recipe = new Recipe(
+    const recipe = new Recipe2(
+
       this.addForm.get('recipeData.recipename')!.value,
       this.localImageData,
       this.selectedCategoryId,
       ingredients,
-      steps,
+      steps
     );
     
 
     // Call the service to send the Recipe instance to the API
-    this.addRecipeService.addRecipe(recipe).subscribe(
+    this.recipeService.addRecipe(recipe).subscribe(
       (response) => {
         // Handle the API response here
+        console.log(recipe.ImageUrl);
         console.log('Recipe added successfully:', response);
         alert("Recipe is added successfully.");
         this.router.navigate(['/recipes']);
@@ -144,6 +148,7 @@ export class CreateComponent implements OnInit{
         // Handle any errors that occur during the API request
         console.error('Error adding recipe:', error.error);
         alert(error.error);
+        console.log(recipe);
       }
     );
     console.log(this.addForm);
@@ -156,7 +161,7 @@ export class CreateComponent implements OnInit{
   // }
 
   onAddIngredient() {
-    const control = new FormControl(null, [Validators.required]);
+    const control = new FormControl("", [Validators.required]);
     const ingredientsArray = (<FormArray>this.addForm.get('ingredients') as FormArray).value;
   const numIngredients = ingredientsArray.length;
     (<FormArray>this.addForm.get('ingredients')).push(control);
@@ -178,7 +183,7 @@ export class CreateComponent implements OnInit{
 
 
   onAddStep() {
-    const control = new FormControl(null, [Validators.required]);
+    const control = new FormControl("", [Validators.required]);
     const stepsArray = (<FormArray>this.addForm.get('steps') as FormArray).value;
   const numIngredients = stepsArray.length;
     (<FormArray>this.addForm.get('steps')).push(control);
