@@ -1,16 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Ingredient, Recipe, Step } from 'src/app/models/add-recipe.module';
 import { Category } from 'src/app/models/category.model';
-import { AddRecipeService } from 'src/app/services/add-recipe.service';
 import { CategoriesService } from 'src/app/services/category.service';
-
-
-export interface Food {
-  value: number;
-  viewValue: string;
-}
+import { RecipeService } from 'src/app/services/recipe.service';
+import { Ingredient } from 'src/app/models/Ingredient.model';
+import { Step } from 'src/app/models/step.model';
+import { RecipeRequest } from 'src/app/models/recipe.request';
 
 @Component({
   selector: 'app-create',
@@ -22,21 +18,13 @@ export class CreateComponent implements OnInit{
 
   recipeName: string = "";
   ImgUrl:any;
-  
+  localImageData: string; 
+  categories: Category[] = [];
   IsHidden:boolean=false;
   addForm!: FormGroup;
-  myCategories: Category[] = [];
-  selectedCategoryId: number = 0; // Initialize with null or a default value
-  categories: Food[] = [
-    {value: 1 , viewValue: 'Drinks'},
-    {value: 2 , viewValue: 'Italian'},
-    {value: 3 , viewValue: 'Tacos'},
-  ];
+  selectedCategoryId: number = 0;
 
-  localImageData: string; 
-
-  
-  constructor(private addRecipeService: AddRecipeService,private categoryService:CategoriesService, private router:Router) {
+  constructor(private recipeService: RecipeService,private categoryService:CategoriesService, private router:Router) {
     this.localImageData = "";
     
     this.addForm = new FormGroup({
@@ -57,12 +45,8 @@ export class CreateComponent implements OnInit{
    ngOnInit(): void {
     this.categoryService.getCategories().subscribe(
       cats => {
-        console.log("start");
-        this.myCategories = cats;
-         console.log(this.myCategories);
-         this.categories = [];
-        //this.myCategories.forEach(element => this.categories.push({value: element.id , viewValue: element.name}));
-        }
+        this.categories = cats;
+      }
     );
     
     this.onAddIngredient();
@@ -89,6 +73,7 @@ export class CreateComponent implements OnInit{
 
     reader.onload = (event: any) => {
       this.localImageData = event.target.result;
+      console.log("Image result");
       console.log(this.localImageData);
     };
 
@@ -98,7 +83,6 @@ export class CreateComponent implements OnInit{
   GetIamgeUrl(event: Event): void {
     // Your logic to handle the click event
   }
-
 
   get ingredientsControls() {
     return (<FormArray>this.addForm.get('ingredients')).controls;
@@ -115,29 +99,27 @@ export class CreateComponent implements OnInit{
     console.log(this.addForm.get('recipeData.recipename')!.value);
     const IngredientsArray = (this.addForm.get('ingredients') as FormArray).value;
     for(let i = 0; i < IngredientsArray.length;i++){
-      ingredients.push(new Ingredient(IngredientsArray[i]));
+      ingredients.push({id: 0, description: IngredientsArray[i]});
     }
     const StepsArray = (this.addForm.get('steps') as FormArray).value;
     for(let i = 0; i < StepsArray.length;i++){
-      steps.push(new Step(StepsArray[i]));
+      steps.push({id: 0, description: StepsArray[i], order : i + 1});
     }
-    // Create an instance of Recipe
-    
-    const recipe = new Recipe(
-      this.addForm.get('recipeData.recipename')!.value,
-      this.localImageData,
-      this.selectedCategoryId,
-      ingredients,
-      steps,
-    );
-    
+
+    const recipeRequest: RecipeRequest =  {
+      Name : this.addForm.get('recipeData.recipename')!.value,
+      ImageUrl : this.localImageData,
+      CategoryId :  this.selectedCategoryId,
+      Ingredients :  ingredients,
+      Steps : steps
+    };
+
+    console.log(recipeRequest);
 
     // Call the service to send the Recipe instance to the API
-    this.addRecipeService.addRecipe(recipe).subscribe(
+    this.recipeService.addRecipe(recipeRequest).subscribe(
       (response) => {
         // Handle the API response here
-        console.log('Recipe added successfully:', response);
-        alert("Recipe is added successfully.");
         this.router.navigate(['/recipes']);
       },
       (error) => {
@@ -146,17 +128,12 @@ export class CreateComponent implements OnInit{
         alert(error.error);
       }
     );
-    console.log(this.addForm);
+
     this.addForm.reset();
   }
 
-  // onCategoryChange() {
-    
-  //   console.log('Selected category ID:', this.selectedCategory);
-  // }
-
   onAddIngredient() {
-    const control = new FormControl(null, [Validators.required]);
+    const control = new FormControl("", [Validators.required]);
     const ingredientsArray = (<FormArray>this.addForm.get('ingredients') as FormArray).value;
   const numIngredients = ingredientsArray.length;
     (<FormArray>this.addForm.get('ingredients')).push(control);
@@ -171,14 +148,14 @@ export class CreateComponent implements OnInit{
   onRemoveIngredient(index: number) {
     if(((<FormArray>this.addForm.get('ingredients')) as FormArray).length > 1)
     (<FormArray>this.addForm.get('ingredients')).removeAt(index);
-  else{
-    alert("There must be at least one ingredient for the recipe.");
-  }
+    else{
+      alert("There must be at least one ingredient for the recipe.");
+    }
   }
 
 
   onAddStep() {
-    const control = new FormControl(null, [Validators.required]);
+    const control = new FormControl("", [Validators.required]);
     const stepsArray = (<FormArray>this.addForm.get('steps') as FormArray).value;
   const numIngredients = stepsArray.length;
     (<FormArray>this.addForm.get('steps')).push(control);
@@ -191,12 +168,12 @@ export class CreateComponent implements OnInit{
   }
 
   onRemoveStep(index: number) {
-    if(((<FormArray>this.addForm.get('steps')) as FormArray).length > 1)
-    (<FormArray>this.addForm.get('steps')).removeAt(index);
+    if(((<FormArray>this.addForm.get('steps')) as FormArray).length > 1){
+      (<FormArray>this.addForm.get('steps')).removeAt(index);
+    }
   else{
     alert("There must be at least one step for the recipe.");
   }
   }
 
-     
 }

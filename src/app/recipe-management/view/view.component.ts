@@ -25,13 +25,15 @@ export class ViewComponent {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('recipeId') ?? '0' ;
+      const id = params.get('recipeId') ?? '0' ; 
       this.recipeId = parseInt(id , 10);
       this.recipeService.GetRecipeById(this.recipeId)
-        .subscribe(res =>
-          this.recipe = res
-        );
+      .subscribe(res =>{
+        this.recipe = res
+      }
+      );
     });
+    
   }
 
   editRecipe(){
@@ -46,7 +48,7 @@ export class ViewComponent {
       
       accept: () => {
         this.recipeService.DeleteRecipe(this.recipeId).subscribe(res =>
-          this.router.navigate(['/recipes'])
+          this.router.navigate(['recipes'])
           );
       },
       

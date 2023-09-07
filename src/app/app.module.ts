@@ -5,14 +5,9 @@ import { RecipeManagementModule } from './recipe-management/recipe-management.mo
 import { HttpClientModule } from '@angular/common/http';
 import { AccordionModule } from 'primeng/accordion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import {MenubarModule} from 'primeng/menubar';
-
+import { MenubarModule } from 'primeng/menubar';
 
 import { AppComponent } from './app.component';
-import { AddRecipeService } from './services/add-recipe.service';
-import { CreateComponent } from './recipe-management/create/create.component';
-import { CategoriesService } from './services/category.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +23,7 @@ import { CategoriesService } from './services/category.service';
     MenubarModule,
 
   ],
-  providers: [AddRecipeService, CategoriesService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

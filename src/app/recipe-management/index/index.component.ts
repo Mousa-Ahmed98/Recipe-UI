@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Recipe } from 'src/app/models/recipe.model';
 import { RecipeService } from '../../services/recipe.service'
 import { Router } from '@angular/router';
+import { Recipe } from 'src/app/models/recipe.model';
 
 @Component({
   selector: 'app-index',
@@ -24,6 +24,5 @@ export class IndexComponent {
 
   navigateToView(id: number){
     this.router.navigate(['/recipes', id]);  
-    //this.router.navigate(['/recipes/create']);
   }
 }

@@ -1,15 +1,14 @@
-<div style="margin-top: 3%;">
-
-</div>
 <div class="card-list-container">
   <div class="card-list">
     <p-card *ngFor="let recipe of recipes" class="card" (click)="navigateToView(recipe.id)">
       <ng-template pTemplate="header">
-        <img src="{{ recipe.imageURL }}" alt="Card Image" class="card-image">
+        <img src="{{ recipe.imageUrl }}" alt="Card Image" class="card-image">
       </ng-template>
       <ng-template pTemplate="content">
         <p>{{ recipe.name }}</p>
       </ng-template>
     </p-card>
   </div>
+  <p-button routerLink="/recipes/create">Create New</p-button>
 </div>
+

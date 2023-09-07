@@ -35,3 +35,9 @@
   color: #007bff;
   text-decoration: underline;
 }
+
+p-button{
+  float: right;
+  margin-left: 5px;
+}
+
