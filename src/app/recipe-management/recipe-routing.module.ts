@@ -4,26 +4,22 @@ import { IndexComponent } from './index/index.component';
 import { ViewComponent } from './view/view.component';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
-import { ConfirmationService, MessageService } from 'primeng/api';
+// import { ConfirmationService, MessageService } from 'primeng/api';
+import { AuthGuard } from '../helpers/auth.guard';
 
 const routes: Routes = [
-  //{path: '', component: IndexComponent},
-
-
-
-
   { path: 'recipes', component: IndexComponent },
-  { path: 'recipes/create', component: CreateComponent },
-  { path: 'recipes/:recipeId', component: ViewComponent },
-  { path: 'recipes/:recipeId/edit', component: EditComponent },
+  { path: 'recipes/create', component: CreateComponent, canActivate: [AuthGuard]  },
+  { path: 'recipes/:recipeId', component: ViewComponent, canActivate: [AuthGuard] },
+  { path: 'recipes/:recipeId/edit', component: EditComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
   providers: [
-    ConfirmationService,
-    MessageService
+    // ConfirmationService,
+    // MessageService
   ],
 })
 export class RecipeRoutingModule { }
