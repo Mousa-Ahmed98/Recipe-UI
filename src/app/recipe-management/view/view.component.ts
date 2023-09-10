@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from 'src/app/models/recipe.model';
 import { RecipeService } from 'src/app/services/recipe.service';
-import {ConfirmationService} from 'primeng/api';
-import {MessageService} from 'primeng/api';
+// import {ConfirmationService} from 'primeng/api';
+// import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-view',
@@ -18,8 +18,8 @@ export class ViewComponent {
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    // private confirmationService: ConfirmationService,
+    // private messageService: MessageService
   ) {
    }
 
@@ -41,19 +41,19 @@ export class ViewComponent {
   }
 
   deleteRecipe(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target !== null ? event.target : undefined,
-      message: 'Are you sure that you want to delete this recipe?',
-      icon: 'pi pi-exclamation-triangle',
+    // this.confirmationService.confirm({
+    //   target: event.target !== null ? event.target : undefined,
+    //   message: 'Are you sure that you want to delete this recipe?',
+    //   icon: 'pi pi-exclamation-triangle',
       
-      accept: () => {
-        this.recipeService.DeleteRecipe(this.recipeId).subscribe(res =>
-          this.router.navigate(['recipes'])
-          );
-      },
+    //   accept: () => {
+    //     this.recipeService.DeleteRecipe(this.recipeId).subscribe(res =>
+    //       this.router.navigate(['recipes'])
+    //       );
+    //   },
       
-      reject: () => {
-      }
-    });
+    //   reject: () => {
+    //   }
+    // });
   }
 }

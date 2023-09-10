@@ -13,17 +13,18 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RecipeRoutingModule } from "./recipe-routing.module";
 
 // prime ng modules
-import {PanelModule} from 'primeng/panel';
-import {ConfirmPopupModule} from 'primeng/confirmpopup';
-import { AccordionModule } from 'primeng/accordion';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
+// import {PanelModule} from 'primeng/panel';
+// import {ConfirmPopupModule} from 'primeng/confirmpopup';
+// import { AccordionModule } from 'primeng/accordion';
+// import { CardModule } from 'primeng/card';
+// import { ButtonModule } from 'primeng/button';
 
 // mat
 import { MatCardModule } from "@angular/material/card";
 import { MatSelectModule} from "@angular/material/select"
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '../material.module';
 
 
 
@@ -35,16 +36,11 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
     ViewComponent
   ],
   imports: [
+    MaterialModule,
     CommonModule,
     RecipeRoutingModule,
-    CardModule,
-    ButtonModule,
-    AccordionModule,
     BrowserAnimationsModule,
-    PanelModule,
-    ConfirmPopupModule,
     MatFormFieldModule,
-    // MatInputModule,
     MatCardModule,
     MatSelectModule,
     MatFormFieldModule,
@@ -52,8 +48,14 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
     FormsModule,
     HttpClientModule,
     BrowserModule,
-    ButtonModule,
     NoopAnimationsModule,
+    // CardModule,
+    // ButtonModule,
+    // AccordionModule,
+    // ConfirmPopupModule,
+    // PanelModule,
+    // MatInputModule,
+    // ButtonModule,
   ],
   
 
