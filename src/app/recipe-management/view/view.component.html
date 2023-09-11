@@ -4,9 +4,9 @@
     <div class="p-grid">
 
       <div class="p-col-12 p-md-6 p-lg-4">
-        <p-confirmPopup></p-confirmPopup>
-        <button (click)="deleteRecipe($event)" pButton pRipple type="button" label="Delete" class="p-button-danger"></button>
-        <button (click)="editRecipe()" pButton type="button" label="Edit" ></button>
+        <!-- <p-confirmPopup></p-confirmPopup> -->
+        <button (click)="deleteRecipe($event)"  mat-flat-button color="danger" label="Delete" class="button-danger">Delete</button>
+        <button (click)="editRecipe()"  mat-flat-button color="primary" label="Edit" >Edit</button>
       </div>
 
       <div class="p-col-12 p-md-6 p-lg-4">
@@ -28,9 +28,9 @@
           </ul>
           <h3>Steps:</h3>
           <div class="stepNo" *ngFor="let step of recipe.steps;index as i">
-            <p-panel  header="Step {{i+1}}">
+            <!-- <p-panel  header="Step {{i+1}}"> -->
               {{ step.description }}
-            </p-panel>
+            <!-- </p-panel> -->
           </div>
         </div>
       </div>
