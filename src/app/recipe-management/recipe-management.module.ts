@@ -24,6 +24,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatSelectModule} from "@angular/material/select"
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxStarRatingModule } from 'ngx-star-rating';
 import { MaterialModule } from '../material.module';
 
 
@@ -49,6 +50,7 @@ import { MaterialModule } from '../material.module';
     HttpClientModule,
     BrowserModule,
     NoopAnimationsModule,
+    NgxStarRatingModule
     // CardModule,
     // ButtonModule,
     // AccordionModule,

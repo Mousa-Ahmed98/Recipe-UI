@@ -4,6 +4,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RecipeRequest } from '../models/recipe.request';
+import { Review } from '../models/review.model';
+import { ReviewRequest } from '../models/review.request';
 
 
 @Injectable({
@@ -47,5 +49,16 @@ export class RecipeService {
   DeleteRecipe(id: number) {
     return this.http.delete<any>(`${this.apiUrl}/delete/${id}`)
   }
+
+  addReview(reviewRequest: ReviewRequest): Observable<Review> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.post<Review>(`${this.apiUrl}/addreview`, reviewRequest, httpOptions);
+  }
+
 
 }
