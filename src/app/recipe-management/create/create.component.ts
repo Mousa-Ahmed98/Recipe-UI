@@ -16,7 +16,7 @@ import { RecipeRequest } from 'src/app/models/recipe.request';
 
 export class CreateComponent implements OnInit{
 
-  recipeName: string = "";
+  
   ImgUrl:any;
   localImageData: string; 
   categories: Category[] = [];
