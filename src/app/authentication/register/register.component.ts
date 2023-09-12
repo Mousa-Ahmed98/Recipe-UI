@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { 
-  AbstractControl, 
-  ValidationErrors, 
   FormBuilder, 
   FormGroup, 
   Validators 
 } from '@angular/forms';
 
 import { AccountService } from 'src/app/services/account.service';
+import { Message } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 
 @Component({ 
@@ -23,15 +23,18 @@ export class RegisterComponent implements OnInit {
   form!: FormGroup;
   loading = false;
   submitted = false;
-  passwordMatches: false;
-
+  passwordMatches = false;
+  hidePassword = true;
+  messages: Message[];
+  
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AccountService,
-  ) { }
-
+    private messageService: MessageService
+    ) { }
+    
   ngOnInit() {    
     this.form = this.formBuilder.group({
       firstName: ['', Validators.required],
@@ -39,8 +42,10 @@ export class RegisterComponent implements OnInit {
       username:  ['', Validators.required],
       email:     ['', Validators.required],
       password:  ['', [Validators.required,]],
-      // confirm_password:  ['', [Validators.required, Validators.minLength(6)]]
+      confirm_password:  ['', [Validators.required]]
     });
+    this.messages = [];
+    
   }
 
   // convenience getter for easy access to form fields
@@ -49,64 +54,75 @@ export class RegisterComponent implements OnInit {
   passwordErrors: string[] = [];
 
   onSubmit() {
+    
     this.submitted = true;
-    console.log(this.controls['email'].value)
-
-    // if(!this.IsPasswordValid()){
-    //     console.log(this.passwordErrors)
-    //     return;
-    // }
-
+    this.messages = [];
+    this.messageService.clear();
+    
     if (this.form.invalid) {
-      // TODO: show error message
+      return;
+    }
+    
+    if(!this.IsPasswordValid()){
       return;
     }
 
     this.loading = true;
+
     this.accountService.register(this.form.value)
       .pipe(first())
       .subscribe({
         next: () => {
-          // TODO: show success message
-
-          this.router.navigate(['../login'], { relativeTo: this.route });
-        },
+          // this.router.navigate(['../login'], { relativeTo: this.route });
+          this.messageService.add(
+            { severity: 'success', summary: 'Success', detail: 'You signed up successfully',  sticky: true }
+            );
+            this.form.reset()
+          },
         error: error => {
-          // TODO: show error message
-
+          this.messageService.add(
+            { severity: 'error', summary: 'Error', detail: error },
+          )
           this.loading = false;
         }
       });
+      this.submitted = false;
   }
 
   IsPasswordValid(): boolean {
+    
     const password = this.controls['password'].value;
     const confirmPassword = this.controls['confirm_password'].value;
   
-    const errors: string[] = [];
-  
     const hasNumber = /\d/.test(password);
     if (!hasNumber) {
-      errors.push("Must have at least one number.");
+      this.messages = [...this.messages, 
+        { severity: 'error', summary: 'Error', detail: "Password must have at least one number." ,  sticky: true },
+      ]
     }
   
     const hasLetter = /[a-zA-Z]/.test(password);
     if (!hasLetter) {
-      errors.push("Must have at least one letter.");
+      this.messages = [...this.messages, 
+        { severity: 'error', summary: 'Error', detail: "Password must have at least one letter.",  sticky: true },
+      ]
     }
   
-    if (password.length < 12) {
-      errors.push("Password length can't be less than 12 characters.");
+    if (password.length < 6) {
+      this.messages = [...this.messages, 
+        { severity: 'error', summary: 'Error', detail: "Password length can't be less than 6 characters.",  sticky: true },
+      ]
     }
   
     if (confirmPassword !== '' && password !== confirmPassword) {
-      this.passwordMatches = false;
+      this.messages = [...this.messages, 
+        { severity: 'error', summary: 'Error', detail: "Password does not match.",  sticky: true },
+      ]
     }
-  
-    this.passwordErrors = [...errors];
-    console.log(this.passwordErrors);
-  
-    return this.passwordErrors.length === 0;
+    
+    this.messageService.addAll(this.messages);
+    
+    return this.messages.length === 0;
   }
       
 }

@@ -13,7 +13,8 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
   loading = false;
   submitted = false;
-
+  hidePassword = true;
+  invalid = false;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -29,7 +30,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // convenience getter for easy access to form fields
   get controls() { return this.form.controls; }
 
   onSubmit() {
@@ -52,11 +52,12 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl(returnUrl);
         },
         error: error => {
+          this.invalid = true;
+          console.log(error);
           this.form.reset();
           this.submitted = false;
           this.loading = false;
         }
       });
-
   }
 }

@@ -54,8 +54,35 @@ h2 {
   width: 100%;
 }
 
-button{
+p-button{
   float: right;
   margin-left: 5px;
 }
 
+.recipe-steps {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 10px;
+  font-size: 20px
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  background-color: #638CFF;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+.step-description {
+  padding-left: 10px;
+
+}
+
+
+.container{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

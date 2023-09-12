@@ -20,6 +20,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { AccountService } from './services/account.service';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
     ReactiveFormsModule,
     MaterialModule,
     TablerIconsModule.pick(TablerIcons),
+    MessagesModule
   ],
   providers: [
     AccountService,
