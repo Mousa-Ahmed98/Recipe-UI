@@ -39,7 +39,7 @@ export class IndexComponent implements OnInit{
   }
 
   navigateToView(id: number){
-    this.router.navigate(['/recipes', id]);  
+    this.router.navigate(['/recipes', id]);
   }
 
   remove(ing: string): void {

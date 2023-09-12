@@ -26,12 +26,13 @@ import { MatCardModule } from "@angular/material/card";
 import { MatSelectModule} from "@angular/material/select"
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxStarRatingModule } from 'ngx-star-rating';
 import { MaterialModule } from '../material.module';
 
 // icons
 import { TablerIconsModule } from 'angular-tabler-icons';
 import * as TablerIcons from 'angular-tabler-icons/icons';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { ConfirmationService } from 'primeng/api';
     BrowserModule,
     NoopAnimationsModule,
     TablerIconsModule.pick(TablerIcons),
-
+    NgxStarRatingModule,
     // CardModule,
     // AccordionModule,
     // ConfirmPopupModule,
@@ -69,7 +70,8 @@ import { ConfirmationService } from 'primeng/api';
     TablerIconsModule
   ],
   providers:[
-    ConfirmationService
+    ConfirmationService,
+    MessageService
   ]
 
 })

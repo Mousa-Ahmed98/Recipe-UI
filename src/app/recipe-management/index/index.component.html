@@ -65,12 +65,6 @@
           recipe.name
         }}</mat-card-title>
         <div class="d-flex align-items-center justify-content-between">
-          <!-- <div class="d-flex align-items-center">
-            <h6 class="mat-body-2 f-w-600">${{ productcard.price }}</h6>
-            <span class="f-s-14 m-l-4 text-decoration-line-through"
-              >${{ productcard.rprice }}</span
-            >
-          </div> -->
           <div class="m-l-auto d-flex gap-4">
             <span
               ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
@@ -94,13 +88,6 @@
   </div>
   
   <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
-    <!-- <div *ngFor="let recipe of recipes" class="card" (click)="navigateToView(recipe.id)">
-        <img src="{{ recipe.imageUrl }}" alt="Card Image" class="card-image">
-        <p>{{ recipe.name }}</p>
-    </div> -->
-  
-  
-  
   </div>
   <button routerLink="/recipes/create"  mat-flat-button color="primary" >Create New</button>
 </div>

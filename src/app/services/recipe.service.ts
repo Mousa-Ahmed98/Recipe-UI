@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { RecipeRequest } from '../models/recipe.request';
 import { PaginatedResponse } from '../models/paginated.response';
 import { RecipeSummary } from '../models/recipe.summary';
+import { Review } from '../models/review.model';
+import { ReviewRequest } from '../models/review.request';
 
 
 @Injectable({
@@ -17,13 +19,15 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
   
-  GetAllRecipes(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> {
+  GetAllRecipes(CurrentPage:number , pageSize:number): 
+  Observable<PaginatedResponse<RecipeSummary>> {
     return this.http.get<PaginatedResponse<RecipeSummary>>(
       this.apiUrl, {params:{CurrentPage, pageSize}}
       )
   } 
   
-  GetFilteredRecipes(filterIngredients: string[]): Observable<PaginatedResponse<RecipeSummary>> {
+  GetFilteredRecipes(filterIngredients: string[]): 
+    Observable<PaginatedResponse<RecipeSummary>> {
     const params = new HttpParams().set('ingredients', filterIngredients.join(','));
     return this.http.get<PaginatedResponse<RecipeSummary>>(this.apiUrl + '/filter', {params})
   }
@@ -56,5 +60,16 @@ export class RecipeService {
   DeleteRecipe(id: number) {
     return this.http.delete<any>(`${this.apiUrl}/delete/${id}`)
   }
+
+  addReview(reviewRequest: ReviewRequest): Observable<Review> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.post<Review>(`${this.apiUrl}/addreview`, reviewRequest, httpOptions);
+  }
+
 
 }
