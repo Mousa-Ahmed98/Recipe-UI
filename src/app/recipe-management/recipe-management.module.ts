@@ -17,7 +17,9 @@ import { RecipeRoutingModule } from "./recipe-routing.module";
 // import {ConfirmPopupModule} from 'primeng/confirmpopup';
 // import { AccordionModule } from 'primeng/accordion';
 // import { CardModule } from 'primeng/card';
-// import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
+import { PaginatorModule } from 'primeng/paginator';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 // mat
 import { MatCardModule } from "@angular/material/card";
@@ -27,7 +29,10 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { NgxStarRatingModule } from 'ngx-star-rating';
 import { MaterialModule } from '../material.module';
 
-
+// icons
+import { TablerIconsModule } from 'angular-tabler-icons';
+import * as TablerIcons from 'angular-tabler-icons/icons';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -50,16 +55,24 @@ import { MaterialModule } from '../material.module';
     HttpClientModule,
     BrowserModule,
     NoopAnimationsModule,
-    NgxStarRatingModule
+    TablerIconsModule.pick(TablerIcons),
+    NgxStarRatingModule,
     // CardModule,
-    // ButtonModule,
     // AccordionModule,
     // ConfirmPopupModule,
     // PanelModule,
     // MatInputModule,
-    // ButtonModule,
+    ButtonModule,
+    PaginatorModule,
+    ConfirmDialogModule,
   ],
-  
+  exports:[
+    TablerIconsModule
+  ],
+  providers:[
+    ConfirmationService,
+    MessageService
+  ]
 
 })
 export class RecipeManagementModule { }
