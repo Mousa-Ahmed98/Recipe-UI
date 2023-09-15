@@ -6,6 +6,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import {ConfirmationService} from 'primeng/api';
 import {MessageService} from 'primeng/api';
 import { ReviewRequest } from 'src/app/models/review.request';
+import { AccountService } from 'src/app/services/account.service';
 // import {ConfirmationService} from 'primeng/api';
 // import {MessageService} from 'primeng/api';
 
@@ -21,19 +22,18 @@ export class ViewComponent {
   comment: string;
   rating: any;
   authorId: string;
-  private cdr: ChangeDetectorRef;
 
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router,
+    private accountService: AccountService
     // private confirmationService: ConfirmationService,
     // private messageService: MessageService
   ) {
    }
 
   ngOnInit(): void {
-    
     this.route.paramMap.subscribe(params => {
       const id = params.get('recipeId') ?? '0' ; 
       this.recipeId = parseInt(id , 10);
@@ -51,19 +51,29 @@ export class ViewComponent {
     this.rating = null;
   }
   addReview(){
+    if(this.rating == null || this.comment == null)
+    return;
     console.log("Hi mousa");
-    const newReview: ReviewRequest = {
-      authorId: "c47c056a-85db-469c-9d8b-162199c0b031", //Mousa id
-      recipeId: this.recipeId,
-      content: this.comment,
-      rate: this.rating
-    };
-    this.recipeService.addReview(newReview).subscribe(res => {
-      console.log(res);
-      this.recipe.reviews.push(res);
-      this.rating = null;
-      this.comment = "";
-    });
+    console.log(this.accountService.userValue?.id);
+    console.log(this.accountService.userValue?.userName);
+    try{
+      const newReview: ReviewRequest = {
+        authorId: this.accountService.userValue?.id!, //Mousa id
+        authorName: this.accountService.userValue?.userName!, //Mousa id
+        recipeId: this.recipeId,
+        content: this.comment,
+        rate: this.rating,
+      };
+      this.recipeService.addReview(newReview).subscribe(res => {
+        console.log(res);
+        this.recipe.reviews.push(res);
+        this.rating = null;
+        this.comment = ""; 
+      });
+    }
+    catch(e){
+
+    }
   }
 
   editReview(id: number){
