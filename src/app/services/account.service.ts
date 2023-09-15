@@ -44,6 +44,8 @@ export class AccountService {
 
   register(user: User) {
     return this.http.post(`${environment.apiUrl}/user/register`, {
+      userName: user.userName,
+      role: "User",
       firstName: user.firstName,
       lastName: user.lastName,
       userName: user.username,
