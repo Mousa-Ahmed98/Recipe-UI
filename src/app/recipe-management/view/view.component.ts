@@ -1,13 +1,15 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import {ConfirmEventType, ConfirmationService} from 'primeng/api';
+
 import { Recipe } from 'src/app/models/recipe.model';
 import { Review } from 'src/app/models/review.model';
-import { RecipeService } from 'src/app/services/recipe.service';
-import {ConfirmEventType, ConfirmationService} from 'primeng/api';
-import {MessageService} from 'primeng/api';
 import { ReviewRequest } from 'src/app/models/review.request';
-// import {ConfirmationService} from 'primeng/api';
-// import {MessageService} from 'primeng/api';
+
+import { RecipeService } from 'src/app/services/recipe.service';
+import { PlansService } from 'src/app/services/plans.service';
+import { ToastMessageService } from 'src/app/services/message.service';
+import { LoaderService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-view',
@@ -17,10 +19,12 @@ import { ReviewRequest } from 'src/app/models/review.request';
 export class ViewComponent {
   recipeId: number;
   recipe: Recipe;
-  reviewRequest: ReviewRequest;
+  planDate: Date = new Date();
+  selectingDate = false;
+  rating: number = 0;
   comment: string;
-  rating: any;
   authorId: string;
+  reviewRequest: ReviewRequest;
   private cdr: ChangeDetectorRef;
 
   constructor(
@@ -28,27 +32,73 @@ export class ViewComponent {
     private recipeService: RecipeService,
     private router: Router,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
-  ) {
-   }
+    private messageService: ToastMessageService,
+    private planService: PlansService,
+    private loadingService: LoaderService
+  ) { }
 
   ngOnInit(): void {
-    
     this.route.paramMap.subscribe(params => {
+      this.loadingService.setLoading(true);
       const id = params.get('recipeId') ?? '0' ; 
       this.recipeId = parseInt(id , 10);
       this.recipeService.GetRecipeById(this.recipeId)
       .subscribe(res =>{
         this.recipe = res
-        console.log(res);
-      }
-      );
+        this.loadingService.setLoading(false);
+        });
     });
   }
 
-  reset(){
-    this.rating = null;
+  toggleCalendar(){
+    this.selectingDate = !this.selectingDate;
   }
+
+  addToPlan(){
+    this.selectingDate = false;
+    
+    const day = String(this.planDate.getDate()).padStart(2, '0');
+    const month = String(this.planDate.getMonth() + 1).padStart(2, '0');
+    const year = this.planDate.getFullYear();
+    
+    const formattedDate = `${year}-${month}-${day}`;
+
+    if(this.recipe.plan !== null){
+      this.planService.changePlanDate(this.recipe.plan.id, formattedDate).subscribe(res => {
+        this.messageService.showSuccessMessage("Date changed successfully.")
+      })
+    }else{
+      this.planService.AddToPlans(formattedDate, this.recipeId).subscribe(res => {
+        this.recipe.plan = res;
+        this.messageService.showSuccessMessage("Recipe added to plans successfully.")
+      });
+    }
+  }
+
+  swtichFav(){
+    if(this.recipe.inFavourites === true){
+      this.recipeService.removeFromfavourites(this.recipeId).subscribe(res =>{
+        if(res === true) {
+          this.recipe.inFavourites = false;
+        }
+      })
+    }else{
+      this.recipeService.addToFavourites(this.recipeId).subscribe(res =>{
+        if(res === true) this.recipe.inFavourites = true;
+      })
+    }
+  }
+
+  reset(){
+    this.rating = 0;
+  }
+
+  myFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  };
+
   addReview(){
     console.log("Hi mousa");
     const newReview: ReviewRequest = {
@@ -60,7 +110,7 @@ export class ViewComponent {
     this.recipeService.addReview(newReview).subscribe(res => {
       console.log(res);
       this.recipe.reviews.push(res);
-      this.rating = null;
+      this.rating = 0;
       this.comment = "";
     });
   }
@@ -83,15 +133,15 @@ export class ViewComponent {
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+            this.messageService.showInfoMessgae("You have accepted");
         },
         reject: (type: ConfirmEventType) => {
             switch (type) {
                 case ConfirmEventType.REJECT:
-                    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+                    this.messageService.showInfoMessgae('You have rejected');
                     break;
                 case ConfirmEventType.CANCEL:
-                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+                    this.messageService.showInfoMessgae('You have cancelled');
                     break;
                   }
                 }

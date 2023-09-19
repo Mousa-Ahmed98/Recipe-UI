@@ -1,5 +1,4 @@
 <div class="recipe-container">
-
   <div class="recipe">
     <div class="p-grid">
 
@@ -17,75 +16,96 @@
           <img src="https://localhost:3000/images/{{recipe.imageUrl}}" alt="Recipe Image" class="recipe-image" width="500" height="400" />
         </div>
       </div>
+
+      <mat-action-row class="btn-group" name="fontStyle" aria-label="Font Style">
+        <p-button (click)="swtichFav()" styleClass="p-button-raised p-button-text" >
+          <span  class="pi {{recipe.inFavourites ? 'pi-heart-fill' : 'pi-heart'}}"></span>
+        </p-button>
+
+        <p-button (click)="toggleCalendar()" styleClass="p-button-raised p-button-text">
+          <span class="pi pi-calendar-plus"></span>
+        </p-button>
+
+        <div *ngIf="selectingDate" class="select-date">
+          <p-calendar (onSelect)="addToPlan()"  [(ngModel)]="planDate" [inline]="true" [showWeek]="true">
+          </p-calendar>
+        </div>
+
+        <p-button styleClass="p-button-raised p-button-text" >
+          <span class="pi pi-send"></span>
+        </p-button>
+      </mat-action-row>
+      
       <div class="p-col-12 p-md-6 p-lg-4">
         <div class="recipe-details">
           
           <!-- <div class="category">Category: {{ recipe.category.name }}</div> -->
           
-          <h3 style="text-align: center;color:#638CFF;margin-top:70px;margin-top:40px" > ingredients </h3>
+          <h3 style="text-align: center;color:#638CFF;margin-top:70px;margin-top:40px" > Ingredients </h3>
 
           <ul class="ingredients">
             <li *ngFor="let ingredient of recipe.ingredients">
-              <h4>{{ ingredient.description }}</h4>
-
+              <h4>{{ ingredient.description }}</h4>   
             </li>
           </ul>
 
           <div class="w-100">
-          <h3 style="text-align: center;color:#638CFF;margin-top:70px" > Steps</h3>
-          <table class="recipe-steps">
-            <tbody>
-              <tr class="step" *ngFor="let step of recipe.steps; index as i">
-                  <div class="container">
-                    <td class="step-number">{{ i+1 }}</td>
-                    <td class="step-description">{{  step.description }}</td>
-                  </div>
-                </tr>
-              </tbody>
-          </table>
-        </div>
-      </div>
-
-      <h3 style="padding: 10px; margin: 5px;" >Rates and reviews</h3>
-
-      <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div *ngFor="let review of recipe.reviews" class="comment-section" style="padding: 10px; margin: 5px;">
-        <div style="display: flex; align-items: center;">
-          <img src="https://pub-static.fotor.com/assets/projects/pages/ed2f505cd64d46ffbb43c2b4d65cfaf3/600w/fotor-5965bfe16a014c9f81a074bbe55a0244.jpg"
-            class="rounded-circle" style="width: 70px;" alt="Avatar" />
-          <p style="margin-left: 10px; padding: 10px; text-align: center; font-weight: bold;">Mousa soliman</p>
-          
-        </div>
-        <div class="flip-stars">
-          <ngx-star-rating [disabled]="true" class="small-stars" [(ngModel)]="review.rate" [id]="'recipe-rating'"></ngx-star-rating>
-        </div>
-        <br>
-        <textarea [disabled]="true" [(ngModel)]="review.content" class="comment-input" placeholder="Write your comment here..."></textarea>
-      </div>
-    </div>
-  </div>
-</div>
-
-      
-
-      <div class="container" style="margin-top: 50px;">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="comment-section">
-                    <h3 (click)="reset()">Rate and comment</h3>
-                    <div class="rating-label" (click)="reset()">Rate:</div>
-                    <div class="flip-stars"><ngx-star-rating [(ngModel)]="rating" [id]="'rating'"></ngx-star-rating></div>
-                    <br>
-                    <textarea [(ngModel)]="comment" class="comment-input star-hover" placeholder="Write your comment here..." ></textarea>
-                    <div class="submit-button">
-                        <button class="btn btn-primary submit-button" (click)="addReview()">Submit</button>
+            <h3 style="text-align: center;color:#638CFF;margin-top:70px" > Steps</h3>
+            <table class="recipe-steps">
+              <tbody>
+                <tr class="step" *ngFor="let step of recipe.steps; index as i">
+                    <div class="container">
+                      <td class="step-number">{{ i+1 }}</td>
+                      <td class="step-description">{{  step.description }}</td>
                     </div>
-                </div>
-            </div>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
         </div>
-    </div> 
+
+        <!-- Similar Recipe Section Begin -->
+          <!-- TODO -->
+        <!-- Similar Recipe Section End -->
+
+        <h3 style="padding: 10px; margin: 5px;" >Rates and reviews</h3>
+          
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div *ngFor="let review of recipe.reviews" class="comment-section" style="padding: 10px; margin: 5px;">
+                <div style="display: flex; align-items: center;">
+                  <img src="https://pub-static.fotor.com/assets/projects/pages/ed2f505cd64d46ffbb43c2b4d65cfaf3/600w/fotor-5965bfe16a014c9f81a074bbe55a0244.jpg"
+                    class="rounded-circle" style="width: 70px;" alt="Avatar" />
+                  <p style="margin-left: 10px; padding: 10px; text-align: center; font-weight: bold;">Mousa soliman</p>
+                  
+                </div>
+                <div class="flip-stars">
+                  <ngx-star-rating [disabled]="true" class="small-stars" [(ngModel)]="review.rate" [id]="'recipe-rating'"></ngx-star-rating>
+                </div>
+                <br>
+                <textarea [disabled]="true" [(ngModel)]="review.content" class="comment-input" placeholder="Write your comment here..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container" style="margin-top: 50px;">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="comment-section">
+                      <h3 (click)="reset()">Rate and comment</h3>
+                      <div class="rating-label" (click)="reset()">Rate:</div>
+                      <!-- <div class="flip-stars"><ngx-star-rating [(ngModel)]="rating" [id]="'rating'"></ngx-star-rating></div> -->
+                      <p-rating [(ngModel)]="rating"></p-rating>
+                      <br>
+                      <textarea [(ngModel)]="comment" class="comment-input star-hover" placeholder="Write your comment here..." ></textarea>
+                      <div class="submit-button">
+                          <button class="btn btn-primary submit-button" (click)="addReview()">Submit</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
     
     </div>
   </div>
