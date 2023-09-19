@@ -1,0 +1,41 @@
+<mat-sidenav-container
+  class="mainWrapper blue_theme  light-theme"
+  autosize
+  autoFocus
+  dir="ltr"
+
+  
+>
+  <!-- ============================================================== -->
+  <!-- Vertical Sidebar -->
+  <!-- ============================================================== -->
+
+  <mat-sidenav
+    #leftsidenav
+    [mode]="isOver ? 'over' : 'side'"
+    [opened]="!isOver"
+    (openedChange)="onSidenavOpenedChange($event)"
+    (closedStart)="onSidenavClosedStart()"
+    class="sidebarNav"
+    style="height:min-content"
+  >
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+  <!-- ============================================================== -->
+  <!-- Main Content -->
+  <!-- ============================================================== -->
+  <mat-sidenav-content (scroll)="onScroll($event)" class="contentWrapper">
+    <!-- ============================================================== -->
+    <!-- VerticalHeader -->
+    <!-- ============================================================== -->
+
+
+    <main class="pageWrapper">
+      <!-- ============================================================== -->
+      <!-- Outlet -->
+      <!-- ============================================================== -->
+      <router-outlet ></router-outlet>
+
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
