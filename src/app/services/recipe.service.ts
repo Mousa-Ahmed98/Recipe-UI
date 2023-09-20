@@ -37,6 +37,12 @@ export class RecipeService {
   GetRecipeById(id: number): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
   } 
+  
+  GetMyRecipes(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> { 
+    return this.http.get<PaginatedResponse<RecipeSummary>>(`${environment.apiUrl}/account/my-recipes`, 
+      {params : {CurrentPage, pageSize}}
+    );
+  } // TODO :: move this to a new service `AccountService` & rename `AccountService` -> `AuthService`
 
   // Add a method to send a POST request to the API
   addRecipe(recipeRequest: RecipeRequest): Observable<Recipe> {

@@ -28,12 +28,16 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 
 // icons
 import { TablerIconsModule } from 'angular-tabler-icons';
 import * as TablerIcons from 'angular-tabler-icons/icons';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { ToastMessageService } from './services/message.service';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -55,7 +59,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     MaterialModule,
     TablerIconsModule.pick(TablerIcons),
     MessagesModule,
-    
+    ConfirmDialogModule,
     ProgressSpinnerModule,
     AvatarGroupModule,
     AvatarModule,
@@ -72,6 +76,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
   providers: [
     AccountService,
     LoaderService,
+    ToastMessageService,
+    MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],

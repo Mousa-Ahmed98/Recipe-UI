@@ -33,7 +33,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CalendarComponent } from './calendar/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MyRecipesComponent } from './my-recipes/my-recipes.component';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     AppNavItemComponent,
     PlansComponent,
     CalendarComponent,
+    MyRecipesComponent,
   ],
   imports: [
     CommonModule,
@@ -69,13 +73,15 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatProgressSpinnerModule,
     MatButtonModule,
     TableModule,
-
+    ConfirmDialogModule,
+    ProgressSpinnerModule,
     FullCalendarModule,
   ],
   exports: [TablerIconsModule
   ],
   providers:[
-    ScrollingService
+    ScrollingService,
+    ConfirmationService
   ]
 })
 export class AccountModule { }
