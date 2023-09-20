@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AccountService } from 'src/app/services/account.service';
+import { ToastMessageService } from 'src/app/services/message.service';
 
 
 @Component({ 
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AccountService,
+    private messageService: ToastMessageService
     // private alertService: AlertService
   ) { }
 
@@ -50,6 +52,7 @@ export class LoginComponent implements OnInit {
           // get return url from query parameters or default to home page
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
           this.router.navigateByUrl(returnUrl);
+          this.messageService.showSuccessMessage("Logged In Successfully!");
         },
         error: error => {
           this.invalid = true;

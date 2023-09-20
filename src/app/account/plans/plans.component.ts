@@ -6,6 +6,7 @@ import { PlansService } from 'src/app/services/plans.service';
 import { ToastMessageService } from 'src/app/services/message.service';
 import { Plan } from 'src/app/models/plan.model';
 
+
 interface Day {
   dayId: string;
   name: string;
@@ -64,7 +65,6 @@ export class PlansComponent {
 
 }
 
-
 showDialog(idx: number) {
   this.showRecipeSearch = true;
   this.selectedDayIdx = idx;
@@ -100,26 +100,25 @@ drop(event: CdkDragDrop<string[]> | any) {
     // Move within the same day
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
   } else {
+
     // Move to a different day
-    const plan = event.container.data[0];
-    console.log(plan);
-    console.log("data ,,, ", event.container.data);
-    
+    const plan = event.previousContainer.data[0];
     let day = this.days.find(x => x.dayId === event.container.id);
-    if(day !== undefined && day?.plans.length <= 2) {
+    
+    if(day !== undefined && day?.plans.length < 3) {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
-        
+      console.log(day?.date);
       this.planService.changePlanDate(plan.id, day?.date).subscribe(res =>{
         // this.messageService.showSuccessMessage("asdf");
+        plan.day = day?.date;
       });
     }
   }
-
 }
 
   gerneateDays(){
