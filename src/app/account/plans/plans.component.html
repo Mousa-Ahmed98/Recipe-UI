@@ -65,12 +65,6 @@
                           </span>
                         </div>
                     </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                        </tr>
-                    </ng-template>
                     <ng-template pTemplate="body" let-recipe>
                         <tr>
                             <td><img  (click)="addToDay(recipe)" src="https://localhost:3000/images/{{recipe.imageUrl}}" style="cursor:pointer;"  width="100" class="shadow-4" /></td>

@@ -46,13 +46,13 @@ export class ViewComponent {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.loadingService.setLoading(true);
+      this.loadingService.startLoading();
       const id = params.get('recipeId') ?? '0' ; 
       this.recipeId = parseInt(id , 10);
       this.recipeService.GetRecipeById(this.recipeId)
       .subscribe(res =>{
         this.recipe = res
-        this.loadingService.setLoading(false);
+        this.loadingService.stopLoading();
         });
     });
   }
@@ -154,16 +154,15 @@ export class ViewComponent {
             this.messageService.showInfoMessgae("You have accepted");
         },
         reject: (type: ConfirmEventType) => {
-            switch (type) {
-                case ConfirmEventType.REJECT:
-                    this.messageService.showInfoMessgae('You have rejected');
-                    break;
-                case ConfirmEventType.CANCEL:
-                    this.messageService.showInfoMessgae('You have cancelled');
-                    break;
-                  }
-                }
-    });
-
+          switch (type) {
+            case ConfirmEventType.REJECT:
+                this.messageService.showInfoMessgae('You have rejected');
+                break;
+            case ConfirmEventType.CANCEL:
+                this.messageService.showInfoMessgae('You have cancelled');
+                break;
+            }
+          }
+      });
   }
 }

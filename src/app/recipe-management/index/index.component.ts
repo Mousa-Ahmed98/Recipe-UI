@@ -98,13 +98,13 @@ export class IndexComponent implements OnInit{
   }
 
   getRecipes(){
-    this.loadingService.setLoading(true);
+    this.loadingService.startLoading();
     this.recipeService.GetAllRecipes(this.pageNumber, this.rows).subscribe(res =>{
       this.recipes = res.items;
       // this.first = res.pageNumber - 1;
       this.totalRecords = res.totalCount;
       this.rows = res.pageSize;
-      this.loadingService.setLoading(false);
+      this.loadingService.stopLoading();
     });
   }
   

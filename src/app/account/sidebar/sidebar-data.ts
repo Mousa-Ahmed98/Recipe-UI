@@ -7,34 +7,34 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Favourites',
     iconName: 'heart-filled',
-    route: 'profile/favourites',
+    route: 'account/favourites',
   },
   {
     displayName: 'Plans',
     iconName: 'calendar-event',
-    route: 'profile/plans',
+    route: 'account/plans',
   },
   {
     displayName: 'Shopping List',
     iconName: 'garden-cart',
-    route: '/profile/shoppinglist',
+    // route: 'account/shoppinglist',
   },
   {
     navCap: 'Personal',
   },
   {
-    displayName: 'Profile Info',
+    displayName: 'account Info',
     iconName: 'user-square-rounded',
-    route: '',
+    // route: '',
   },
   {
     displayName: 'My Recipes',
     iconName: 'clipboard-list',
-    route: '',
+    route: 'account/my-recipes',
   },
   {
     displayName: 'Summary Of Activities',
     iconName: 'activity',
-    route: '',
+    // route: '',
   }
 ];

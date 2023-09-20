@@ -48,7 +48,7 @@
     <!-- <p-avatar label="P" class="minu-btn" styleClass="mr-2" shape="circle"></p-avatar> -->
     </button>
     <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
-      <button mat-menu-item [routerLink]= "['/profile']">
+      <button mat-menu-item [routerLink]= "['/account']">
         <mat-icon class="d-flex align-items-center"
           ><i-tabler name="user" class="icon-18 d-flex"></i-tabler></mat-icon
         >My Profile
@@ -69,7 +69,7 @@
   
       <div class="p-x-12 m-t-12">
         <a
-          [routerLink]="['/account/login']"
+          [routerLink]="['/auth/login']"
           (click)="logout()"
           mat-stroked-button
           color="primary"
@@ -82,7 +82,7 @@
   </div>
   
   <ng-template #loggedOut>
-    <button mat-flat-button color="primary" routerLink="/account/login">
+    <button mat-flat-button color="primary" routerLink="/auth/login">
       Sign In
     </button>
   </ng-template>

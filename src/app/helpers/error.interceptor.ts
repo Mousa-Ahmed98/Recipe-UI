@@ -14,12 +14,15 @@ export class ErrorInterceptor implements HttpInterceptor {
     private accountService: AccountService,
     private router: Router,
     private toastMessageService: ToastMessageService,
+    private loadingService: LoaderService
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError(err => {
-
+        
+        this.loadingService.stopLoading();
+        
         console.error(err);
 
         if (err.status === 401 && this.accountService.userValue) {

@@ -38,13 +38,13 @@ export class FavouritesComponent implements OnInit {
   }
 
   getFavouriteRecipes(){
-    this.loadingService.setLoading(true); 
+    this.loadingService.startLoading(); 
     this.recipeService.getFavourites(this.pageNumber, this.rows).subscribe(res => {
       this.recipes.push(...res.items);
       this.totalRecords = res.totalCount;
       this.rows = res.pageSize;
       this.pageNumber += 1;
-      this.loadingService.setLoading(false); 
+      this.loadingService.stopLoading(); 
     });
   }
 

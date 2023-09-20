@@ -9,11 +9,15 @@ export class LoaderService {
 
   constructor() { }
 
-  setLoading(loading: boolean) {
-    this.loading = loading;
+  startLoading(){
+    this.loading = true;
   }
 
-  getLoading(): boolean {
+  stopLoading(){
+    this.loading = false;
+  }
+  
+  isLoading(){
     return this.loading;
   }
 }
