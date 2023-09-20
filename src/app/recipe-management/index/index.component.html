@@ -1,5 +1,8 @@
-<div class="col-12">
+<div class="banner">
+  <img src="../../../assets/images/backgrounds/banner-1.png" alt="">
+</div>
 
+<div class="col-12">
   <mat-card class="b-1 shadow-none">
     <mat-card-header>
       <mat-card-title>What's in your fridge?</mat-card-title>
@@ -41,54 +44,101 @@
   <div class="card-list">
   
   
-<div class="row">
-  <div style="width:auto" class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes" >
-    <mat-card class="cardWithShadow productcard overflow-hidden">
-      <a routerLink="/recipes/{{recipe.id}}">
-        <img
-          src="https://localhost:3000/images/{{recipe.imageUrl }}"
-          alt="imgSrc"
-          class="w-100 fixed-size-image"
-          mat-card-image
-        />
-      </a>
-      <mat-card-content class="p-b-24 p-t-12 position-relative">
-        <button
-          mat-mini-fab
-          color="primary"
-          class="icon-29 cart-btn"
-          matTooltip="Add to Favourite"
-        >
-          <i-tabler name="heart" class="icon-16"></i-tabler>
-        </button>
-        <mat-card-title class="mat-headline-2 f-s-16 m-b-4">{{
-          recipe.name
-        }}</mat-card-title>
-        <div class="d-flex align-items-center justify-content-between">
-          <div class="m-l-auto d-flex gap-4">
-            <span
-              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-            ></span>
-            <span
-              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-            ></span>
-            <span
-              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-            ></span>
-            <span
-              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-            ></span>
-            <span
-              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-            ></span>
+  <div class="row">
+    <div style="width:auto" class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes;index as i" >
+      <mat-card class="cardWithShadow productcard overflow-hidden">
+        <a routerLink="/recipes/{{recipe.id}}">
+          <img
+            src="https://localhost:3000/images/{{recipe.imageUrl }}"
+            alt="imgSrc"
+            class="w-100 card-image"
+            mat-card-image
+          />
+        </a>
+
+        <mat-card-content class="p-b-24 p-t-12 position-relative">
+          <button
+            *ngIf="isLoggedIn()"
+            mat-mini-fab
+            color="primary"
+            class="cart-btn"
+            matTooltip="{{recipe.inFavourites? 'Remove from Favourites' : 'Add to Favourite'}}"
+            (click)="toggleFav(i)"
+          >
+            <i class="pi {{recipe.inFavourites? 'pi-heart-fill' : 'pi-heart'}}"  style="font-size: 1.5rem;margin-top:6px"></i>
+          </button>
+          
+          <mat-card-title class="mat-headline-2 f-s-16 m-b-4">
+            {{ recipe.name }}
+          </mat-card-title>
+          
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="m-l-auto d-flex gap-4">
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+            </div>
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    
+    <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
+
   </div>
-  
-  <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
-  </div>
-  <button routerLink="/recipes/create"  mat-flat-button color="primary" >Create New</button>
+    <!-- Footer Section Begin -->
+    <footer class="footer-section" style="background-color: #EFF3F8;">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-5">
+                  <div class="fs-left">
+                      <a href="#">
+                          <img style="width: 500px;height: 150px;" src="../../../assets/images/logos/logox.png" alt="">
+                      </a>
+                      <p>Welcome to RecipeRealm, your ultimate destination for mouthwatering culinary inspiration. 
+                        Discover a world of delectable recipes, cooking tips, and food adventures that will tantalize your taste buds. 
+                        From delightful appetizers to indulgent desserts, our passionate team of food enthusiasts brings you a 
+                        treasure trove of flavorful creations. Join us on a gastronomic journey and unlock the secrets to creating 
+                        extraordinary dishes in your own kitchen. Explore, savor, and share the joy of cooking with RecipeRealm.</p>
+                  </div>
+              </div>
+              <div class="col-lg-6 offset-lg-1">
+                  <form action="#" class="subscribe-form">
+                      <h3>Subscribe to our newsletter</h3>
+                      <input type="email" placeholder="Your e-mail">
+                      <button type="submit">Subscribe</button>
+                  </form>
+                  <div class="social-links">
+                      <a href="#"><i class="fa fa-instagram"></i><span>Instagram</span></a>
+                      <a href="#"><i class="fa fa-pinterest"></i><span>Pinterest</span></a>
+                      <a href="#"><i class="fa fa-facebook"></i><span>Facebook</span></a>
+                      <a href="#"><i class="fa fa-twitter"></i><span>Twitter</span></a>
+                      <a href="#"><i class="fa fa-youtube"></i><span>Youtube</span></a>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-12">
+                  <div class="copyright-text">
+Copyright &copy;2023 All rights reserved. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> 
+                  </div>
+              </div>
+          </div>
+      </div>
+  </footer>
+  <!-- Footer Section End -->
+
 </div>
 

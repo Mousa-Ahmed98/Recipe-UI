@@ -8,8 +8,7 @@ import {
 } from '@angular/forms';
 
 import { AccountService } from 'src/app/services/account.service';
-import { Message } from 'primeng/api';
-import { MessageService } from 'primeng/api';
+import { ToastMessageService } from 'src/app/services/message.service';
 
 
 @Component({ 
@@ -25,14 +24,13 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   passwordMatches = false;
   hidePassword = true;
-  messages: Message[];
   
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
     private accountService: AccountService,
-    private messageService: MessageService
+    private messageService: ToastMessageService,
+    private router: Router,
+
     ) { }
     
   ngOnInit() {    
@@ -44,8 +42,6 @@ export class RegisterComponent implements OnInit {
       password:  ['', [Validators.required,]],
       confirm_password:  ['', [Validators.required]]
     });
-    this.messages = [];
-    
   }
 
   // convenience getter for easy access to form fields
@@ -56,14 +52,12 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     
     this.submitted = true;
-    this.messages = [];
-    this.messageService.clear();
     
     if (this.form.invalid) {
       return;
     }
     
-    if(!this.IsPasswordValid()){
+    if(!this.isFormValid()){
       return;
     }
 
@@ -73,56 +67,60 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          // this.router.navigate(['../login'], { relativeTo: this.route });
-          this.messageService.add(
-            { severity: 'success', summary: 'Success', detail: 'You signed up successfully',  sticky: true }
-            );
-            this.form.reset()
-          },
-        error: error => {
-          this.messageService.add(
-            { severity: 'error', summary: 'Error', detail: error },
-          )
+          this.form.reset();
           this.loading = false;
+          this.submitted = false;
+          this.messageService.showSuccessMessage('You signed up successfully');
+          this.router.navigate(['account/login']);
+        },
+        error: error => {
+          this.loading = false;
+          this.submitted = false;
         }
       });
-      this.submitted = false;
   }
 
-  IsPasswordValid(): boolean {
+  isFormValid(): boolean {
     
     const password = this.controls['password'].value;
     const confirmPassword = this.controls['confirm_password'].value;
-  
+
+    let message = '';
+
     const hasNumber = /\d/.test(password);
     if (!hasNumber) {
-      this.messages = [...this.messages, 
-        { severity: 'error', summary: 'Error', detail: "Password must have at least one number." ,  sticky: true },
-      ]
+      message = "Password must have at least one number.";
+      this.messageService.showErrorMessage(message);
     }
   
     const hasLetter = /[a-zA-Z]/.test(password);
     if (!hasLetter) {
-      this.messages = [...this.messages, 
-        { severity: 'error', summary: 'Error', detail: "Password must have at least one letter.",  sticky: true },
-      ]
+      message = "Password must have at least one letter.";
+      this.messageService.showErrorMessage(message);
     }
   
     if (password.length < 6) {
-      this.messages = [...this.messages, 
-        { severity: 'error', summary: 'Error', detail: "Password length can't be less than 6 characters.",  sticky: true },
-      ]
+      message = "Password length can't be less than 6 characters.";
+      this.messageService.showErrorMessage(message);
     }
   
     if (confirmPassword !== '' && password !== confirmPassword) {
-      this.messages = [...this.messages, 
-        { severity: 'error', summary: 'Error', detail: "Password does not match.",  sticky: true },
-      ]
+      message = "Password does not match.";
+      this.messageService.showErrorMessage(message);
+    }
+
+    const email = this.controls['email'].value;
+    if(!this.isValidEmail(email)){
+      message = "Input Email is not a valid eamil address.";
+      this.messageService.showErrorMessage(message);
     }
     
-    this.messageService.addAll(this.messages);
-    
-    return this.messages.length === 0;
+    return message === '';
+
   }
-      
+
+  isValidEmail(email: string): boolean {
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailPattern.test(email);
+  }
 }

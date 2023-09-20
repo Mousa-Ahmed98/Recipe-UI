@@ -4,7 +4,6 @@
   margin: 100px;
   margin-top: 20px;
 }
-  
 
 .recipe {
   display: flex;
@@ -81,8 +80,6 @@ p-button{
 
 }
 
-
-
 /* Custom styles for the comment and rating section */
 .comment-section {
   padding: 20px;
@@ -114,9 +111,6 @@ p-button{
   border-radius: 5px;
 }
 
-
-
-
 .flip-stars {
   align-items: end;
   float: left;
@@ -127,7 +121,19 @@ p-button{
   float: left;
 }
 
-
 .rounded-avatar{
   border-radius: 12px;
 } 
+
+.btn-group{
+  margin-left: 20px;
+}
+
+.select-date{
+  position: absolute;
+  z-index: 1;
+  margin-top: 50px;
+  margin-left: 65px;
+  overflow: auto;
+}
+

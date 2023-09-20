@@ -14,6 +14,9 @@ import { User } from '../models/user.model';
   selector: 'app-header',
   templateUrl: './header.component.html',
   encapsulation: ViewEncapsulation.None,
+  styleUrls: [
+    './header.component.css'
+  ]
 })
 export class HeaderComponent {
   @Input() logout: () => void;
