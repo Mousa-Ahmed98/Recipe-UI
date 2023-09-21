@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from '../models/recipe.model';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RecipeRequest } from '../models/recipe.request';
+import { PaginatedResponse } from '../models/paginated.response';
+import { RecipeSummary } from '../models/recipe.summary';
 import { Review } from '../models/review.model';
 import { ReviewRequest } from '../models/review.request';
 import { ResponseShoppingItem, ShoppingItem } from '../models/shopping_item.model';
@@ -19,9 +21,18 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
   
-  GetAllRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.apiUrl)
+  GetAllRecipes(CurrentPage:number , pageSize:number): 
+  Observable<PaginatedResponse<RecipeSummary>> {
+    return this.http.get<PaginatedResponse<RecipeSummary>>(
+      this.apiUrl, {params:{CurrentPage, pageSize}}
+      )
   } 
+  
+  GetFilteredRecipes(filterIngredients: string[]): 
+    Observable<PaginatedResponse<RecipeSummary>> {
+    const params = new HttpParams().set('ingredients', filterIngredients.join(','));
+    return this.http.get<PaginatedResponse<RecipeSummary>>(this.apiUrl + '/filter', {params})
+  }
   
   GetRecipeById(id: number): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.apiUrl}/${id}`);

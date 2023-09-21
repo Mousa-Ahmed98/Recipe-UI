@@ -58,6 +58,7 @@
               >
               <mat-form-field appearance="outline" class="w-100" color="primary">
                 <input formControlName="firstName" matInput />
+                <small style="color:red" *ngIf="submitted && controls['firstName'].errors" class="p-error block">First Name is required</small>
               </mat-form-field>
 
               <!-- lastname -->
@@ -66,6 +67,7 @@
               >
               <mat-form-field appearance="outline" class="w-100" color="primary">
                 <input formControlName="lastName" matInput />
+                <small style="color:red" *ngIf="submitted && controls['lastName'].errors" class="p-error block">Last Name is required</small>
               </mat-form-field>
 
               <!-- username -->
@@ -74,29 +76,48 @@
               >
               <mat-form-field appearance="outline" class="w-100" color="primary">
                 <input formControlName="username" matInput />
+                <small style="color:red" *ngIf="submitted && controls['username'].errors" class="p-error block">Username is required</small>
               </mat-form-field>
               
               <!-- eamil -->
               
-              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-                >Email Adddress</mat-label
-              >
+              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+                Email Adddress
+              </mat-label>
+              
               <mat-form-field appearance="outline" class="w-100" color="primary">
                 <input formControlName="email"  matInput type="email" />
+                <small style="color:red" *ngIf="submitted && controls['email'].errors" class="p-error block">Username is required</small>
               </mat-form-field>
               
               <!-- password -->
-              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-                >Password</mat-label
-              >
+              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+                Password
+              </mat-label>
+              
               <mat-form-field appearance="outline" class="w-100" color="primary">
-                <input formControlName="password" matInput type="password" />
+                <input formControlName="password" matInput [type]="hidePassword ? 'password' : 'text'" />
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'hide password'" [attr.aria-pressed]="hidePassword">
+                  <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>  
+                <small style="color:red" *ngIf="submitted && controls['password'].errors" class="p-error block">Password is required</small>
               </mat-form-field>
-  
-              <button mat-flat-button color="primary" class="w-100">
+
+              <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+                Confirm Password
+              </mat-label>
+              
+              <mat-form-field appearance="outline" class="w-100" color="primary">
+                <input formControlName="confirm_password" matInput [type]="hidePassword ? 'password' : 'text'" />
+                <small style="color:red" *ngIf="submitted && controls['confirm_password'].errors" class="p-error block">Confirm Password is required</small>
+              </mat-form-field>
+
+              <button (click)="onSubmit()" type="button" mat-flat-button color="primary" class="w-100">
                 Sign Up
               </button>
             </form>
+
+            <p-toast position="bottom-right"></p-toast>
 
             <span class="d-block f-w-500 text-center m-t-24"
               >Already have an Account?

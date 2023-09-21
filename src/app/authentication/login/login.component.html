@@ -69,7 +69,10 @@
             </mat-label>
             
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input formControlName="password" matInput type="password" />
+              <input matInput formControlName="password"  [type]="hidePassword ? 'password' : 'text'" />
+              <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'hide password'" [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
               <small style="color:red"  *ngIf="submitted && controls['password'].errors" class="p-error block">Password is required</small>
             </mat-form-field>
             
@@ -79,12 +82,23 @@
                 [routerLink]="['/']"
                 class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14"
                 >Forgot Password ?</a
-              >
-            </div>
-            
-            <button type="submit" mat-flat-button color="primary" class="w-100">
-              Sign In
+                >
+              </div>
+              
+              <button type="submit" mat-flat-button color="primary" class="w-100">
+                <!-- <mat-progress-spinner class="spinner" 
+                  mode="indeterminate" 
+                  *ngIf="!loading" 
+                  diameter="40">
+                </mat-progress-spinner> -->
+                <span >
+                  Sign In
+                </span>
             </button>
+
+            <div class="w-100" style="color:red;text-align:center"  *ngIf="invalid">
+              Incorrect email or password.
+            </div>
 
             <!-- input -->
           </form>

@@ -17,7 +17,9 @@ import { RecipeRoutingModule } from "./recipe-routing.module";
 // import {ConfirmPopupModule} from 'primeng/confirmpopup';
 // import { AccordionModule } from 'primeng/accordion';
 // import { CardModule } from 'primeng/card';
-// import { ButtonModule } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
+import { PaginatorModule } from 'primeng/paginator';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 // mat
 import { MatCardModule } from "@angular/material/card";
@@ -28,7 +30,10 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { MaterialModule } from '../material.module';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 
-
+// icons
+import { TablerIconsModule } from 'angular-tabler-icons';
+import * as TablerIcons from 'angular-tabler-icons/icons';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -52,16 +57,24 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
     HttpClientModule,
     BrowserModule,
     NoopAnimationsModule,
-    NgxStarRatingModule
+    TablerIconsModule.pick(TablerIcons),
+    NgxStarRatingModule,
     // CardModule,
-    // ButtonModule,
     // AccordionModule,
     // ConfirmPopupModule,
     // PanelModule,
     // MatInputModule,
-    // ButtonModule,
+    ButtonModule,
+    PaginatorModule,
+    ConfirmDialogModule,
   ],
-  
+  exports:[
+    TablerIconsModule
+  ],
+  providers:[
+    ConfirmationService,
+    MessageService
+  ]
 
 })
 export class RecipeManagementModule { }

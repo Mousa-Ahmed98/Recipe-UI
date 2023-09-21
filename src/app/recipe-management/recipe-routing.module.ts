@@ -7,12 +7,13 @@ import { EditComponent } from './edit/edit.component';
 // import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthGuard } from '../helpers/auth.guard';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 const routes: Routes = [
   { path: 'recipes', component: IndexComponent },
   { path: 'recipes/shopping_list', component: ShoppingListComponent, canActivate: [AuthGuard]  },
   { path: 'recipes/create', component: CreateComponent, canActivate: [AuthGuard]  },
-  { path: 'recipes/:recipeId', component: ViewComponent, canActivate: [AuthGuard] },
+  { path: 'recipes/:recipeId', component: ViewComponent },
   { path: 'recipes/:recipeId/edit', component: EditComponent, canActivate: [AuthGuard] },
 ];
 
@@ -20,8 +21,8 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
   providers: [
-    // ConfirmationService,
-    // MessageService
+    ConfirmationService,
+    MessageService
   ],
 })
 export class RecipeRoutingModule { }

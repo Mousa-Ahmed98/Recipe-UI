@@ -5,9 +5,12 @@
 
       <div class="p-col-12 p-md-6 p-lg-4">
         <!-- <p-confirmPopup></p-confirmPopup> -->
-        <button (click)="deleteRecipe($event)"  mat-flat-button color="danger" label="Delete" class="button-danger">Delete</button>
+        <button (click)="deleteRecipe()"  mat-flat-button color="danger" label="Delete" class="button-danger">Delete</button>
         <button (click)="editRecipe()"  mat-flat-button color="primary" label="Edit" >Edit</button>
         <button (click)="addToShoppingList()"  mat-flat-button color="primary" label="AddTo S_L" style="background-color: red;">Add to shopping list</button>
+        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+        <p-button (click)="editRecipe()" styleClass="p-button-raised"  label="Edit" ></p-button>
+        <p-button (click)="deleteRecipe()" icon="pi pi-times" label="Delete" styleClass="p-button-raised p-button-danger" class="p-button-danger"></p-button>
       </div>
 
       <div class="p-col-12 p-md-6 p-lg-4">
@@ -15,24 +18,35 @@
       </div>
       <div class="p-col-12 p-md-6 p-lg-4">
         <div class="image-container">
-          <img [src]="recipe.imageUrl" alt="Recipe Image" class="recipe-image" />
+          <img src="https://localhost:3000/images/{{recipe.imageUrl}}" alt="Recipe Image" class="recipe-image" width="500" height="400" />
         </div>
       </div>
       <div class="p-col-12 p-md-6 p-lg-4">
         <div class="recipe-details">
-          <div class="category">Category: {{ recipe.category.name }}</div>
-          <h3>Ingredients:</h3>
+          
+          <!-- <div class="category">Category: {{ recipe.category.name }}</div> -->
+          
+          <h3 style="text-align: center;color:#638CFF;margin-top:70px;margin-top:40px" > ingredients </h3>
+
           <ul class="ingredients">
             <li *ngFor="let ingredient of recipe.ingredients">
-              <h2>{{ ingredient.description }}</h2>
+              <h4>{{ ingredient.description }}</h4>
+
             </li>
           </ul>
-          <h3>Steps:</h3>
-          <div class="stepNo" *ngFor="let step of recipe.steps;index as i">
-            <!-- <p-panel  header="Step {{i+1}}"> -->
-              {{ step.description }}
-            <!-- </p-panel> -->
-          </div>
+
+          <div class="w-100">
+          <h3 style="text-align: center;color:#638CFF;margin-top:70px" > Steps</h3>
+          <table class="recipe-steps">
+            <tbody>
+              <tr class="step" *ngFor="let step of recipe.steps; index as i">
+                  <div class="container">
+                    <td class="step-number">{{ i+1 }}</td>
+                    <td class="step-description">{{  step.description }}</td>
+                  </div>
+                </tr>
+              </tbody>
+          </table>
         </div>
       </div>
 
@@ -75,7 +89,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     
     </div>
   </div>

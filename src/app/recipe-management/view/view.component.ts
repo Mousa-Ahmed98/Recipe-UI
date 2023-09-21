@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from 'src/app/models/recipe.model';
 import { Review } from 'src/app/models/review.model';
 import { RecipeService } from 'src/app/services/recipe.service';
-import {ConfirmationService} from 'primeng/api';
+import {ConfirmEventType, ConfirmationService} from 'primeng/api';
 import {MessageService} from 'primeng/api';
 import { ReviewRequest } from 'src/app/models/review.request';
 import { AccountService } from 'src/app/services/account.service';
@@ -28,9 +28,11 @@ export class ViewComponent {
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
     // private confirmationService: ConfirmationService,
     // private messageService: MessageService
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {
    }
 
@@ -45,7 +47,6 @@ export class ViewComponent {
       }
       );
     });
-    
   }
 
   reset(){
@@ -104,20 +105,26 @@ export class ViewComponent {
     })
   }
 
-  deleteRecipe(event: Event) {
-    // this.confirmationService.confirm({
-    //   target: event.target !== null ? event.target : undefined,
-    //   message: 'Are you sure that you want to delete this recipe?',
-    //   icon: 'pi pi-exclamation-triangle',
-      
-    //   accept: () => {
-    //     this.recipeService.DeleteRecipe(this.recipeId).subscribe(res =>
-    //       this.router.navigate(['recipes'])
-    //       );
-    //   },
-      
-    //   reject: () => {
-    //   }
-    // });
+  
+  deleteRecipe() {
+    this.confirmationService.confirm({
+        message: 'Are you sure that you want to proceed?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+        },
+        reject: (type: ConfirmEventType) => {
+            switch (type) {
+                case ConfirmEventType.REJECT:
+                    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+                    break;
+                case ConfirmEventType.CANCEL:
+                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+                    break;
+                  }
+                }
+    });
+
   }
 }
