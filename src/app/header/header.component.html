@@ -1,15 +1,13 @@
 <mat-toolbar class="topbar">
   <!-- Mobile Menu -->
-  <button mat-icon-button (click)="toggleMobileNav.emit()" *ngIf="true">
+  <!-- <button mat-icon-button (click)="toggleMobileNav.emit()" *ngIf="true">
     <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
-  </button>
+  </button> -->
 
   <a href="/recipes">
-    <button mat-icon-button class="d-flex">
-          <img src="../assets/images/logos/stolen-logo.png" height="40" class="logo">
-          <div style="color:#638CFF;text-decoration: none; margin-left:5px;font:bold">RecipeRealm</div> 
-      </button>
-    </a>
+    <img src="../assets/images/logos/logox.png" style="width: 150px; height: 50px;" >
+  </a>
+
   <!-- --------------------------------------------------------------- -->
 
   <!-- --------------------------------------------------------------- -->
@@ -32,51 +30,59 @@
         matBadgeColor="primary"
       ></i-tabler>
     </button>
-  
+    
     <button
       mat-icon-button
       [matMenuTriggerFor]="profilemenu"
       aria-label="Notifications"
     >
-    <img
+    <i-tabler
+    class="d-flex"
+    name="user-circle"
+    matBadgeColor="primary"
+  ></i-tabler>
+
+    <!-- <img
       src="/assets/images/profile/user-x.png"
-    />
+    /> -->
+    <!-- <p-avatar label="P" class="minu-btn" styleClass="mr-2" shape="circle"></p-avatar> -->
     </button>
     <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
-      <button mat-menu-item>
+      <button mat-menu-item [routerLink]= "['/account']">
         <mat-icon class="d-flex align-items-center"
           ><i-tabler name="user" class="icon-18 d-flex"></i-tabler></mat-icon
         >My Profile
       </button>
+      <!-- <button mat-menu-item>
+        <mat-icon class="d-flex align-items-center">
+          <i-tabler name="mail" class="icon-18 d-flex"></i-tabler></mat-icon>
+        My Account
+      </button> -->
       <button mat-menu-item>
-        <mat-icon class="d-flex align-items-center"
-          ><i-tabler name="mail" class="icon-18 d-flex"></i-tabler></mat-icon
-        >My Account
-      </button>
-      <button mat-menu-item>
-        <mat-icon class="d-flex align-items-center"
-          ><i-tabler
-            name="list-check"
-            class="icon-18 d-flex"
-          ></i-tabler></mat-icon
-        >My Task
+        <mat-icon class="d-flex align-items-center">
+          <i-tabler 
+            name="settings"
+            class="icon-18 d-flex">
+          </i-tabler></mat-icon>
+          Settings
       </button>
   
       <div class="p-x-12 m-t-12">
         <a
-          [routerLink]="['/account/login']"
+          [routerLink]="['/auth/login']"
           (click)="logout()"
           mat-stroked-button
           color="primary"
-          class="w-100"
-          >Logout</a
-        >
+          class="w-100 logout-btn">
+
+          Logout
+        </a>
       </div>
     </mat-menu>
   </div>
   
   <ng-template #loggedOut>
-    <button mat-flat-button color="primary" routerLink="/account/login">
+    <button mat-flat-button color="primary" routerLink="/auth/login">
       Sign In
     </button>
   </ng-template>

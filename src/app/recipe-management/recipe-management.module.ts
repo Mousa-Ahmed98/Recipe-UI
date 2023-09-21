@@ -20,20 +20,26 @@ import { RecipeRoutingModule } from "./recipe-routing.module";
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CalendarModule } from 'primeng/calendar';
+import { RatingModule } from 'primeng/rating';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 // mat
 import { MatCardModule } from "@angular/material/card";
 import { MatSelectModule} from "@angular/material/select"
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxStarRatingModule } from 'ngx-star-rating';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 import { MaterialModule } from '../material.module';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+// import { NgxStarRatingModule } from 'ngx-star-rating';
 
 // icons
 import { TablerIconsModule } from 'angular-tabler-icons';
 import * as TablerIcons from 'angular-tabler-icons/icons';
-import { ConfirmationService, MessageService } from 'primeng/api';
+
 
 @NgModule({
   declarations: [
@@ -44,29 +50,36 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     ShoppingListComponent
   ],
   imports: [
-    MaterialModule,
     CommonModule,
     RecipeRoutingModule,
     BrowserAnimationsModule,
+    
+    MaterialModule,
     MatFormFieldModule,
     MatCardModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     ReactiveFormsModule,
+    MatInputModule,
+    
     FormsModule,
     HttpClientModule,
     BrowserModule,
     NoopAnimationsModule,
-    TablerIconsModule.pick(TablerIcons),
-    NgxStarRatingModule,
+    // NgxStarRatingModule,
     // CardModule,
     // AccordionModule,
     // ConfirmPopupModule,
     // PanelModule,
     // MatInputModule,
+    TablerIconsModule.pick(TablerIcons),
+    RatingModule,
     ButtonModule,
     PaginatorModule,
     ConfirmDialogModule,
+    CalendarModule
   ],
   exports:[
     TablerIconsModule

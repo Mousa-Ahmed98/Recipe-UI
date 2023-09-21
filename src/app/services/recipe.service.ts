@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Recipe } from '../models/recipe.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 import { RecipeRequest } from '../models/recipe.request';
 import { PaginatedResponse } from '../models/paginated.response';
 import { RecipeSummary } from '../models/recipe.summary';
@@ -10,6 +10,7 @@ import { Review } from '../models/review.model';
 import { ReviewRequest } from '../models/review.request';
 import { ResponseShoppingItem, ShoppingItem } from '../models/shopping_item.model';
 
+import { HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -18,25 +19,34 @@ export class RecipeService {
 
   apiUrl = `${environment.apiUrl}/recipe`;;
   apiShopUrl = `${environment.apiUrl}/shopping`;;
+  private apiUrl = `${environment.apiUrl}/recipe`;;
 
   constructor(private http: HttpClient) {}
   
-  GetAllRecipes(CurrentPage:number , pageSize:number): 
-  Observable<PaginatedResponse<RecipeSummary>> {
+  GetAllRecipes(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> {
     return this.http.get<PaginatedResponse<RecipeSummary>>(
       this.apiUrl, {params:{CurrentPage, pageSize}}
       )
   } 
   
-  GetFilteredRecipes(filterIngredients: string[]): 
-    Observable<PaginatedResponse<RecipeSummary>> {
+  GetFilteredRecipes(filterIngredients: string[]):  Observable<PaginatedResponse<RecipeSummary>> {
     const params = new HttpParams().set('ingredients', filterIngredients.join(','));
     return this.http.get<PaginatedResponse<RecipeSummary>>(this.apiUrl + '/filter', {params})
+  }
+
+  SearchRecipes(query: string): Observable<PaginatedResponse<RecipeSummary>> {
+    return this.http.get<PaginatedResponse<RecipeSummary>>(this.apiUrl + '/search', {params: {query} })
   }
   
   GetRecipeById(id: number): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
   } 
+  
+  GetMyRecipes(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> { 
+    return this.http.get<PaginatedResponse<RecipeSummary>>(`${environment.apiUrl}/account/my-recipes`, 
+      {params : {CurrentPage, pageSize}}
+    );
+  } // TODO :: move this to a new service `AccountService` & rename `AccountService` -> `AuthService`
 
   GetShoppingList(id:string): Observable<ResponseShoppingItem[]> {
     return this.http.get<ResponseShoppingItem[]>(this.apiShopUrl+"/GetAllItems/"+id);
@@ -86,6 +96,9 @@ export class RecipeService {
     return this.http.post<Review>(`${this.apiUrl}/addreview`, reviewRequest, httpOptions);
   }
 
+  getFavourites(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> {
+    return this.http.get<PaginatedResponse<RecipeSummary>>(`${this.apiUrl}/favourites`, {params : {CurrentPage, pageSize}});
+  }
 
   addShoppingItem(shoppingItem: ShoppingItem){
     const httpOptions = {
@@ -98,4 +111,19 @@ export class RecipeService {
   }
 
 
+  addToFavourites(id: number): Observable<boolean> {
+    return this.http.post(`${this.apiUrl}/favourites/add/${id}`, null, { observe: 'response' })
+      .pipe(
+        map((response: HttpResponse<any>) => response.status === 204 || response.status === 200),
+        catchError(() => of(false))
+      );
+  }
+  
+  removeFromfavourites(id: number): Observable<boolean> {
+    return this.http.delete(`${this.apiUrl}/favourites/remove/${id}`, { observe: 'response' })
+      .pipe(
+        map((response: HttpResponse<any>) => response.status === 204 || response.status === 200),
+        catchError(() => of(false))
+      );
+  }
 }

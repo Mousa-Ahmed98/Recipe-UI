@@ -6,6 +6,7 @@ import { CategoriesService } from 'src/app/services/category.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Ingredient } from 'src/app/models/Ingredient.model';
 import { Step } from 'src/app/models/step.model';
+import { Recipe } from 'src/app/models/recipe.model';
 
 @Component({
   selector: 'app-edit',
@@ -13,6 +14,7 @@ import { Step } from 'src/app/models/step.model';
   styleUrls: ['./edit.component.css']
 })
 export class EditComponent implements OnInit{
+  recipe: Recipe;
   recipeName: string = "";
   recipeId: number;
   ImgUrl:any;
@@ -57,6 +59,7 @@ export class EditComponent implements OnInit{
 
     this.recipeService.GetRecipeById(this.recipeId).subscribe(
       recipe => {
+        this.recipe = recipe;
          this.localImageData = recipe.imageUrl;
          this.addForm.get("recipeData")?.get("recipename")?.setValue(recipe.name);
          this.recipeName = recipe.name;

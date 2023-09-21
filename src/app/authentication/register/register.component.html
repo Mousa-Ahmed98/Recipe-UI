@@ -8,8 +8,8 @@
             <div class="text-center">
               <a [routerLink]="['/dashboard']">
                 <img
-                  src="../assets/images/logos/stolen-logo.png"
-                  height="40"
+                  src="../assets/images/logos/logox.png"
+                  height="60"
                   class="align-middle m-2"
                   alt="logo"
                 />
@@ -87,7 +87,9 @@
               
               <mat-form-field appearance="outline" class="w-100" color="primary">
                 <input formControlName="email"  matInput type="email" />
-                <small style="color:red" *ngIf="submitted && controls['email'].errors" class="p-error block">Username is required</small>
+                <small style="color:red" *ngIf="submitted && controls['email'].errors" class="p-error block">
+                  Email Address is required
+                </small>
               </mat-form-field>
               
               <!-- password -->
@@ -113,8 +115,14 @@
               </mat-form-field>
 
               <button (click)="onSubmit()" type="button" mat-flat-button color="primary" class="w-100">
-                Sign Up
+                <ng-container *ngIf="loading; else signupButton">
+                  <i class="pi pi-spinner spin" style="font-size: 1.5rem"></i>
+                </ng-container>
+                <ng-template #signupButton>
+                  Sign Up
+                </ng-template>
               </button>
+
             </form>
 
             <p-toast position="bottom-right"></p-toast>
@@ -126,8 +134,8 @@
                 [routerLink]="['../login']"
                 class="text-decoration-none text-primary f-w-500 f-s-14"
               >
-                Sign In</a
-              >
+                Sign In
+              </a>
             </span>
           </mat-card-content>
         </mat-card>

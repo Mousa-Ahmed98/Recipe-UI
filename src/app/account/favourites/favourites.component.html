@@ -1,0 +1,60 @@
+<div class="col-12">
+  <div class="row" >
+    <div style="width:auto" class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes;index as i" >
+      <mat-card class="cardWithShadow productcard overflow-hidden">
+        <mat-card class="image-card">
+          <a routerLink="/recipes/{{recipe.id}}">
+          <img 
+            src="https://localhost:3000/images/{{recipe.imageUrl }}"
+            alt="Image" class="image">
+          </a>
+            <div *ngIf="!recipe.inFavourites">
+              <div class="overlay"></div>
+              <button mat-icon-button class="undo-button" (click)="undo(i)">
+                <mat-icon>undo</mat-icon>
+              </button>
+            </div>
+          </mat-card>
+
+        <mat-card-content class="p-b-24 p-t-12 position-relative">
+          <button
+            *ngIf="recipe.inFavourites"
+            mat-mini-fab
+            color="primary"
+            class="cart-btn"
+            matTooltip="Remove from Favourite"
+            (click)="removeFromFavs(i)"
+          >
+            <i class="pi pi-minus-circle"  style="font-size: 1.5rem;margin-top:6px"></i>
+          </button>
+          
+          <mat-card-title class="mat-headline-2 f-s-16 m-b-4">
+            {{ recipe.name }}
+          </mat-card-title>
+          
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="m-l-auto d-flex gap-4">
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+  
+  

@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipeService } from '../../services/recipe.service'
 import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
+
+import { RecipeService } from '../../services/recipe.service'
 import { RecipeSummary } from 'src/app/models/recipe.summary';
 import { PageEvent } from '../../models/page.event';
+
+import { AccountService } from 'src/app/services/account.service';
+import { ToastMessageService } from 'src/app/services/message.service';
+import { LoaderService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-index',
@@ -18,14 +23,17 @@ export class IndexComponent implements OnInit{
   rows: number = 5;
   pageNumber: number = 1;
   totalRecords: number = 0;
+  durationInSeconds: number = 5;
+  
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   
   constructor(
     private recipeService: RecipeService, 
     private router: Router,
-    )
-  {
-  }
+    private accountService: AccountService,
+    private toastMessageService: ToastMessageService,
+    private loadingService: LoaderService
+    ) { }
 
   ngOnInit(): void {
     this.getRecipes();
@@ -64,7 +72,6 @@ export class IndexComponent implements OnInit{
     this.FilterRecipes();
   }
 
-
   edit(ing: string, event: MatChipEditedEvent) {
     const value = event.value.trim();
     // Remove ingredient if it no longer has a name
@@ -91,12 +98,36 @@ export class IndexComponent implements OnInit{
   }
 
   getRecipes(){
+    this.loadingService.startLoading();
     this.recipeService.GetAllRecipes(this.pageNumber, this.rows).subscribe(res =>{
       this.recipes = res.items;
       // this.first = res.pageNumber - 1;
       this.totalRecords = res.totalCount;
       this.rows = res.pageSize;
+      this.loadingService.stopLoading();
     });
   }
+  
+  toggleFav(idx: number){
+    let recipe = this.recipes[idx];
+    
+    if(recipe.inFavourites === true){
+      this.recipeService.removeFromfavourites(recipe.id).subscribe(res => {
+        if(res === true) {
+          this.toastMessageService.showSuccessMessage("Removed from favourites");
+        }
+      });
+    }else{
+      this.recipeService.addToFavourites(recipe.id).subscribe(res => {
+        if(res === true){
+          this.toastMessageService.showSuccessMessage("Added to favourites");
+        }
+      });
+    }
+    recipe.inFavourites = !recipe.inFavourites;
+  }
 
+  isLoggedIn(){
+    return this.accountService.userValue !== null;
+  }
 }

@@ -1,0 +1,23 @@
+.image-card {
+  position: relative;
+}
+  
+.menu-container {
+  width: 25px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  margin: 8px;
+  border-radius: 25%;
+  color: white;
+}
+
+
+.image {
+  width: 100%;
+  height: 240px;
+  color: #FFFFFF;
+  display: block;
+}

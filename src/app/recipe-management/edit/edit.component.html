@@ -95,7 +95,7 @@
 
             <div class="col-md-6 my-4" >
                 <div>
-                  <img [src]="localImageData" class="scaled-image" (click)="GetIamgeUrl($event)">
+                  <img src="https://localhost:3000/images/{{recipe.imageUrl }}" class="scaled-image" (click)="GetIamgeUrl($event)">
                 </div>
                 <div style="height: 50px;"></div>
                 <label for="SelectImag" class="btn btn-primary" (change)="onImageInputChange($event)">Upload Image</label>
