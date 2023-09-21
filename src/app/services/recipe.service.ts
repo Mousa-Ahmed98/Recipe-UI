@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { RecipeRequest } from '../models/recipe.request';
 import { Review } from '../models/review.model';
 import { ReviewRequest } from '../models/review.request';
+import { ResponseShoppingItem, ShoppingItem } from '../models/shopping_item.model';
 
 
 @Injectable({
@@ -14,6 +15,7 @@ import { ReviewRequest } from '../models/review.request';
 export class RecipeService {
 
   apiUrl = `${environment.apiUrl}/recipe`;;
+  apiShopUrl = `${environment.apiUrl}/shopping`;;
 
   constructor(private http: HttpClient) {}
   
@@ -24,6 +26,19 @@ export class RecipeService {
   GetRecipeById(id: number): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
   } 
+
+  GetShoppingList(id:string): Observable<ResponseShoppingItem[]> {
+    return this.http.get<ResponseShoppingItem[]>(this.apiShopUrl+"/GetAllItems/"+id);
+  }
+  toggleShopItem(item:ResponseShoppingItem): Observable<ResponseShoppingItem> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.put<ResponseShoppingItem>(`${this.apiShopUrl}/updateShopItem`, item, httpOptions);
+  }
 
   // Add a method to send a POST request to the API
   addRecipe(recipeRequest: RecipeRequest): Observable<Recipe> {
@@ -58,6 +73,17 @@ export class RecipeService {
     };
 
     return this.http.post<Review>(`${this.apiUrl}/addreview`, reviewRequest, httpOptions);
+  }
+
+
+  addShoppingItem(shoppingItem: ShoppingItem){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.post<ShoppingItem>(`${this.apiShopUrl}/addShopItem`, shoppingItem, httpOptions);
   }
 
 

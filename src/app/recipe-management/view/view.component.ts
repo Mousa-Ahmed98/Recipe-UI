@@ -7,6 +7,7 @@ import {ConfirmationService} from 'primeng/api';
 import {MessageService} from 'primeng/api';
 import { ReviewRequest } from 'src/app/models/review.request';
 import { AccountService } from 'src/app/services/account.service';
+import { ShoppingItem } from 'src/app/models/shopping_item.model';
 // import {ConfirmationService} from 'primeng/api';
 // import {MessageService} from 'primeng/api';
 
@@ -86,6 +87,21 @@ export class ViewComponent {
 
   editRecipe(){
     this.router.navigate(['/recipes', this.recipeId, 'edit']);
+  }
+
+  addToShoppingList(){
+    
+    this.recipe.ingredients.forEach(element =>{
+      var newItem: ShoppingItem = {
+        Ingredient: element.description,
+        UserId: this.accountService.userValue?.id!,
+        isPurchased: false,
+        Quantity: 1,
+      };
+      this.recipeService.addShoppingItem(newItem).subscribe(res => {
+         
+      });
+    })
   }
 
   deleteRecipe(event: Event) {

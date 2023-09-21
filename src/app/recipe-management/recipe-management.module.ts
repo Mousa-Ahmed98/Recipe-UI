@@ -26,6 +26,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxStarRatingModule } from 'ngx-star-rating';
 import { MaterialModule } from '../material.module';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 
 
 
@@ -34,7 +35,8 @@ import { MaterialModule } from '../material.module';
     IndexComponent,
     CreateComponent,
     EditComponent,
-    ViewComponent
+    ViewComponent,
+    ShoppingListComponent
   ],
   imports: [
     MaterialModule,
