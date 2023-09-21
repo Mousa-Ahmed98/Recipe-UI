@@ -48,7 +48,6 @@ export class AccountService {
       role: "User",
       firstName: user.firstName,
       lastName: user.lastName,
-      userName: user.username,
       email: user. email,
       password: user.password
     });

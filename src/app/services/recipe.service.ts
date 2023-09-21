@@ -8,6 +8,8 @@ import { PaginatedResponse } from '../models/paginated.response';
 import { RecipeSummary } from '../models/recipe.summary';
 import { Review } from '../models/review.model';
 import { ReviewRequest } from '../models/review.request';
+import { ResponseShoppingItem, ShoppingItem } from '../models/shopping_item.model';
+
 import { HttpResponse } from '@angular/common/http';
 
 @Injectable({
@@ -15,6 +17,8 @@ import { HttpResponse } from '@angular/common/http';
 })
 export class RecipeService {
 
+  apiUrl = `${environment.apiUrl}/recipe`;;
+  apiShopUrl = `${environment.apiUrl}/shopping`;;
   private apiUrl = `${environment.apiUrl}/recipe`;;
 
   constructor(private http: HttpClient) {}
@@ -43,6 +47,19 @@ export class RecipeService {
       {params : {CurrentPage, pageSize}}
     );
   } // TODO :: move this to a new service `AccountService` & rename `AccountService` -> `AuthService`
+
+  GetShoppingList(id:string): Observable<ResponseShoppingItem[]> {
+    return this.http.get<ResponseShoppingItem[]>(this.apiShopUrl+"/GetAllItems/"+id);
+  }
+  toggleShopItem(item:ResponseShoppingItem): Observable<ResponseShoppingItem> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.put<ResponseShoppingItem>(`${this.apiShopUrl}/updateShopItem`, item, httpOptions);
+  }
 
   // Add a method to send a POST request to the API
   addRecipe(recipeRequest: RecipeRequest): Observable<Recipe> {
@@ -82,6 +99,17 @@ export class RecipeService {
   getFavourites(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> {
     return this.http.get<PaginatedResponse<RecipeSummary>>(`${this.apiUrl}/favourites`, {params : {CurrentPage, pageSize}});
   }
+
+  addShoppingItem(shoppingItem: ShoppingItem){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.post<ShoppingItem>(`${this.apiShopUrl}/addShopItem`, shoppingItem, httpOptions);
+  }
+
 
   addToFavourites(id: number): Observable<boolean> {
     return this.http.post(`${this.apiUrl}/favourites/add/${id}`, null, { observe: 'response' })

@@ -33,6 +33,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MaterialModule } from '../material.module';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 // import { NgxStarRatingModule } from 'ngx-star-rating';
 
 // icons
@@ -45,7 +46,8 @@ import * as TablerIcons from 'angular-tabler-icons/icons';
     IndexComponent,
     CreateComponent,
     EditComponent,
-    ViewComponent
+    ViewComponent,
+    ShoppingListComponent
   ],
   imports: [
     CommonModule,

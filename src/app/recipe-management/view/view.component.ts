@@ -12,6 +12,7 @@ import { ToastMessageService } from 'src/app/services/message.service';
 import { LoaderService } from 'src/app/services/loading.service';
 
 import { AccountService } from 'src/app/services/account.service';
+import { ShoppingItem } from 'src/app/models/shopping_item.model';
 // import {ConfirmationService} from 'primeng/api';
 // import {MessageService} from 'primeng/api';
 
@@ -35,7 +36,7 @@ export class ViewComponent {
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router,
-    private accountService: AccountService
+    private accountService: AccountService,
     // private confirmationService: ConfirmationService,
     // private messageService: MessageService
     private confirmationService: ConfirmationService,
@@ -145,6 +146,22 @@ export class ViewComponent {
     this.router.navigate(['/recipes', this.recipeId, 'edit']);
   }
 
+  addToShoppingList(){
+    
+    this.recipe.ingredients.forEach(element =>{
+      var newItem: ShoppingItem = {
+        Ingredient: element.description,
+        UserId: this.accountService.userValue?.id!,
+        isPurchased: false,
+        Quantity: 1,
+      };
+      this.recipeService.addShoppingItem(newItem).subscribe(res => {
+         
+      });
+    })
+  }
+
+  
   deleteRecipe() {
     this.confirmationService.confirm({
         message: 'Are you sure that you want to proceed?',

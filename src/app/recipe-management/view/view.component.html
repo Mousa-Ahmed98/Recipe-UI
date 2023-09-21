@@ -2,6 +2,11 @@
   <div class="recipe">
     <div class="p-grid">
 
+      <div class="p-col-12 p-md-6 p-lg-4">
+        <!-- <p-confirmPopup></p-confirmPopup> -->
+        <button (click)="deleteRecipe()"  mat-flat-button color="danger" label="Delete" class="button-danger">Delete</button>
+        <button (click)="editRecipe()"  mat-flat-button color="primary" label="Edit" >Edit</button>
+        <button (click)="addToShoppingList()"  mat-flat-button color="primary" label="AddTo S_L" style="background-color: red;">Add to shopping list</button>
       <!-- <div class="p-col-12 p-md-6 p-lg-4">
         <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
         <p-button (click)="editRecipe()" styleClass="p-button-raised"  label="Edit" ></p-button>
