@@ -18,7 +18,7 @@ export class ShoppingListComponent {
   {}
 
   ngOnInit(): void {
-    this.recipeService.GetShoppingList(this.accountService.userValue?.id!)
+    this.recipeService.GetShoppingList(this.accountService.userValue?.userId!)
     .subscribe(res =>{
       this.shoppingItems = res
       console.log("After effects...");

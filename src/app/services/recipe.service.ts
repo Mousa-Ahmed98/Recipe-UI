@@ -17,7 +17,6 @@ import { HttpResponse } from '@angular/common/http';
 })
 export class RecipeService {
 
-  apiUrl = `${environment.apiUrl}/recipe`;;
   apiShopUrl = `${environment.apiUrl}/shopping`;;
   private apiUrl = `${environment.apiUrl}/recipe`;;
 

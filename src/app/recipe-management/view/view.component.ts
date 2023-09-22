@@ -26,7 +26,7 @@ export class ViewComponent {
   recipe: Recipe;
   planDate: Date = new Date();
   selectingDate = false;
-  rating: number = 0;
+  rating: any;
   comment: string;
   authorId: string;
   reviewRequest: ReviewRequest;
@@ -111,11 +111,11 @@ export class ViewComponent {
     if(this.rating == null || this.comment == null)
     return;
     console.log("Hi mousa");
-    console.log(this.accountService.userValue?.id);
+    console.log(this.accountService.userValue?.userId);
     console.log(this.accountService.userValue?.userName);
     try{
       const newReview: ReviewRequest = {
-        authorId: this.accountService.userValue?.id!, //Mousa id
+        authorId: this.accountService.userValue?.userId!, //Mousa id
         authorName: this.accountService.userValue?.userName!, //Mousa id
         recipeId: this.recipeId,
         content: this.comment,
@@ -151,12 +151,15 @@ export class ViewComponent {
     this.recipe.ingredients.forEach(element =>{
       var newItem: ShoppingItem = {
         Ingredient: element.description,
-        UserId: this.accountService.userValue?.id!,
+        UserId: this.accountService.userValue?.userId!,
         isPurchased: false,
         Quantity: 1,
       };
+      console.log("newItem");
+         console.log(newItem);
       this.recipeService.addShoppingItem(newItem).subscribe(res => {
-         
+         console.log("res");
+         console.log(res);
       });
     })
   }
