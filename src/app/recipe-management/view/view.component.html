@@ -82,11 +82,12 @@
                 <div style="display: flex; align-items: center;">
                   <img src="https://pub-static.fotor.com/assets/projects/pages/ed2f505cd64d46ffbb43c2b4d65cfaf3/600w/fotor-5965bfe16a014c9f81a074bbe55a0244.jpg"
                     class="rounded-circle" style="width: 70px;" alt="Avatar" />
-                  <p style="margin-left: 10px; padding: 10px; text-align: center; font-weight: bold;">Mousa soliman</p>
+                  <p style="margin-left: 10px; padding: 10px; text-align: center; font-weight: bold;">{{review.authorName}}</p>
                   
                 </div>
-                <div class="flip-stars">
-                  <ngx-star-rating [disabled]="true" class="small-stars" [(ngModel)]="review.rate" [id]="'recipe-rating'"></ngx-star-rating>
+                <div class="flip-stars" style="margin-top: 20px;">
+                  <!-- <ngx-star-rating [disabled]="true" class="small-stars" [(ngModel)]="review.rate" [id]="'recipe-rating'"></ngx-star-rating> -->
+                  <p-rating [disabled]="true" [(ngModel)]="review.rate" [cancel]="false"></p-rating>
                 </div>
                 <br>
                 <textarea [disabled]="true" [(ngModel)]="review.content" class="comment-input" placeholder="Write your comment here..."></textarea>
@@ -99,9 +100,9 @@
               <div class="col-md-12">
                   <div class="comment-section">
                       <h3 (click)="reset()">Rate and comment</h3>
-                      <div class="rating-label" (click)="reset()">Rate:</div>
+                      <div class="rating-label" style="margin-top: 20px;" (click)="reset()">Rate:</div>
                       <!-- <div class="flip-stars"><ngx-star-rating [(ngModel)]="rating" [id]="'rating'"></ngx-star-rating></div> -->
-                      <p-rating [(ngModel)]="rating"></p-rating>
+                      <p-rating [(ngModel)]="rating" [cancel]="false"></p-rating>
                       <br>
                       <textarea [(ngModel)]="comment" class="comment-input star-hover" placeholder="Write your comment here..." ></textarea>
                       <div class="submit-button">
