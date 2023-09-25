@@ -53,6 +53,8 @@ export class ViewComponent {
       this.recipeService.GetRecipeById(this.recipeId)
       .subscribe(res =>{
         this.recipe = res
+        console.log("reviews");
+        console.log(this.recipe.reviews);
         this.loadingService.stopLoading();
         });
     });
@@ -110,7 +112,6 @@ export class ViewComponent {
   addReview(){
     if(this.rating == null || this.comment == null)
     return;
-    console.log("Hi mousa");
     console.log(this.accountService.userValue?.userId);
     console.log(this.accountService.userValue?.userName);
     try{
@@ -123,9 +124,9 @@ export class ViewComponent {
       };
       this.recipeService.addReview(newReview).subscribe(res => {
         console.log(res);
-        this.recipe.reviews.push(res);
         this.rating = null;
-        this.comment = ""; 
+        this.comment = "";
+        this.recipe.reviews.push(res); 
       });
     }
     catch(e){

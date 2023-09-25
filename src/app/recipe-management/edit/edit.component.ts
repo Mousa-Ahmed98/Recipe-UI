@@ -7,6 +7,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { Ingredient } from 'src/app/models/Ingredient.model';
 import { Step } from 'src/app/models/step.model';
 import { Recipe } from 'src/app/models/recipe.model';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-edit',
@@ -27,6 +28,7 @@ export class EditComponent implements OnInit{
   constructor(
     private recipeService: RecipeService,
     private categoryService:CategoriesService, 
+    private accountService:AccountService, 
     private router:Router, 
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
@@ -141,6 +143,7 @@ export class EditComponent implements OnInit{
       ImageUrl: this.localImageData,
       CategoryId: this.selectedCategoryId,
       Ingredients: ingredients,
+      AuthorId:this.accountService.userValue?.userId!,
       Steps: steps,
     }
 
