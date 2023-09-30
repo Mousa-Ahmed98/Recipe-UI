@@ -4,9 +4,12 @@
 
       <div class="p-col-12 p-md-6 p-lg-4">
         <!-- <p-confirmPopup></p-confirmPopup> -->
-        <button (click)="deleteRecipe()"  mat-flat-button color="danger" label="Delete" class="button-danger">Delete</button>
-        <button (click)="editRecipe()"  mat-flat-button color="primary" label="Edit" >Edit</button>
-        <button (click)="addToShoppingList()"  mat-flat-button color="primary" label="AddTo S_L" style="background-color: red;">Add to shopping list</button>
+        <div class="button-container">
+          <button style="margin: 10px;" (click)="deleteRecipe()" mat-flat-button color="danger" label="Delete" class="button-danger">Delete</button>
+          <button style="margin: 10px; margin-left: 0px; margin-right: 0px;" (click)="editRecipe()" mat-flat-button color="primary" label="Edit">Edit</button>
+          <button style="margin: 10px; background-color: red;" (click)="addToShoppingList()" mat-flat-button color="primary" label="AddTo S_L">Add to shopping list</button>
+        </div>
+        
       <!-- <div class="p-col-12 p-md-6 p-lg-4">
         <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
         <p-button (click)="editRecipe()" styleClass="p-button-raised"  label="Edit" ></p-button>
@@ -36,7 +39,7 @@
           </p-calendar>
         </div>
 
-        <p-button styleClass="p-button-raised p-button-text" >
+        <p-button styleClass="p-button-raised p-button-text" (click)="shareRecipe()">
           <span class="pi pi-send"></span>
         </p-button>
       </mat-action-row>

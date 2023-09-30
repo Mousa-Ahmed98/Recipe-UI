@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component,Injectable, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ConfirmEventType, ConfirmationService} from 'primeng/api';
 
@@ -13,6 +13,7 @@ import { LoaderService } from 'src/app/services/loading.service';
 
 import { AccountService } from 'src/app/services/account.service';
 import { ShoppingItem } from 'src/app/models/shopping_item.model';
+import { DOCUMENT } from '@angular/common';
 // import {ConfirmationService} from 'primeng/api';
 // import {MessageService} from 'primeng/api';
 
@@ -33,6 +34,7 @@ export class ViewComponent {
   private cdr: ChangeDetectorRef;
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router,
@@ -82,6 +84,27 @@ export class ViewComponent {
         this.recipe.plan = res;
         this.messageService.showSuccessMessage("Recipe added to plans successfully.")
       });
+    }
+  }
+
+  shareRecipe() {
+    // Define the URL you want to share
+    const recipeUrl = 'https://localhost:3000/api/recipe/';
+
+    // Create a share URL for a specific social media platform (e.g., Twitter)
+    //const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${{recipeUrl}}`;
+    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(recipeUrl+this.recipeId)}`;
+    //const shareUrl = `https://wa.me/?text=${encodeURIComponent(recipeUrl)}`;
+
+
+    // Open a new window or tab with the share URL
+    const newWindow = this.document.defaultView!.open(shareUrl, '_blank');
+    
+    if (newWindow) {
+      // Window opened successfully, you can add additional logic here if needed
+    } else {
+      // Handle if the window was blocked by a popup blocker
+      console.error('Popup blocked. Please allow popups for sharing.');
     }
   }
 

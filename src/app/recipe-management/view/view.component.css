@@ -15,6 +15,12 @@
   padding: 50px;
 }
   
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
 h2 {
   color: #333;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
