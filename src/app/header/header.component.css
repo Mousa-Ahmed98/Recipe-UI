@@ -1,0 +1,96 @@
+.notifications {
+  position: absolute;
+  top: 65px;
+  right: 65px;
+  width: 400px;
+  background-color: aliceblue;
+  transform-origin: right top 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 600px;
+  transition: visibility 0s linear, opacity 0.8s ease;
+  overflow-y: scroll; 
+}
+
+.notifications.open {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s, 0.8s; 
+}
+
+.empty-notifications{
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  align-self: center;
+  align-items: center;
+  margin-top: 40px ;
+}
+
+.notification-date {
+  color: #888;
+  font-size: 12px;
+}
+
+.recipe-name {
+  color: #638CFF;
+  font-weight: bold;
+}
+
+.notification-content {
+  margin-top: 8px;
+  display: block;
+  color: #555;
+  font-size: 14px;
+  float: left;
+}
+
+.notification-icon {
+  width: 20%;
+  float: left;
+}
+
+.n-header{
+  display: block;
+}
+
+
+/* 
+.read-notification{
+  background-color: #E6E6E6;
+}
+
+.read-notification :hover{
+  background-color: #D3D3D3;
+}
+
+.new-notification{
+  background-color: #DFF0FF;
+}
+
+.new-notification :hover{
+  background-color: #CCE5FF;
+} 
+*/
+
+
+.load-more-button {
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+.load-more-button button {
+  padding: 10px 20px;
+  color: white;
+  background-color: #638CFF;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.load-more-button button:hover {
+  background-color: #0056b3;
+}
