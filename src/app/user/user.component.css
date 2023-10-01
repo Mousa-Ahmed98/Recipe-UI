@@ -1,0 +1,28 @@
+.following {
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.followers {
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.reicpes {
+  margin: 50px;
+}
+
+
+.card-image {
+  width: 200px;
+  height: 240px;
+  object-fit: cover;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
