@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
     this.form = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName:  ['', Validators.required],
-      username:  ['', Validators.required],
+      userName:  ['', Validators.required],
       email:     ['', Validators.required],
       password:  ['', [Validators.required,]],
       confirm_password:  ['', [Validators.required]]
@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
     }
 
     this.loading = true;
-
+    console.log(this.form.value);
     this.accountService.register(this.form.value)
       .pipe(first())
       .subscribe({
@@ -71,7 +71,7 @@ export class RegisterComponent implements OnInit {
           this.loading = false;
           this.submitted = false;
           this.messageService.showSuccessMessage('You signed up successfully');
-          this.router.navigate(['account/login']);
+          this.router.navigate(['auth/login']);
         },
         error: error => {
           this.loading = false;
