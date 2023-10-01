@@ -50,6 +50,7 @@ export class RecipeService {
   GetShoppingList(id:string): Observable<ResponseShoppingItem[]> {
     return this.http.get<ResponseShoppingItem[]>(this.apiShopUrl+"/GetAllItems/"+id);
   }
+  
   toggleShopItem(item:ResponseShoppingItem): Observable<ResponseShoppingItem> {
     const httpOptions = {
       headers: new HttpHeaders({
