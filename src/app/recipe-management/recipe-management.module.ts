@@ -34,7 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MaterialModule } from '../material.module';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-// import { NgxStarRatingModule } from 'ngx-star-rating';
+import { NgxStarRatingModule } from 'ngx-star-rating';
 
 // icons
 import { TablerIconsModule } from 'angular-tabler-icons';
@@ -68,7 +68,7 @@ import * as TablerIcons from 'angular-tabler-icons/icons';
     HttpClientModule,
     BrowserModule,
     NoopAnimationsModule,
-    // NgxStarRatingModule,
+    NgxStarRatingModule,
     // CardModule,
     // AccordionModule,
     // ConfirmPopupModule,
