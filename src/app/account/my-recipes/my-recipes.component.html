@@ -5,7 +5,7 @@
           
           <mat-card class="card-image">
             <a routerLink="/recipes/{{recipe.id}}">
-              <img src="https://localhost:3000/images/{{recipe.imageUrl }}" alt="Image" class="image">
+              <img src="https://localhost:3000/images/{{recipe.imageName }}" alt="Image" class="image">
             </a>
             <div class="menu-container">
               <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -54,4 +54,5 @@
     </div>
   </div>
     
+<app-nothing-here-yet *ngIf="recipes.length === 0"></app-nothing-here-yet>
     

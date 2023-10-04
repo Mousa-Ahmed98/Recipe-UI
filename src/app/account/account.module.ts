@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AccountRoutingModule } from './account-routing.module';
+import { SharedModule } from './../shared/shared.module';
 import { FavouritesComponent } from './favourites/favourites.component';
 import { LayoutComponent } from './layout/layout.component';
 import { TablerIconsModule } from 'angular-tabler-icons';
@@ -37,6 +38,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ProfileInfoComponent } from './profile-info/profile-info.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     PlansComponent,
     CalendarComponent,
     MyRecipesComponent,
+    ProfileInfoComponent,
   ],
   imports: [
     CommonModule,
@@ -55,7 +58,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     TablerIconsModule.pick(TablerIcons),
     MaterialModule,
     PaginatorModule,
-    
+    SharedModule,
+
     ButtonModule,
     DialogModule,
     InputTextModule,
