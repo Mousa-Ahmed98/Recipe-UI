@@ -44,7 +44,7 @@ export class MyRecipesComponent {
 
   getMyRecipes(){
     this.loadingService.startLoading(); 
-    this.recipeService.getFavourites(this.pageNumber, this.rows).subscribe(res => {
+    this.recipeService.GetMyRecipes(this.pageNumber, this.rows).subscribe(res => {
       this.recipes.push(...res.items);
       this.totalRecords = res.totalCount;
       this.rows = res.pageSize;
@@ -64,12 +64,11 @@ export class MyRecipesComponent {
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          const recipe = this.recipes[idx]; // TODO :: actually delete the recipe
-          // this.recipeService.DeleteRecipe(recipe.id).subscribe(res => {
-            // this.recipes = this.recipes.filter(x => x.id === recipe.id);
+          const recipe = this.recipes[idx];
+          this.recipeService.DeleteRecipe(recipe.id).subscribe(res => {
             this.recipes.splice(idx, 1);
             this.messageService.showInfoMessgae("Recipe Deleted Successfully");
-          // })
+          })
         },
         reject: (type: ConfirmEventType) => {
           switch (type) {

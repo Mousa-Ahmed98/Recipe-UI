@@ -27,7 +27,7 @@ export class ToastMessageService {
 
   showInfoMessgae(message: string){
     this.messageService.add(
-      { severity: 'info', summary: 'Error', detail: message,  sticky: true}
+      { severity: 'info', summary: 'Info', detail: message,  sticky: true}
     );
     this.clearAllAfterTimeout();
   }

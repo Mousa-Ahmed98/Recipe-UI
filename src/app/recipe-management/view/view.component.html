@@ -2,16 +2,19 @@
   <div class="recipe">
     <div class="p-grid">
 
+      <div class="grid">
+        <!-- Back button -->
+        <p-button [routerLink]="['../']" styleClass="p-button-outlined p-button-secondary">
+          <i class="pi pi-arrow-left" style="font-size: 2rem"></i>
+        </p-button>
+        <!-- control buttons -->
+        <div *ngIf="recipeOwner()" class="col-offset-8">
+          <p-button (click)="editRecipe()" styleClass="p-button-raised"  label="Edit" ></p-button>
+          <p-button (click)="deleteRecipe()" icon="pi pi-times" label="Delete" styleClass="p-button-raised p-button-danger" class="p-button-danger"></p-button>
+        </div>
+      </div>
+
       <div class="p-col-12 p-md-6 p-lg-4">
-        <!-- <p-confirmPopup></p-confirmPopup> -->
-        <button (click)="deleteRecipe()"  mat-flat-button color="danger" label="Delete" class="button-danger">Delete</button>
-        <button (click)="editRecipe()"  mat-flat-button color="primary" label="Edit" >Edit</button>
-        <button (click)="addToShoppingList()"  mat-flat-button color="primary" label="AddTo S_L" style="background-color: red;">Add to shopping list</button>
-      <!-- <div class="p-col-12 p-md-6 p-lg-4">
-        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
-        <p-button (click)="editRecipe()" styleClass="p-button-raised"  label="Edit" ></p-button>
-        <p-button (click)="deleteRecipe()" icon="pi pi-times" label="Delete" styleClass="p-button-raised p-button-danger" class="p-button-danger"></p-button>
-      </div> -->
 
       <div class="p-col-12 p-md-6 p-lg-4">
         <h2>{{ recipe.name }}</h2>
@@ -19,7 +22,7 @@
       
       <div class="p-col-12 p-md-6 p-lg-4">
         <div class="image-container">
-          <img src="https://localhost:3000/images/{{recipe.imageUrl}}" alt="Recipe Image" class="recipe-image" width="500" height="400" />
+          <img src="https://localhost:3000/images/{{recipe.imageName}}" alt="Recipe Image" class="recipe-image" width="500" height="400" />
         </div>
         By: 
         <span [routerLink]="['../../user', recipe.author.userName]" class="user-link">
@@ -28,7 +31,7 @@
       </div>
       
       
-      <mat-action-row class="btn-group" name="fontStyle" aria-label="Font Style">
+      <mat-action-row *ngIf="loggedIn()" class="btn-group" name="fontStyle" aria-label="Font Style">
         <p-button (click)="swtichFav()" styleClass="p-button-raised p-button-text" >
           <span  class="pi {{recipe.inFavourites ? 'pi-heart-fill' : 'pi-heart'}}"></span>
         </p-button>
@@ -44,6 +47,10 @@
 
         <p-button styleClass="p-button-raised p-button-text" >
           <span class="pi pi-send"></span>
+        </p-button>
+
+        <p-button styleClass="p-button-raised p-button-text" (click)="addToShoppingList()" >
+          <span class="pi pi-shopping-cart"></span>
         </p-button>
       </mat-action-row>
 

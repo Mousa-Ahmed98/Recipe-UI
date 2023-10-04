@@ -7,10 +7,11 @@ import {
 } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
-import { AccountService } from '../services/account.service';
+import { AuthenticationService } from '../services/auth.service';
 import { User } from '../models/user.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { Router } from '@angular/router';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-header',
@@ -39,18 +40,22 @@ export class HeaderComponent {
 
   constructor(
     public dialog: MatDialog,
+    private authService: AuthenticationService,
     private accountService: AccountService,
     private router: Router
   ) {
     
-    this.accountService.user.subscribe(x => this.user = x);
-    this.loadMoreNotifications();
+    this.authService.user.subscribe(x => this.user = x);
+    if(this.isLoggedIn()){
+      this.loadMoreNotifications();
+    }
 
     // event listener to close the notification if user pressed anywhere on the screen
     document.addEventListener('click', (event) => {
       const btn = document.getElementById('notification-open-btn')!; 
       const notifications = document.getElementById('notifications')!; 
       // if the click not on the open button or the notifications itself
+      if(!notifications) return;
       if(!btn.contains(event.target as Node) && !notifications.contains(event.target as Node) ){
         this.notificationsOpen = false;
       }
@@ -90,6 +95,8 @@ export class HeaderComponent {
         return 'Congratulations! Your recipe has been rated';
       case NotificationType.PlanReminder:
         return "Don't forget to plan tomorrow's recipe";
+      case NotificationType.NewPost:
+        return "Check out new Recipe Post";
       default:
         return '';
     }
@@ -103,6 +110,8 @@ export class HeaderComponent {
         return 'Recipe Rating Received';
       case NotificationType.PlanReminder:
         return "Tomorrow's Recipe Reminder";
+      case NotificationType.NewPost:
+        return "New Recipe Post";
       default:
         return '';
     }
@@ -116,6 +125,8 @@ export class HeaderComponent {
         return '/assets/images/icons/rating-icon.png';
       case NotificationType.PlanReminder:
         return '/assets/images/icons/plan-icon.png';
+      case NotificationType.NewPost:
+        return '/assets/images/profile/user-1.jpg';
       default:
         return '';
     }

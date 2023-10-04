@@ -6,6 +6,12 @@
 
   <span class="flex-1-auto"></span>
 
+
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText  />
+    </span>
+
   <div *ngIf="isLoggedIn(); else loggedOut">
   
     <!-- --------------------------------------------------------------- -->
@@ -41,7 +47,8 @@
         matBadgeColor="primary">
       </i-tabler>
     </button>
-  
+    
+    <!-- Notifications -->
     <div id="notifications" *ngIf="notificationsOpen" class="notifications {{notificationsOpen? 'open' : '' }}" >
       <div style=" width:100%" class=" mdc-menu-surface" >
         <div class="mat-mdc-menu-content mdc-list ">
@@ -90,11 +97,25 @@
   </div>
     
     <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
+
+      <button mat-menu-item
+        [routerLink]="['recipes/create']"
+      >
+        <mat-icon class="d-flex align-items-center">
+          <i-tabler 
+            name="pencil-plus"
+            class="icon-18 d-flex">
+          </i-tabler>
+        </mat-icon>
+          Add New Recipe
+      </button>
+
       <button mat-menu-item [routerLink]= "['/account']">
         <mat-icon class="d-flex align-items-center"
           ><i-tabler name="user" class="icon-18 d-flex"></i-tabler></mat-icon
         >My Profile
       </button>
+      
       <button mat-menu-item>
         <mat-icon class="d-flex align-items-center">
           <i-tabler 
@@ -103,7 +124,7 @@
           </i-tabler></mat-icon>
           Settings
       </button>
-  
+
       <div class="p-x-12 m-t-12">
         <a
           [routerLink]="['/auth/login']"

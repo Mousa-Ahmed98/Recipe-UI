@@ -77,7 +77,7 @@
             </mat-form-field>
             
             <div class="d-flex align-items-center m-b-12">
-              <mat-checkbox color="primary">Remember this Device</mat-checkbox>
+              <mat-checkbox (change)="toggleRememberMe()" [checked]="rememberMe" color="primary">Remember this Device</mat-checkbox>
               <a
                 [routerLink]="['/']"
                 class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14"
@@ -85,16 +85,14 @@
                 >
               </div>
               
-              <button type="submit" mat-flat-button color="primary" class="w-100">
-                <!-- <mat-progress-spinner class="spinner" 
-                  mode="indeterminate" 
-                  *ngIf="!loading" 
-                  diameter="40">
-                </mat-progress-spinner> -->
-                <span >
+              <button [disabled]="loading" type="submit" mat-flat-button color="primary" class="w-100">
+                <ng-container *ngIf="loading; else signinButton">
+                  <i *ngIf="loading" class="pi pi-spinner spin" style="font-size: 1.5rem"></i>
+                </ng-container>
+                <ng-template #signinButton>
                   Sign In
-                </span>
-            </button>
+                </ng-template>
+              </button>
 
             <div class="w-100" style="color:red;text-align:center"  *ngIf="invalid">
               Incorrect email or password.
