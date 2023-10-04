@@ -49,7 +49,7 @@
       <mat-card class="cardWithShadow productcard overflow-hidden">
         <a routerLink="/recipes/{{recipe.id}}">
           <img
-            src="https://localhost:3000/images/{{recipe.imageUrl }}"
+            src="https://localhost:3000/images/{{recipe.imageName }}"
             alt="imgSrc"
             class="w-100 card-image"
             mat-card-image
@@ -95,7 +95,7 @@
       </mat-card>
     </div>
     
-    <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
+    <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 32]"></p-paginator>
 
   </div>
     <!-- Footer Section Begin -->

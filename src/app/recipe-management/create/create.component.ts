@@ -108,7 +108,7 @@ export class CreateComponent implements OnInit{
 
     const recipeRequest: RecipeRequest =  {
       Name : this.addForm.get('recipeData.recipename')!.value,
-      ImageUrl : this.localImageData,
+      ImageData : this.localImageData,
       CategoryId :  this.selectedCategoryId,
       Ingredients :  ingredients,
       Steps : steps
@@ -142,7 +142,7 @@ export class CreateComponent implements OnInit{
     const existingControl = ingredientsArray.at(i);
     const newValue = existingControl.value; // Get the current value
     existingControl.patchValue(newValue); // Patch the value to itself
-  }
+  } 
 }
 
   onRemoveIngredient(index: number) {

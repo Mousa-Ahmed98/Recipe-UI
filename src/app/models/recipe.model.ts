@@ -8,7 +8,7 @@ import { AppUser } from "./appUser.model";
 export interface Recipe{
   id: number,
   name: string,
-  imageUrl: string,
+  imageName: string,
   category: Category,
   inFavourites: boolean,
   plan: Plan,

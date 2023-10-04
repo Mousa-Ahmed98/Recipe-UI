@@ -7,6 +7,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { Ingredient } from 'src/app/models/Ingredient.model';
 import { Step } from 'src/app/models/step.model';
 import { Recipe } from 'src/app/models/recipe.model';
+import { RecipeRequest } from 'src/app/models/recipe.request';
 
 @Component({
   selector: 'app-edit',
@@ -60,7 +61,7 @@ export class EditComponent implements OnInit{
     this.recipeService.GetRecipeById(this.recipeId).subscribe(
       recipe => {
         this.recipe = recipe;
-         this.localImageData = recipe.imageUrl;
+         this.localImageData = recipe.imageName;
          this.addForm.get("recipeData")?.get("recipename")?.setValue(recipe.name);
          this.recipeName = recipe.name;
          this.selectedCategoryId = recipe.category.id ;
@@ -136,9 +137,9 @@ export class EditComponent implements OnInit{
     }
     // Create an instance of Recipe
     
-    const recipeRequest = {
+    const recipeRequest: RecipeRequest = {
       Name: this.addForm.get('recipeData.recipename')!.value,
-      ImageUrl: this.localImageData,
+      ImageData: this.localImageData,
       CategoryId: this.selectedCategoryId,
       Ingredients: ingredients,
       Steps: steps,
