@@ -20,7 +20,7 @@ export class IndexComponent implements OnInit{
   recipes: RecipeSummary[] = [];
   filterIngredients: string[] = [];
   first: number = 0;
-  rows: number = 5;
+  rows: number = 8;
   pageNumber: number = 1;
   totalRecords: number = 0;
   durationInSeconds: number = 5;

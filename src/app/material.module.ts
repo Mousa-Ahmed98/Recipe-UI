@@ -57,7 +57,6 @@ import { MatTableModule } from '@angular/material/table';
     MatMenuModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatCardModule,
     MatDividerModule,
     MatExpansionModule,
     MatGridListModule,
@@ -80,6 +79,7 @@ import { MatTableModule } from '@angular/material/table';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    MatCardModule,
   ],
 })
 export class MaterialModule {}

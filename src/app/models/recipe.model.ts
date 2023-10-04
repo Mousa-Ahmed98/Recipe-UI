@@ -3,6 +3,7 @@ import { Category } from "./category.model";
 import { Plan } from "./plan.model";
 import { Review } from "./review.model";
 import { Step } from "./step.model";
+import { AppUser } from "./appUser.model";
 
 export interface Recipe{
   id: number,
@@ -13,5 +14,6 @@ export interface Recipe{
   plan: Plan,
   ingredients: Ingredient[],
   steps: Step[],
-  reviews: Review[]
+  reviews: Review[],
+  author: AppUser
 }

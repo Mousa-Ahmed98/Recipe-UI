@@ -7,6 +7,8 @@ import { map } from 'rxjs/operators';
 
 import { User } from '../models/user.model'
 import { environment } from '../../environments/environment';
+import { Notification } from '../models/notification.model';
+import { PaginatedResponse } from '../models/paginated.response';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -26,7 +28,7 @@ export class AccountService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<User>(`${environment.apiUrl}/user/login`, { email, password })
+    return this.http.post<User>(`${environment.apiUrl}/auth/login`, { email, password })
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
@@ -45,13 +47,26 @@ export class AccountService {
   }
 
   register(user: User) {
-    return this.http.post(`${environment.apiUrl}/user/register`, {
+    return this.http.post(`${environment.apiUrl}/auth/register`, {
       userName: user.userName,
-      role: "User",
       firstName: user.firstName,
       lastName: user.lastName,
       email: user. email,
       password: user.password
     });
   }
+
+  // TODO :: move this to <new> accountService after renaming this to => "AuthenticationService"
+
+  getNotifications(CurrentPage: number, pageSize: number){ 
+    return this.http.get<PaginatedResponse<Notification>>(
+      environment.apiUrl + '/account/recent-notifications', {params:{CurrentPage, pageSize}}
+    );
+  }
+
+  readNotifications(){ 
+    return this.http.post<any>(environment.apiUrl + '/account/read-notifications', null);
+  }
+
+
 }

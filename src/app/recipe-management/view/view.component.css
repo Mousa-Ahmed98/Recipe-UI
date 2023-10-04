@@ -143,3 +143,8 @@ p-button{
   overflow: auto;
 }
 
+
+.user-link{
+ cursor: pointer;
+ color: blue
+}

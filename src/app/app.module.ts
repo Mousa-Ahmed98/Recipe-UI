@@ -38,6 +38,8 @@ import * as TablerIcons from 'angular-tabler-icons/icons';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ToastMessageService } from './services/message.service';
 import { MessageService } from 'primeng/api';
+import { UserComponent } from './user/user.component';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 @NgModule({
@@ -45,6 +47,7 @@ import { MessageService } from 'primeng/api';
     AppComponent,
     HeaderComponent,
     SpinnerComponent,
+    UserComponent,
   ],
   imports: [
     RecipeManagementModule,
@@ -68,7 +71,7 @@ import { MessageService } from 'primeng/api';
     MatButtonModule,
 
     FullCalendarModule,
-
+    PaginatorModule,
     MessageModule,
     ToastModule
 

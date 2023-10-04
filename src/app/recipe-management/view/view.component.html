@@ -19,12 +19,18 @@
       <div class="p-col-12 p-md-6 p-lg-4">
         <h2>{{ recipe.name }}</h2>
       </div>
+      
       <div class="p-col-12 p-md-6 p-lg-4">
         <div class="image-container">
           <img src="https://localhost:3000/images/{{recipe.imageUrl}}" alt="Recipe Image" class="recipe-image" width="500" height="400" />
         </div>
+        By: 
+        <span [routerLink]="['../../user', recipe.author.userName]" class="user-link">
+            {{recipe.author.firstName + ' ' + recipe.author.lastName }} 
+        </span>
       </div>
-
+      
+      
       <mat-action-row class="btn-group" name="fontStyle" aria-label="Font Style">
         <p-button (click)="swtichFav()" styleClass="p-button-raised p-button-text" >
           <span  class="pi {{recipe.inFavourites ? 'pi-heart-fill' : 'pi-heart'}}"></span>
@@ -43,7 +49,8 @@
           <span class="pi pi-send"></span>
         </p-button>
       </mat-action-row>
-      
+
+
       <div class="p-col-12 p-md-6 p-lg-4">
         <div class="recipe-details">
           
