@@ -25,7 +25,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'account Info',
     iconName: 'user-square-rounded',
-    // route: '',
+    route: 'account/profile-info',
   },
   {
     displayName: 'My Recipes',
