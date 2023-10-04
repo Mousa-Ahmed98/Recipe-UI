@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './models/user.model';
-import { AccountService } from './services/account.service';
+import { AuthenticationService } from './services/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit{
   title = 'recipe-app';
 
   constructor(
-    private accountService: AccountService,
+    private accountService: AuthenticationService,
     private router: Router
     ) {
     this.accountService.user.subscribe(x => this.user = x);

@@ -19,7 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from './header/header.component';
 import { RecipeManagementModule } from './recipe-management/recipe-management.module';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { AccountService } from './services/account.service';
+import { AuthenticationService } from './services/auth.service';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { MessagesModule } from 'primeng/messages';
@@ -77,7 +77,7 @@ import { PaginatorModule } from 'primeng/paginator';
 
   ],
   providers: [
-    AccountService,
+    AuthenticationService,
     LoaderService,
     ToastMessageService,
     MessageService,

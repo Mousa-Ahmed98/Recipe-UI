@@ -11,10 +11,8 @@ import { PlansService } from 'src/app/services/plans.service';
 import { ToastMessageService } from 'src/app/services/message.service';
 import { LoaderService } from 'src/app/services/loading.service';
 
-import { AccountService } from 'src/app/services/account.service';
+import { AuthenticationService } from 'src/app/services/auth.service';
 import { ShoppingItem } from 'src/app/models/shopping_item.model';
-// import {ConfirmationService} from 'primeng/api';
-// import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-view',
@@ -30,15 +28,17 @@ export class ViewComponent {
   comment: string;
   authorId: string;
   reviewRequest: ReviewRequest;
-  private cdr: ChangeDetectorRef;
-
+  loggedIn = (): boolean => this.accountService.userValue !== null;
+  
+  recipeOwner = (): boolean =>{
+    return  this.loggedIn() && this.recipe.author.userName === this.accountService.userValue?.userName;
+  }
+  
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private router: Router,
-    private accountService: AccountService,
-    // private confirmationService: ConfirmationService,
-    // private messageService: MessageService
+    private accountService: AuthenticationService,
     private confirmationService: ConfirmationService,
     private messageService: ToastMessageService,
     private planService: PlansService,
@@ -147,7 +147,6 @@ export class ViewComponent {
   }
 
   addToShoppingList(){
-    
     this.recipe.ingredients.forEach(element =>{
       var newItem: ShoppingItem = {
         Ingredient: element.description,
@@ -164,14 +163,18 @@ export class ViewComponent {
     })
   }
 
-  
+
   deleteRecipe() {
     this.confirmationService.confirm({
         message: 'Are you sure that you want to proceed?',
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.messageService.showInfoMessgae("You have accepted");
+          this.messageService.showInfoMessgae("You have accepted");
+          this.recipeService.DeleteRecipe(this.recipeId).subscribe(res =>{
+            this.messageService.showSuccessMessage('Recipe deleted successfully');
+            this.router.navigate(['recipes']);
+          });
         },
         reject: (type: ConfirmEventType) => {
           switch (type) {
