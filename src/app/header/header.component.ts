@@ -4,11 +4,11 @@ import {
   EventEmitter,
   Input,
   ViewEncapsulation,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 
-import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from '../services/auth.service';
-import { User } from '../models/user.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
@@ -21,7 +21,7 @@ import { AccountService } from '../services/account.service';
     './header.component.css'
   ]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Input() logout: () => void;
   @Input() showToggle = true;
   @Input() toggleChecked = false;
@@ -29,39 +29,51 @@ export class HeaderComponent {
   @Output() toggleMobileFilterNav = new EventEmitter<void>();
   @Output() toggleCollapsed = new EventEmitter<void>();
 
-  showFiller = false;
-  user?: User | null;
+
   notifications: Notification[] = [];
-  isLoggedIn = () => this.user !== null;
   notificationsOpen = false;
   notificationsPageNumber = 1;
   numOfNewNotifications = 0;
   totalCount = 0;
+  searchQuery = '';
+  showFiller = false;
+  isLoggedIn = () => this.authService.userValue !== null;
 
   constructor(
-    public dialog: MatDialog,
     private authService: AuthenticationService,
     private accountService: AccountService,
     private router: Router
-  ) {
-    
-    this.authService.user.subscribe(x => this.user = x);
+  ) { }
+
+  // event listener to close the notification if user pressed anywhere on the screen
+  closeNotifications = (event: any) => {
+    const btn = document.getElementById('notification-open-btn')!; 
+    const notifications = document.getElementById('notifications')!; 
+    // if the click not on the open button or the notifications itself
+    if(!notifications) return;
+    if(!btn.contains(event.target as Node) && !notifications.contains(event.target as Node) ){
+      this.notificationsOpen = false;
+    }
+  }
+
+  ngOnInit(): void {
     if(this.isLoggedIn()){
       this.loadMoreNotifications();
     }
-
-    // event listener to close the notification if user pressed anywhere on the screen
-    document.addEventListener('click', (event) => {
-      const btn = document.getElementById('notification-open-btn')!; 
-      const notifications = document.getElementById('notifications')!; 
-      // if the click not on the open button or the notifications itself
-      if(!notifications) return;
-      if(!btn.contains(event.target as Node) && !notifications.contains(event.target as Node) ){
-        this.notificationsOpen = false;
-      }
-    });
+    document.addEventListener('click', this.closeNotifications);
   }
 
+  ngOnDestroy(): void {
+    document.removeEventListener('click', this.closeNotifications);
+  }
+  
+  goToSearch(){
+    this.router.navigate(['recipes/search'],
+      { queryParams: { q : this.searchQuery } }
+    );
+  }
+
+  // soon :: realtime with singalR 
   loadMoreNotifications(){
     this.accountService.getNotifications(this.notificationsPageNumber, 9).subscribe(
       res => {
@@ -125,7 +137,7 @@ export class HeaderComponent {
         return '/assets/images/icons/rating-icon.png';
       case NotificationType.PlanReminder:
         return '/assets/images/icons/plan-icon.png';
-      case NotificationType.NewPost:
+      case NotificationType.NewPost: // TODO :: add real user avatar when its done
         return '/assets/images/profile/user-1.jpg';
       default:
         return '';

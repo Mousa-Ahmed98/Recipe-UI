@@ -94,3 +94,39 @@
 .load-more-button button:hover {
   background-color: #0056b3;
 }
+
+
+/* Search bar */
+
+.search-click {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 15px;
+  height: min-content;
+}
+
+.search-click input {
+  outline: none;
+  border: none;
+  padding: 10px;
+  padding-left: 40px; 
+  transition: all 0.5s;
+  font-size: 16px;
+  width: 0px;
+}
+
+.search-click:focus-within input {
+  width: 300px; 
+  padding-left: 50px; 
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  cursor: pointer;
+}
+
+

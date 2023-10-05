@@ -1,16 +1,20 @@
 <mat-toolbar class="topbar">
 
-  <a href="/recipes">
+  <!-- logo  -->
+  <a [routerLink]="['recipes']">
     <img src="../assets/images/logos/logox.png" style="width: 150px; height: 50px;" >
   </a>
 
+  <!-- for space between -->
   <span class="flex-1-auto"></span>
-
-
-      <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input type="text" pInputText  />
-    </span>
+  
+  <!-- search bar -->
+  <div class="search-click">
+    <label for="search-input" class="search-icon">
+      <i-tabler name="search" class="icon-20 d-flex"></i-tabler>
+    </label>
+    <input id="search-input" (keyup.enter)="goToSearch()" [(ngModel)]="searchQuery" type="text" name="search" placeholder="Search here..." />
+  </div>
 
   <div *ngIf="isLoggedIn(); else loggedOut">
   
@@ -48,7 +52,7 @@
       </i-tabler>
     </button>
     
-    <!-- Notifications -->
+    <!-- Notifications list -->
     <div id="notifications" *ngIf="notificationsOpen" class="notifications {{notificationsOpen? 'open' : '' }}" >
       <div style=" width:100%" class=" mdc-menu-surface" >
         <div class="mat-mdc-menu-content mdc-list ">
@@ -94,7 +98,7 @@
 
         </div>
       </div>
-  </div>
+    </div>
     
     <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
 
@@ -111,28 +115,25 @@
       </button>
 
       <button mat-menu-item [routerLink]= "['/account']">
-        <mat-icon class="d-flex align-items-center"
-          ><i-tabler name="user" class="icon-18 d-flex"></i-tabler></mat-icon
-        >My Profile
+        <mat-icon class="d-flex align-items-center">
+          <i-tabler name="user" class="icon-18 d-flex"></i-tabler>
+        </mat-icon> My Profile
       </button>
       
       <button mat-menu-item>
         <mat-icon class="d-flex align-items-center">
-          <i-tabler 
-            name="settings"
-            class="icon-18 d-flex">
+          <i-tabler name="settings" class="icon-18 d-flex">
           </i-tabler></mat-icon>
           Settings
       </button>
 
       <div class="p-x-12 m-t-12">
         <a
-          [routerLink]="['/auth/login']"
           (click)="logout()"
+          [routerLink]="['/auth/login']"
           mat-stroked-button
           color="primary"
           class="w-100 logout-btn">
-
           Logout
         </a>
       </div>
@@ -140,7 +141,7 @@
   </div>
 
   <ng-template #loggedOut>
-    <button mat-flat-button color="primary" routerLink="/auth/login">
+    <button style="margin-left:10px" mat-flat-button color="primary" routerLink="/auth/login">
       Sign In
     </button>
   </ng-template>
