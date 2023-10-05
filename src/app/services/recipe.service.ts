@@ -33,15 +33,17 @@ export class RecipeService {
     return this.http.get<PaginatedResponse<RecipeSummary>>(this.apiUrl + '/filter', {params})
   }
 
-  SearchRecipes(query: string): Observable<PaginatedResponse<RecipeSummary>> {
-    return this.http.get<PaginatedResponse<RecipeSummary>>(this.apiUrl + '/search', {params: {query} })
+  SearchRecipes(query: string, CurrentPage: number = 1 , pageSize: number = 8): Observable<PaginatedResponse<RecipeSummary>> {
+    return this.http.get<PaginatedResponse<RecipeSummary>>(this.apiUrl + '/search', 
+      { params: {query, CurrentPage, pageSize} }
+    )
   }
   
   GetRecipeById(id: number): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
   } 
   
-  GetMyRecipes(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> { 
+  GetMyRecipes(CurrentPage: number , pageSize: number): Observable<PaginatedResponse<RecipeSummary>> { 
     return this.http.get<PaginatedResponse<RecipeSummary>>(`${environment.apiUrl}/account/my-recipes`, 
       {params : {CurrentPage, pageSize}}
     );

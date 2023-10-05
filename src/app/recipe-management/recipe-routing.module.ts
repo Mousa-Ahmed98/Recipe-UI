@@ -7,11 +7,13 @@ import { EditComponent } from './edit/edit.component';
 import { AuthGuard } from '../helpers/auth.guard';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   { path: 'recipes', component: IndexComponent },
   { path: 'recipes/shopping_list', component: ShoppingListComponent, canActivate: [AuthGuard]  },
   { path: 'recipes/create', component: CreateComponent, canActivate: [AuthGuard]  },
+  { path: 'recipes/search', component: SearchComponent},
   { path: 'recipes/:recipeId', component: ViewComponent },
   { path: 'recipes/:recipeId/edit', component: EditComponent, canActivate: [AuthGuard] },
 ];
