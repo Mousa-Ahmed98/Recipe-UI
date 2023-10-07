@@ -6,6 +6,7 @@ import { LoaderService } from 'src/app/services/loading.service';
 import { Router } from '@angular/router';
 import { ConfirmEventType, ConfirmationService } from 'primeng/api';
 import { ToastMessageService } from 'src/app/services/message.service';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-my-recipes',
@@ -22,6 +23,7 @@ export class MyRecipesComponent {
   
   constructor(
     private recipeService: RecipeService, 
+    private accountService: AccountService,
     private scrollingService: ScrollingService,
     private loadingService: LoaderService,
     private router: Router,
@@ -44,7 +46,7 @@ export class MyRecipesComponent {
 
   getMyRecipes(){
     this.loadingService.startLoading(); 
-    this.recipeService.GetMyRecipes(this.pageNumber, this.rows).subscribe(res => {
+    this.accountService.getMyRecipes(this.pageNumber, this.rows).subscribe(res => {
       this.recipes.push(...res.items);
       this.totalRecords = res.totalCount;
       this.rows = res.pageSize;

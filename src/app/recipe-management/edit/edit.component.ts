@@ -22,7 +22,7 @@ export class EditComponent implements OnInit{
   recipeName: string = "";
   recipeId: number;
   ImgUrl:any;
-  localImageData: string; 
+  localImageData: string = ""; 
   IsHidden:boolean=false;
   addForm!: FormGroup;
   categories: Category[] = [];
@@ -65,7 +65,6 @@ export class EditComponent implements OnInit{
     this.recipeService.GetRecipeById(this.recipeId).subscribe(
       recipe => {
         this.recipe = recipe;
-         this.localImageData = recipe.imageName;
          this.addForm.get("recipeData")?.get("recipename")?.setValue(recipe.name);
          this.recipeName = recipe.name;
          this.selectedCategoryId = recipe.category.id ;
@@ -167,7 +166,7 @@ export class EditComponent implements OnInit{
   onAddIngredient(value?:string) {
   const ingredientsArray = this.addForm.get('ingredients') as FormArray;
   ingredientsArray.push( new FormControl(value));
-}
+  }
 
   onRemoveIngredient(index: number) {
     const ingredientsArray = this.addForm.get('ingredients') as FormArray;

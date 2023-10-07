@@ -3,6 +3,7 @@ import { RecipeSummary } from 'src/app/models/recipe.summary';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { ScrollingService } from '../servcies/scroll.service';
 import { LoaderService } from 'src/app/services/loading.service';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-favourites',
@@ -19,6 +20,7 @@ export class FavouritesComponent implements OnInit {
   
   constructor(
     private recipeService: RecipeService, 
+    private accountService: AccountService, 
     private scrollingService: ScrollingService,
     private loadingService: LoaderService
 
@@ -39,7 +41,7 @@ export class FavouritesComponent implements OnInit {
 
   getFavouriteRecipes(){
     this.loadingService.startLoading(); 
-    this.recipeService.getFavourites(this.pageNumber, this.rows).subscribe(res => {
+    this.accountService.getFavourites(this.pageNumber, this.rows).subscribe(res => {
       this.recipes.push(...res.items);
       this.totalRecords = res.totalCount;
       this.rows = res.pageSize;

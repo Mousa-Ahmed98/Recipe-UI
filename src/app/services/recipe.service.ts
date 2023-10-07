@@ -17,8 +17,8 @@ import { HttpResponse } from '@angular/common/http';
 })
 export class RecipeService {
 
-  apiShopUrl = `${environment.apiUrl}/shopping`;;
-  private apiUrl = `${environment.apiUrl}/recipe`;;
+  private apiUrl = `${environment.apiUrl}/recipe`;
+  apiShopUrl = `${environment.apiUrl}/shopping`;
 
   constructor(private http: HttpClient) {}
   
@@ -43,27 +43,6 @@ export class RecipeService {
     return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
   } 
   
-  GetMyRecipes(CurrentPage: number , pageSize: number): Observable<PaginatedResponse<RecipeSummary>> { 
-    return this.http.get<PaginatedResponse<RecipeSummary>>(`${environment.apiUrl}/account/my-recipes`, 
-      {params : {CurrentPage, pageSize}}
-    );
-  } // TODO :: move this to a new service `AccountService` & rename `AccountService` -> `AuthService`
-
-  GetShoppingList(id:string): Observable<ResponseShoppingItem[]> {
-    return this.http.get<ResponseShoppingItem[]>(this.apiShopUrl+"/GetAllItems/"+id);
-  }
-  
-  toggleShopItem(item:ResponseShoppingItem): Observable<ResponseShoppingItem> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    return this.http.put<ResponseShoppingItem>(`${this.apiShopUrl}/updateShopItem`, item, httpOptions);
-  }
-
-  // Add a method to send a POST request to the API
   addRecipe(recipeRequest: RecipeRequest): Observable<Recipe> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -71,7 +50,7 @@ export class RecipeService {
       }),
     };
 
-    return this.http.post<Recipe>(`${this.apiUrl}/add`, recipeRequest, httpOptions);
+    return this.http.post<Recipe>(`${this.apiUrl}`, recipeRequest, httpOptions);
   }
   
   updateRecipe(id: number, recipe: RecipeRequest): Observable<Recipe> {
@@ -81,7 +60,7 @@ export class RecipeService {
       }),
     };
     
-    return this.http.put<Recipe>(`${this.apiUrl}/update/${id}`, recipe, httpOptions);
+    return this.http.put<Recipe>(`${this.apiUrl}/${id}`, recipe, httpOptions);
   }
   
   DeleteRecipe(id: number) {
@@ -98,8 +77,21 @@ export class RecipeService {
     return this.http.post<Review>(`${this.apiUrl}/addreview`, reviewRequest, httpOptions);
   }
 
-  getFavourites(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> {
-    return this.http.get<PaginatedResponse<RecipeSummary>>(`${this.apiUrl}/favourites`, {params : {CurrentPage, pageSize}});
+  
+  addToFavourites(id: number): Observable<boolean> {
+    return this.http.post(`${this.apiUrl}/${id}/favourites`, null, { observe: 'response' })
+      .pipe(
+        map((response: HttpResponse<any>) => response.status === 204 || response.status === 200),
+        catchError(() => of(false))
+      );
+  }
+  
+  removeFromfavourites(id: number): Observable<boolean> {
+    return this.http.delete(`${this.apiUrl}/${id}/favourites`, { observe: 'response' })
+      .pipe(
+        map((response: HttpResponse<any>) => response.status === 204 || response.status === 200),
+        catchError(() => of(false))
+      );
   }
 
   addShoppingItem(shoppingItem: ShoppingItem){
@@ -111,21 +103,19 @@ export class RecipeService {
 
     return this.http.post<ShoppingItem>(`${this.apiShopUrl}/addShopItem`, shoppingItem, httpOptions);
   }
-
-
-  addToFavourites(id: number): Observable<boolean> {
-    return this.http.post(`${this.apiUrl}/favourites/add/${id}`, null, { observe: 'response' })
-      .pipe(
-        map((response: HttpResponse<any>) => response.status === 204 || response.status === 200),
-        catchError(() => of(false))
-      );
+  
+  GetShoppingList(id:string): Observable<ResponseShoppingItem[]> {
+    return this.http.get<ResponseShoppingItem[]>(this.apiShopUrl+"/GetAllItems/"+id);
   }
   
-  removeFromfavourites(id: number): Observable<boolean> {
-    return this.http.delete(`${this.apiUrl}/favourites/remove/${id}`, { observe: 'response' })
-      .pipe(
-        map((response: HttpResponse<any>) => response.status === 204 || response.status === 200),
-        catchError(() => of(false))
-      );
+  toggleShopItem(item:ResponseShoppingItem): Observable<ResponseShoppingItem> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.http.put<ResponseShoppingItem>(`${this.apiShopUrl}/updateShopItem`, item, httpOptions);
   }
+
 }
