@@ -4,7 +4,7 @@ import {
 import { RecipeSummary } from '../models/recipe.summary';
 import { RecipeService } from '../services/recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from '../services/account.service';
+import { AuthenticationService } from '../services/auth.service';
 import { ToastMessageService } from '../services/message.service';
 import { LoaderService } from '../services/loading.service';
 import { PageEvent } from '../models/page.event';
@@ -28,11 +28,12 @@ export class UserComponent implements OnInit {
   
   username: string;
   user: AppUser;
+  loggedIn = (): boolean => this.accountService.userValue !== null;
 
   constructor(
     private recipeService: RecipeService, 
     private router: Router,
-    private accountService: AccountService,
+    private accountService: AuthenticationService,
     private toastMessageService: ToastMessageService,
     private loadingService: LoaderService,
     private userService: UserService,
@@ -70,9 +71,6 @@ export class UserComponent implements OnInit {
       this.rows = res.pageSize;
       this.loadingService.stopLoading();
     });
-  }
-  isLoggedIn(){
-    return this.accountService.userValue === null;
   }
 
   toggleFav(idx: number){

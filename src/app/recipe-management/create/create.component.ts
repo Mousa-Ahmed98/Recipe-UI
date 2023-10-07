@@ -8,6 +8,7 @@ import { Ingredient } from 'src/app/models/Ingredient.model';
 import { Step } from 'src/app/models/step.model';
 import { RecipeRequest } from 'src/app/models/recipe.request';
 import { AccountService } from 'src/app/services/account.service';
+import { AuthenticationService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-create',
@@ -25,7 +26,12 @@ export class CreateComponent implements OnInit{
   addForm!: FormGroup;
   selectedCategoryId: number = 0;
 
-  constructor(private recipeService: RecipeService,private categoryService:CategoriesService,private accountServiece:AccountService, private router:Router) {
+  constructor(
+    private recipeService: RecipeService,
+    private categoryService: CategoriesService,
+    private authServiece: AuthenticationService, 
+    private router: Router
+    ) {
     this.localImageData = "";
     
     this.addForm = new FormGroup({
@@ -109,10 +115,10 @@ export class CreateComponent implements OnInit{
 
     const recipeRequest: RecipeRequest =  {
       Name : this.addForm.get('recipeData.recipename')!.value,
-      ImageUrl : this.localImageData,
+      ImageData : this.localImageData,
       CategoryId :  this.selectedCategoryId,
       Ingredients :  ingredients,
-      AuthorId: this.accountServiece.userValue?.userId!,
+      AuthorId: this.authServiece.userValue?.userId!,
       Steps : steps
     };
 
@@ -144,7 +150,7 @@ export class CreateComponent implements OnInit{
     const existingControl = ingredientsArray.at(i);
     const newValue = existingControl.value; // Get the current value
     existingControl.patchValue(newValue); // Patch the value to itself
-  }
+  } 
 }
 
   onRemoveIngredient(index: number) {

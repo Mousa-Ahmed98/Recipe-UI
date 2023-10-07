@@ -5,6 +5,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { PlansComponent } from './plans/plans.component';
 import { AuthGuard } from '../helpers/auth.guard';
 import { MyRecipesComponent } from './my-recipes/my-recipes.component';
+import { ProfileInfoComponent } from './profile-info/profile-info.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
         { path: 'favourites', component: FavouritesComponent  },
         { path: 'plans', component: PlansComponent },
         { path: 'my-recipes', component: MyRecipesComponent },
+        { path: 'profile-info', component: ProfileInfoComponent },
     ]
   }
 ];

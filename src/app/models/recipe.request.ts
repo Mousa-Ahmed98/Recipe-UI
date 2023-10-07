@@ -3,7 +3,7 @@ import { Step } from "./step.model";
 
 export type RecipeRequest = {
   Name: string;
-  ImageUrl: string;
+  ImageData: string;
   AuthorId: string;
   CategoryId: number;
   Ingredients: Ingredient[];

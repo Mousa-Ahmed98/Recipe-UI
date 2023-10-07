@@ -1,6 +1,6 @@
 export interface RecipeSummary{
   id: number,
   name: string,
-  imageUrl: string,
+  imageName: string,
   inFavourites: boolean,
 }

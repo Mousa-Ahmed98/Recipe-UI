@@ -7,7 +7,10 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { Ingredient } from 'src/app/models/Ingredient.model';
 import { Step } from 'src/app/models/step.model';
 import { Recipe } from 'src/app/models/recipe.model';
+import { RecipeRequest } from 'src/app/models/recipe.request';
 import { AccountService } from 'src/app/services/account.service';
+import { AuthenticationService } from 'src/app/services/auth.service';
+
 
 @Component({
   selector: 'app-edit',
@@ -19,7 +22,7 @@ export class EditComponent implements OnInit{
   recipeName: string = "";
   recipeId: number;
   ImgUrl:any;
-  localImageData: string; 
+  localImageData: string = ""; 
   IsHidden:boolean=false;
   addForm!: FormGroup;
   categories: Category[] = [];
@@ -28,7 +31,7 @@ export class EditComponent implements OnInit{
   constructor(
     private recipeService: RecipeService,
     private categoryService:CategoriesService, 
-    private accountService:AccountService, 
+    private authService: AuthenticationService, 
     private router:Router, 
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
@@ -62,7 +65,6 @@ export class EditComponent implements OnInit{
     this.recipeService.GetRecipeById(this.recipeId).subscribe(
       recipe => {
         this.recipe = recipe;
-         this.localImageData = recipe.imageUrl;
          this.addForm.get("recipeData")?.get("recipename")?.setValue(recipe.name);
          this.recipeName = recipe.name;
          this.selectedCategoryId = recipe.category.id ;
@@ -138,12 +140,12 @@ export class EditComponent implements OnInit{
     }
     // Create an instance of Recipe
     
-    const recipeRequest = {
+    const recipeRequest: RecipeRequest = {
       Name: this.addForm.get('recipeData.recipename')!.value,
-      ImageUrl: this.localImageData,
+      ImageData: this.localImageData,
       CategoryId: this.selectedCategoryId,
       Ingredients: ingredients,
-      AuthorId:this.accountService.userValue?.userId!,
+      AuthorId:this.authService.userValue?.userId!,
       Steps: steps,
     }
 
@@ -164,7 +166,7 @@ export class EditComponent implements OnInit{
   onAddIngredient(value?:string) {
   const ingredientsArray = this.addForm.get('ingredients') as FormArray;
   ingredientsArray.push( new FormControl(value));
-}
+  }
 
   onRemoveIngredient(index: number) {
     const ingredientsArray = this.addForm.get('ingredients') as FormArray;

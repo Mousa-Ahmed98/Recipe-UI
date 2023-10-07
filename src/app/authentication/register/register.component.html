@@ -111,6 +111,9 @@
               
               <mat-form-field appearance="outline" class="w-100" color="primary">
                 <input formControlName="confirm_password" matInput [type]="hidePassword ? 'password' : 'text'" />
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'hide password'" [attr.aria-pressed]="hidePassword">
+                  <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>  
                 <small style="color:red" *ngIf="submitted && controls['confirm_password'].errors" class="p-error block">Confirm Password is required</small>
               </mat-form-field>
 

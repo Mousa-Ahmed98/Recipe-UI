@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AccountService } from 'src/app/services/account.service';
+import { AuthenticationService } from 'src/app/services/auth.service';
 import { ToastMessageService } from 'src/app/services/message.service';
 
 
@@ -16,11 +16,14 @@ export class LoginComponent implements OnInit {
   submitted = false;
   hidePassword = true;
   invalid = false;
+  rememberMe = true;
+  toggleRememberMe = ()=>  this.rememberMe = !this.rememberMe;
+  
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: AccountService,
+    private accountService: AuthenticationService,
     private messageService: ToastMessageService
     // private alertService: AlertService
   ) { }
@@ -45,9 +48,10 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    this.accountService.login(this.controls['email'].value, this.controls['password'].value)
+    this.accountService.login(this.controls['email'].value, this.controls['password'].value, this.rememberMe)
       .pipe(first())
       .subscribe({
+        
         next: () => {
           // get return url from query parameters or default to home page
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

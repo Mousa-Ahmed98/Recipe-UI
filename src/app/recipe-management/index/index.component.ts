@@ -7,7 +7,7 @@ import { RecipeService } from '../../services/recipe.service'
 import { RecipeSummary } from 'src/app/models/recipe.summary';
 import { PageEvent } from '../../models/page.event';
 
-import { AccountService } from 'src/app/services/account.service';
+import { AuthenticationService } from 'src/app/services/auth.service';
 import { ToastMessageService } from 'src/app/services/message.service';
 import { LoaderService } from 'src/app/services/loading.service';
 
@@ -30,7 +30,7 @@ export class IndexComponent implements OnInit{
   constructor(
     private recipeService: RecipeService, 
     private router: Router,
-    private accountService: AccountService,
+    private accountService: AuthenticationService,
     private toastMessageService: ToastMessageService,
     private loadingService: LoaderService
     ) { }
@@ -101,9 +101,7 @@ export class IndexComponent implements OnInit{
     this.loadingService.startLoading();
     this.recipeService.GetAllRecipes(this.pageNumber, this.rows).subscribe(res =>{
       this.recipes = res.items;
-      // this.first = res.pageNumber - 1;
       this.totalRecords = res.totalCount;
-      this.rows = res.pageSize;
       this.loadingService.stopLoading();
     });
   }

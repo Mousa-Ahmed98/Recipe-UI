@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ResponseShoppingItem, ShoppingItem } from 'src/app/models/shopping_item.model';
-import { AccountService } from 'src/app/services/account.service';
+import { AuthenticationService } from 'src/app/services/auth.service';
 import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class ShoppingListComponent {
 
   constructor(
     private recipeService: RecipeService,
-    private accountService: AccountService,
+    private accountService: AuthenticationService,
   ) 
   {}
 

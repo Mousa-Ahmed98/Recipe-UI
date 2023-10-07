@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div class="text-center">
+        <div class="text-center" *ngIf="loggedIn()">
           <div style="margin:25px" class="btn btn-secondary btn-sm" [ngClass]="{'btn-success': !user.isFollowed}" (click)="toggleFollow()">
             {{user.isFollowed? 'Following' :  'Follow'}} 
           </div>
@@ -28,13 +28,13 @@
 
   <hr class="m-0"> 
 
-  <div class="reicpes nav nav-tabs tabs-alt justify-content-center">
+  <div class="reicpes nav-tabs tabs-alt justify-content-center">
     <div class="row">
       <div style="width:auto" class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes;index as i" >
         <mat-card class="cardWithShadow productcard overflow-hidden">
           <a routerLink="/recipes/{{recipe.id}}">
             <img
-              src="https://localhost:3000/images/{{recipe.imageUrl }}"
+              src="https://localhost:3000/images/{{recipe.imageName }}"
               alt="imgSrc"
               class="w-100 card-image"
               mat-card-image
@@ -43,7 +43,7 @@
   
           <mat-card-content class="p-b-24 p-t-12 position-relative">
             <button
-              *ngIf="isLoggedIn()"
+              *ngIf="loggedIn()"
               mat-mini-fab
               color="primary"
               class="cart-btn"
@@ -80,7 +80,7 @@
         </mat-card>
       </div>
       
-      <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5, 10, 15]"></p-paginator>
+      <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 32]"></p-paginator>
   
     </div>
   </div>

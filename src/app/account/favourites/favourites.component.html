@@ -5,7 +5,7 @@
         <mat-card class="image-card">
           <a routerLink="/recipes/{{recipe.id}}">
           <img 
-            src="https://localhost:3000/images/{{recipe.imageUrl }}"
+            src="https://localhost:3000/images/{{recipe.imageName }}"
             alt="Image" class="image">
           </a>
             <div *ngIf="!recipe.inFavourites">
@@ -18,12 +18,12 @@
 
         <mat-card-content class="p-b-24 p-t-12 position-relative">
           <button
-            *ngIf="recipe.inFavourites"
-            mat-mini-fab
-            color="primary"
-            class="cart-btn"
-            matTooltip="Remove from Favourite"
             (click)="removeFromFavs(i)"
+            *ngIf="recipe.inFavourites"
+            class="cart-btn"
+            color="primary"
+            mat-mini-fab
+            matTooltip="Remove from Favourite"
           >
             <i class="pi pi-minus-circle"  style="font-size: 1.5rem;margin-top:6px"></i>
           </button>
@@ -57,4 +57,4 @@
   </div>
 </div>
   
-  
+<app-nothing-here-yet *ngIf="recipes.length === 0"></app-nothing-here-yet>

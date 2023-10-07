@@ -7,7 +7,7 @@ import {
   Validators 
 } from '@angular/forms';
 
-import { AccountService } from 'src/app/services/account.service';
+import { AuthenticationService } from 'src/app/services/auth.service';
 import { ToastMessageService } from 'src/app/services/message.service';
 
 
@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
   
   constructor(
     private formBuilder: FormBuilder,
-    private accountService: AccountService,
+    private accountService: AuthenticationService,
     private messageService: ToastMessageService,
     private router: Router,
 

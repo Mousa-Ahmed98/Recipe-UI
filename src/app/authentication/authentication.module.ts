@@ -9,7 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { LayoutComponent } from './layout/layout.component';
 
 import { AuthenticationRoutingModule } from './authentication-routing.module';
-import { AccountService } from '../services/account.service';
+import { AuthenticationService } from '../services/auth.service';
 
 // prime ng
 // import { CardModule } from 'primeng/card';
@@ -61,7 +61,7 @@ import * as TablerIcons from 'angular-tabler-icons/icons';
     MessageModule,
   ],
   providers: [
-    AccountService,
+    AuthenticationService,
     MessageService
   ]
 })

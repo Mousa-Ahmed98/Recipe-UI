@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
-import { AccountService } from '../services/account.service';
+import { AuthenticationService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastMessageService } from '../services/message.service';
 import { LoaderService } from '../services/loading.service';
@@ -11,7 +11,7 @@ import { LoaderService } from '../services/loading.service';
 export class ErrorInterceptor implements HttpInterceptor {
   
   constructor(
-    private accountService: AccountService,
+    private accountService: AuthenticationService,
     private router: Router,
     private toastMessageService: ToastMessageService,
     private loadingService: LoaderService

@@ -1,66 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import { User } from '../models/user.model'
-import { environment } from '../../environments/environment';
 import { Notification } from '../models/notification.model';
 import { PaginatedResponse } from '../models/paginated.response';
+import { environment } from 'src/environments/environment';
+import { RecipeSummary } from '../models/recipe.summary';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  private userSubject: BehaviorSubject<User | null>;
-  public user: Observable<User | null>;
 
+  private ApiUrl = `${environment.apiUrl}/account`;
+  
   constructor(
     private router: Router,
     private http: HttpClient
   ) {
-    this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
-    this.user = this.userSubject.asObservable();
   }
-
-  public get userValue() {
-    return this.userSubject.value;
-  }
-
-  login(email: string, password: string) {
-    return this.http.post<User>(`${environment.apiUrl}/auth/login`, { email, password })
-      .pipe(map(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('user', JSON.stringify(user));
-        this.userSubject.next(user);
-        console.log(user.userId)
-
-        return user;
-      }));
-  }
-
-  logout() {
-    // remove user from local storage and set current user to null
-    localStorage.removeItem('user');
-    this.userSubject.next(null);
-    this.router.navigate(['/account/login']);
-  }
-
-  register(user: User) {
-    return this.http.post(`${environment.apiUrl}/auth/register`, {
-      userName: user.userName,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user. email,
-      password: user.password
-    });
-  }
-
-  // TODO :: move this to <new> accountService after renaming this to => "AuthenticationService"
 
   getNotifications(CurrentPage: number, pageSize: number){ 
     return this.http.get<PaginatedResponse<Notification>>(
-      environment.apiUrl + '/account/recent-notifications', {params:{CurrentPage, pageSize}}
+      this.ApiUrl + '/recent-notifications', {params:{CurrentPage, pageSize}}
     );
   }
 
@@ -68,5 +28,14 @@ export class AccountService {
     return this.http.post<any>(environment.apiUrl + '/account/read-notifications', null);
   }
 
+  getMyRecipes(CurrentPage: number , pageSize: number): Observable<PaginatedResponse<RecipeSummary>> { 
+    return this.http.get<PaginatedResponse<RecipeSummary>>( `${this.ApiUrl}/my-recipes`, 
+      {params : {CurrentPage, pageSize}}
+    );
+  } 
+
+  getFavourites(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> {
+    return this.http.get<PaginatedResponse<RecipeSummary>>(`${this.ApiUrl}/favourites`, {params : {CurrentPage, pageSize}});
+  }
 
 }
