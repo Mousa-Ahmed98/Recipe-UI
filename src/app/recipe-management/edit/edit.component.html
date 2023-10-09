@@ -1,108 +1,84 @@
 
 <div class="container">
-    <form [formGroup]="addForm" (ngSubmit)='onSubmit()'>
-        <div class="row">
-            <!--part One Data-Area-->
-            <div class="col-md-6">
-                <div formGroupName="recipeData">
-                    <div class="form-group ">
-                        <label class="my-2">Recipe name</label>
-                        <input id="recipeNameInput" class="form-control custom-input" placeholder="Recipe's Name..."
-                            formControlName="recipename" style="width: 50%;">
-                    </div>
-                </div>
-
-                <div style="margin-top: 15%;"></div>
-               <div>
-                <h5>Select category</h5>    
-                <mat-form-field>
-                <mat-label>Category</mat-label>
-                <mat-select [(value)]="selectedCategoryId" (selectionChange)="onCategorySelectionChange($event)">
-                    <mat-option *ngFor="let category of categories" [value]="category.id" >
-                    {{category.name}}
-                    </mat-option>
-                </mat-select>
-                </mat-form-field>
-               </div>
-
-
-                <div style="margin-top: 8%;"></div>
-
-                <div class="my-2 d-flex">
-                    <button type="button" (click)="onAddIngredient()" class="btn btn-primary">
-                        Add Ingredient
-                    </button>
-                    
-                </div>
-                <div class="scrollable-list">
-                    <div formArrayName="ingredients">
-                        <div class="form-group d-flex justify-content-between align-items-center my-2"
-                            *ngFor="let ingredient of ingredientsControls; let i = index">
-                            <div class="form-group w-50 me-1">
-                                <!-- <label class="my-2">Step</label> -->
-                                <input id="ingredientInput" type="text" class="form-control" [formControlName]="i" placeholder="Ingredient"/>
-                            </div>
-                            <button type="button" (click)="onRemoveIngredient(i)" class="btn btn-danger">Remove</button>
-    
-                        </div>
-                    </div>
-                </div>
-                    
-
-                <div style="margin-top: 15%;"></div>
-                
-                
-                <div formArrayName="steps">
-                    <div class="my-2 d-flex">   
-                        <button type="button" (click)="OnAddStep()" class="btn btn-primary">
-                            Add Steps
-                        </button>
-                        
-                    </div>
-                    <div class="form-group d-flex justify-content-between align-items-center my-2"
-                        *ngFor="let step of stepsControls; let i = index">
-                        <div class="form-group w-50 me-1">
-                            <!-- <label class="my-2">Step</label> -->
-                            <input id="stepInput" class="form-control" [formControlName]="i" placeholder="Step"/>
-                        </div>
-                        <!-- <div class="form-group w-50 my-1">
-                            
-                            <input type="number" class="form-control shorter-input" [formControlName]="i" placeholder="Order" />
-                        </div> -->
-                        <button type="button" (click)="onRemoveStep(i)" class="btn btn-danger">Remove</button>
-
-                    </div>
-                </div>
-
-
-                <div style="margin-top: 5%;"></div>
-                <div class="mt-2 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary w-75"> submit</button>
-                </div>
-                <div style="margin-top: 5%;"></div>
-            </div>
-           <!--End part one-->
-
-            <!--part two Image-Area-->
-            <!-- <div class="col-md-6 my-4 " formControlName="Imge">
-                <div class="ImgHolder" [hidden]="IsHidden" onclick="GetIamgeUrl($event)">
-                    <img src="{{localImageData}}" onclick="GetIamgeUrl($event)">
-                </div>
-                <label for="SelectImag" class="btn btn-primary" (change)="GetIamgeUrl($event)">UpLoad Image</label>
-                <input type="file" accept="image/*" id="SelectImag" [hidden]="true">
-            </div> -->
-
-
-            <div class="col-md-6 my-4" >
-                <div>
-                  <img src="https://localhost:3000/images/{{recipe.imageName }}" class="scaled-image" (click)="GetIamgeUrl($event)">
-                </div>
-                <div style="height: 50px;"></div>
-                <label for="SelectImag" class="btn btn-primary" (change)="onImageInputChange($event)">Upload Image</label>
-                <input type="file" accept="image/*" id="SelectImag" [hidden]="true" (change)="onImageInputChange($event)">
-              </div>
-             <!--End part two-->
+  <form [formGroup]="addForm" (ngSubmit)='onSubmit()'>
+    <div class="row">
+      <div class="col-md-6">
+        <div formGroupName="recipeData">
+          <div class="form-group ">
+            <label class="my-2">Recipe name</label>
+            <input id="recipeNameInput" class="form-control custom-input" placeholder="Recipe's Name..."
+              formControlName="recipename" style="width: 50%;">
+          </div>
         </div>
-    </form>
 
+        <div style="margin-top: 15%;"></div>
+        
+        <div>
+          <h5>Select category</h5>    
+          <mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-select [(value)]="selectedCategoryId" (selectionChange)="onCategorySelectionChange($event)">
+              <mat-option *ngFor="let category of categories" [value]="category.id" >
+              {{category.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div style="margin-top: 8%;"></div>
+
+        <div class="my-2 d-flex">
+          <button type="button" (click)="onAddIngredient()" class="btn btn-primary">
+            Add Ingredient
+          </button>
+        </div>
+
+        <div class="scrollable-list">
+          <div formArrayName="ingredients">
+            <div class="form-group d-flex justify-content-between align-items-center my-2"
+              *ngFor="let ingredient of ingredientsControls; let i = index">
+              <div class="form-group w-50 me-1">
+                <input id="ingredientInput" type="text" class="form-control" [formControlName]="i" placeholder="Ingredient"/>
+              </div>
+              <button type="button" (click)="onRemoveIngredient(i)" class="btn btn-danger">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 15%;"></div>
+        
+        <div formArrayName="steps">
+          <div class="my-2 d-flex">   
+            <button type="button" (click)="OnAddStep()" class="btn btn-primary">
+              Add Steps
+            </button>
+              
+          </div>
+          <div class="form-group d-flex justify-content-between align-items-center my-2"
+            *ngFor="let step of stepsControls; let i = index">
+            <div class="form-group w-50 me-1">
+              <input id="stepInput" class="form-control" [formControlName]="i" placeholder="Step"/>
+            </div>
+            <button type="button" (click)="onRemoveStep(i)" class="btn btn-danger">Remove</button>
+          </div>
+        </div>
+
+        <div style="margin-top: 5%;"></div>
+        <div class="mt-2 d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary w-75"> submit</button>
+        </div>
+        <div style="margin-top: 5%;"></div>
+      </div>
+
+      <div class="col-md-6 my-4" >
+        <div>
+          <img id="edit-image" [src]="localImageData || 'https://localhost:3000/images/' + recipe.imageName" class="scaled-image" >
+        </div>
+        <div style="height: 50px;"></div>
+        <label for="SelectImag" class="btn btn-primary" (change)="onImageInputChange($event)">Upload Image</label>
+        <input type="file" accept="image/*" id="SelectImag" [hidden]="true" (change)="onImageInputChange($event)">
+      </div>
+
+    </div>
+  </form>
 </div>

@@ -15,6 +15,7 @@ import { AuthenticationService } from 'src/app/services/auth.service';
 import { ShoppingItem } from 'src/app/models/shopping_item.model';
 
 import { DOCUMENT } from '@angular/common';
+import { environment } from 'src/environments/environment';
 // import {ConfirmationService} from 'primeng/api';
 // import {MessageService} from 'primeng/api';
 
@@ -33,7 +34,9 @@ export class ViewComponent {
   authorId: string;
   reviewRequest: ReviewRequest;
   loggedIn = (): boolean => this.accountService.userValue !== null;
+  ImagesUrl = environment.ImagesUrl;
   
+
   recipeOwner = (): boolean =>{
     return  this.loggedIn() && this.recipe.author.userName === this.accountService.userValue?.userName;
   }
@@ -197,7 +200,6 @@ export class ViewComponent {
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.messageService.showInfoMessgae("You have accepted");
           this.recipeService.DeleteRecipe(this.recipeId).subscribe(res =>{
             this.messageService.showSuccessMessage('Recipe deleted successfully');
             this.router.navigate(['recipes']);

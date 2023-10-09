@@ -4,6 +4,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { ScrollingService } from '../servcies/scroll.service';
 import { LoaderService } from 'src/app/services/loading.service';
 import { AccountService } from 'src/app/services/account.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-favourites',
@@ -17,6 +18,7 @@ export class FavouritesComponent implements OnInit {
   pageNumber: number = 1;
   totalRecords: number = 0;
   scrollingDown = false;
+  ImagesUrl = environment.ImagesUrl;
   
   constructor(
     private recipeService: RecipeService, 
@@ -47,6 +49,7 @@ export class FavouritesComponent implements OnInit {
       this.rows = res.pageSize;
       this.pageNumber += 1;
       this.loadingService.stopLoading(); 
+      
     });
   }
 

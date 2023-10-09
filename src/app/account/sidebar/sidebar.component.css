@@ -1,3 +1,7 @@
 .selected{
     background-color: aquamarine;
 }
+
+.flex-layout{
+    height: fit-content;
+}

@@ -1,4 +1,9 @@
 <mat-toolbar class="topbar">
+  <!-- Mobile Menu -->
+  <button mat-icon-button (click)="toggleMobileNav.emit()" *ngIf="!showToggle">
+    <i-tabler name="menu-2" class="icon-20 d-flex"></i-tabler>
+  </button>
+  <!-- --------------------------------------------------------------- -->
 
   <!-- logo  -->
   <a [routerLink]="['recipes']">
@@ -11,7 +16,7 @@
   <!-- search bar -->
   <div class="search-click">
     <label for="search-input" class="search-icon">
-      <i-tabler name="search" class="icon-20 d-flex"></i-tabler>
+      <i-tabler name="search" matBadgeColor="primary" class="icon-20 d-flex"></i-tabler>
     </label>
     <input id="search-input" (keyup.enter)="goToSearch()" [(ngModel)]="searchQuery" type="text" name="search" placeholder="Search here..." />
   </div>

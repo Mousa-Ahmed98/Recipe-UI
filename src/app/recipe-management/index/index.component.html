@@ -1,5 +1,5 @@
 <div class="banner">
-  <img src="../../../assets/images/backgrounds/banner-1.png" alt="">
+  <img src="../../../assets/images/backgrounds/banner-1.png">
 </div>
 
 <div class="col-12">
@@ -16,7 +16,8 @@
             (removed)="remove(ing)"
             [editable]="true"
             (edited)="edit(ing, $event)"
-            [aria-description]="'press enter to edit ' + ing" class="f-s-14"
+            [aria-description]="'press enter to edit ' + ing" 
+            class="f-s-14"
           >
             {{ ing }}
             <button
@@ -41,25 +42,21 @@
 
 
 <div class="card-list-container">
-  <div class="card-list">
-  
-  
   <div class="row">
-    <div style="width:auto" class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes;index as i" >
+    <div  class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes; index as i" >
       <mat-card class="cardWithShadow productcard overflow-hidden">
         <a routerLink="/recipes/{{recipe.id}}">
           <img
-            src="https://localhost:3000/images/{{recipe.imageName }}"
-            alt="imgSrc"
-            class="w-100 card-image"
             mat-card-image
+            src="{{ImagesUrl}}/{{recipe.imageName}}"
+            class="w-100 card-image"
           />
         </a>
 
         <mat-card-content class="p-b-24 p-t-12 position-relative">
           <button
-            *ngIf="isLoggedIn()"
             mat-mini-fab
+            *ngIf="isLoggedIn()"
             color="primary"
             class="cart-btn"
             matTooltip="{{recipe.inFavourites? 'Remove from Favourites' : 'Add to Favourite'}}"
@@ -94,51 +91,50 @@
         </mat-card-content>
       </mat-card>
     </div>
-    
-    <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 32]"></p-paginator>
-
   </div>
-    <!-- Footer Section Begin -->
-    <footer class="footer-section" style="background-color: #EFF3F8;">
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-5">
-                  <div class="fs-left">
-                      <a href="#">
-                          <img style="width: 500px;height: 150px;" src="../../../assets/images/logos/logox.png" alt="">
-                      </a>
-                      <p>Welcome to RecipeRealm, your ultimate destination for mouthwatering culinary inspiration. 
-                        Discover a world of delectable recipes, cooking tips, and food adventures that will tantalize your taste buds. 
-                        From delightful appetizers to indulgent desserts, our passionate team of food enthusiasts brings you a 
-                        treasure trove of flavorful creations. Join us on a gastronomic journey and unlock the secrets to creating 
-                        extraordinary dishes in your own kitchen. Explore, savor, and share the joy of cooking with RecipeRealm.</p>
-                  </div>
-              </div>
-              <div class="col-lg-6 offset-lg-1">
-                  <form action="#" class="subscribe-form">
-                      <h3>Subscribe to our newsletter</h3>
-                      <input type="email" placeholder="Your e-mail">
-                      <button type="submit">Subscribe</button>
-                  </form>
-                  <div class="social-links">
-                      <a href="#"><i class="fa fa-instagram"></i><span>Instagram</span></a>
-                      <a href="#"><i class="fa fa-pinterest"></i><span>Pinterest</span></a>
-                      <a href="#"><i class="fa fa-facebook"></i><span>Facebook</span></a>
-                      <a href="#"><i class="fa fa-twitter"></i><span>Twitter</span></a>
-                      <a href="#"><i class="fa fa-youtube"></i><span>Youtube</span></a>
-                  </div>
+  <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 32]"></p-paginator>
+</div>
+ 
+<!-- Footer Section Begin -->
+<footer class="footer-section" style="background-color: #EFF3F8;">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-5">
+              <div class="fs-left">
+                  <a>
+                      <img style="width: 500px;height: 150px;" src="../../../assets/images/logos/logox.png" alt="">
+                  </a>
+                  <p>
+                    Welcome to RecipeRealm, your ultimate destination for mouthwatering culinary inspiration. 
+                    Discover a world of delectable recipes, cooking tips, and food adventures that will tantalize your taste buds. 
+                    From delightful appetizers to indulgent desserts, our passionate team of food enthusiasts brings you a 
+                    treasure trove of flavorful creations. Join us on a gastronomic journey and unlock the secrets to creating 
+                    extraordinary dishes in your own kitchen. Explore, savor, and share the joy of cooking with RecipeRealm.
+                  </p>
               </div>
           </div>
-          <div class="row">
-              <div class="col-lg-12">
-                  <div class="copyright-text">
-Copyright &copy;2023 All rights reserved. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> 
-                  </div>
+          <div class="col-lg-6 offset-lg-1">
+              <form action="#" class="subscribe-form">
+                  <h3>Subscribe to our newsletter</h3>
+                  <input type="email" placeholder="Your e-mail">
+                  <button type="submit">Subscribe</button>
+              </form>
+              <div class="social-links">
+                  <a> <i class="fa fa-instagram"></i><span>Instagram</span></a>
+                  <a> <i class="fa fa-pinterest"></i><span>Pinterest</span></a>
+                  <a> <i class="fa fa-facebook"></i><span>Facebook</span></a>
+                  <a> <i class="fa fa-twitter"></i><span>Twitter</span></a>
+                  <a> <i class="fa fa-youtube"></i><span>Youtube</span></a>
               </div>
           </div>
       </div>
-  </footer>
-  <!-- Footer Section End -->
-
-</div>
-
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="copyright-text">
+                  Copyright &copy;2023 All rights reserved. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> 
+              </div>
+          </div>
+      </div>
+  </div>
+</footer>
+<!-- Footer Section End -->

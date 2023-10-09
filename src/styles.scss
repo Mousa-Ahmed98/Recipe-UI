@@ -9,9 +9,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import "../node_modules/primeflex/primeflex.scss";
 @import "../node_modules/primeicons/primeicons.css";
 
-
 @import "./assets/css/style.css";   
 
 .overflow-hidden {
-    overflow: hidden;
+  overflow: hidden;
 }
+
+.card-image {
+  height: 240px;
+}
+  
+.card-list-container {
+  padding: 0 80px;
+}
+
+

@@ -23,7 +23,7 @@ export class LayoutComponent {
 
   //get options from service
   private layoutChangesSubscription = Subscription.EMPTY;
-  private isMobileScreen = false;
+  isMobileScreen = false;
   private isContentWidthFixed = true;
   private isCollapsedWidthFixed = false;
   private htmlElement!: HTMLHtmlElement;

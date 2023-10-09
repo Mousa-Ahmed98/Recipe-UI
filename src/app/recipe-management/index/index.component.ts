@@ -10,6 +10,7 @@ import { PageEvent } from '../../models/page.event';
 import { AuthenticationService } from 'src/app/services/auth.service';
 import { ToastMessageService } from 'src/app/services/message.service';
 import { LoaderService } from 'src/app/services/loading.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-index',
@@ -24,6 +25,7 @@ export class IndexComponent implements OnInit{
   pageNumber: number = 1;
   totalRecords: number = 0;
   durationInSeconds: number = 5;
+  ImagesUrl = environment.ImagesUrl;
   
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   

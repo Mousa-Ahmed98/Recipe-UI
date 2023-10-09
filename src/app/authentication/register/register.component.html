@@ -117,7 +117,7 @@
                 <small style="color:red" *ngIf="submitted && controls['confirm_password'].errors" class="p-error block">Confirm Password is required</small>
               </mat-form-field>
 
-              <button (click)="onSubmit()" type="button" mat-flat-button color="primary" class="w-100">
+              <button [disabled]="loading" (click)="onSubmit()" type="button" mat-flat-button color="primary" class="w-100">
                 <ng-container *ngIf="loading; else signupButton">
                   <i class="pi pi-spinner spin" style="font-size: 1.5rem"></i>
                 </ng-container>

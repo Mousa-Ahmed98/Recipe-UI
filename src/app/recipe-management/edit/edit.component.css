@@ -35,8 +35,8 @@
 }
 
 .scaled-image {
-  transition: transform 0.3s ease; /* Smooth transition for scaling */
-  width: 400px; /* Set the desired width */
-  height: 320px; /* Set the desired height */
+  transition: transform 0.3s ease; 
+  width: 400px; 
+  height: 320px; 
   object-fit: contain ; 
 }
