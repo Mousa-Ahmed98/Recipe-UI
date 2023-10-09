@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Recipe } from '../models/recipe.model';
-import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 import { Observable, catchError, map, of } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
+
+import { Recipe } from '../models/recipe.model';
 import { RecipeRequest } from '../models/recipe.request';
 import { PaginatedResponse } from '../models/paginated.response';
 import { RecipeSummary } from '../models/recipe.summary';
@@ -10,7 +12,6 @@ import { Review } from '../models/review.model';
 import { ReviewRequest } from '../models/review.request';
 import { ResponseShoppingItem, ShoppingItem } from '../models/shopping_item.model';
 
-import { HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +65,7 @@ export class RecipeService {
   }
   
   DeleteRecipe(id: number) {
-    return this.http.delete<any>(`${this.apiUrl}/delete/${id}`)
+    return this.http.delete<any>(`${this.apiUrl}/${id}`)
   }
 
   addReview(reviewRequest: ReviewRequest): Observable<Review> {
@@ -76,12 +77,11 @@ export class RecipeService {
 
     return this.http.post<Review>(`${this.apiUrl}/addreview`, reviewRequest, httpOptions);
   }
-
   
   addToFavourites(id: number): Observable<boolean> {
     return this.http.post(`${this.apiUrl}/${id}/favourites`, null, { observe: 'response' })
       .pipe(
-        map((response: HttpResponse<any>) => response.status === 204 || response.status === 200),
+        map((response: HttpResponse<any>) => response.status === 204 || response.status === 201),
         catchError(() => of(false))
       );
   }
@@ -89,7 +89,7 @@ export class RecipeService {
   removeFromfavourites(id: number): Observable<boolean> {
     return this.http.delete(`${this.apiUrl}/${id}/favourites`, { observe: 'response' })
       .pipe(
-        map((response: HttpResponse<any>) => response.status === 204 || response.status === 200),
+        map((response: HttpResponse<any>) => response.status === 204 || response.status === 201),
         catchError(() => of(false))
       );
   }

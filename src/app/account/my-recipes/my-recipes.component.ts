@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ConfirmEventType, ConfirmationService } from 'primeng/api';
 import { ToastMessageService } from 'src/app/services/message.service';
 import { AccountService } from 'src/app/services/account.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-my-recipes',
@@ -20,7 +21,8 @@ export class MyRecipesComponent {
   pageNumber: number = 1;
   totalRecords: number = 0;
   scrollingDown = false;
-  
+  ImagesUrl = environment.ImagesUrl;
+
   constructor(
     private recipeService: RecipeService, 
     private accountService: AccountService,

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {  Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/models/category.model';
@@ -8,8 +8,8 @@ import { Ingredient } from 'src/app/models/Ingredient.model';
 import { Step } from 'src/app/models/step.model';
 import { Recipe } from 'src/app/models/recipe.model';
 import { RecipeRequest } from 'src/app/models/recipe.request';
-import { AccountService } from 'src/app/services/account.service';
 import { AuthenticationService } from 'src/app/services/auth.service';
+import { ToastMessageService } from 'src/app/services/message.service';
 
 
 @Component({
@@ -34,15 +34,16 @@ export class EditComponent implements OnInit{
     private authService: AuthenticationService, 
     private router:Router, 
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private messageService: ToastMessageService,
     ) {
-    this.localImageData = "";
+   }
+
+   ngOnInit(): void {
     
     this.addForm = new FormGroup({
       'recipeData': new FormGroup({
         'recipename': new FormControl(null),
       }),
-      //'Imge':new FormControl(''),
       'ingredients': new FormArray([]),
       'steps': new FormArray([]),
     });
@@ -51,11 +52,7 @@ export class EditComponent implements OnInit{
       const id = params.get('recipeId') ?? '0' ;
       this.recipeId = parseInt(id , 10);
     });
-    this.addForm.statusChanges.subscribe(value => {
-      
-    });
-   }
-   ngOnInit(): void {
+
     this.categoryService.getCategories().subscribe(
       cats => {
         this.categories = cats;
@@ -79,7 +76,6 @@ export class EditComponent implements OnInit{
           ingredientsArray.push( new FormControl(element.description));
         });
 
-         // this.cdr.detectChanges();
         },
         error => {
           
@@ -88,7 +84,6 @@ export class EditComponent implements OnInit{
   }
 
   onCategorySelectionChange(event: any) {
-    // The selectedCategoryId property now contains the ID of the selected category.
     this.selectedCategoryId = event.value;  
   }
 
@@ -104,25 +99,10 @@ export class EditComponent implements OnInit{
 
   readFileAsDataURL(file: File): void {
     const reader = new FileReader();
-
     reader.onload = (event: any) => {
       this.localImageData = event.target.result;
-      
     };
-
     reader.readAsDataURL(file);
-  }
-
-  GetIamgeUrl(event: Event): void {
-    // Your logic to handle the click event
-  }
-
-  get ingredientsControls() {
-    return (<FormArray>this.addForm.get('ingredients')).controls;
-  }
-
-  get stepsControls() {
-    return (<FormArray>this.addForm.get('steps')).controls;
   }
 
   onSubmit() {
@@ -131,15 +111,16 @@ export class EditComponent implements OnInit{
     let steps: Step[] = [];
     
     const IngredientsArray = (this.addForm.get('ingredients') as FormArray).value;
-    for(let i = 0; i < IngredientsArray.length;i++){
+    for(let i = 0; i < IngredientsArray.length; i++){
       ingredients.push({id: 0,  description :IngredientsArray[i]});
     }
+    
     const StepsArray = (this.addForm.get('steps') as FormArray).value;
-    for(let i = 0; i < StepsArray.length;i++){
+    for(let i = 0; i < StepsArray.length; i++){
       steps.push({id: 0, description: StepsArray[i], order : i + 1});
     }
+
     // Create an instance of Recipe
-    
     const recipeRequest: RecipeRequest = {
       Name: this.addForm.get('recipeData.recipename')!.value,
       ImageData: this.localImageData,
@@ -149,19 +130,24 @@ export class EditComponent implements OnInit{
       Steps: steps,
     }
 
-    //Call the service to send the Recipe instance to the API
     this.recipeService.updateRecipe(this.recipeId ,recipeRequest).subscribe(
       (response) => {
-        console.log(response);
+        this.messageService.showSuccessMessage("Recipe edited successfully!")
+        this.router.navigate(['/recipes', this.recipeId]);  
       },
       (error) => {
-        // Handle any errors that occur during the API request
         console.log(error.error);
       }
       );
-      this.router.navigate(['/recipes', this.recipeId]);  
   }
 
+  get ingredientsControls() {
+    return (<FormArray>this.addForm.get('ingredients')).controls;
+  }
+
+  get stepsControls() {
+    return (<FormArray>this.addForm.get('steps')).controls;
+  }
 
   onAddIngredient(value?:string) {
   const ingredientsArray = this.addForm.get('ingredients') as FormArray;

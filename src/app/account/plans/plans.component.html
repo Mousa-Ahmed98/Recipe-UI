@@ -1,92 +1,109 @@
-<mat-tab-group preserveContent>
-  
-  <mat-tab label="Calendar">
-    <app-calendar></app-calendar>
-  </mat-tab>
-
-  <mat-tab label="Week View">
-    <div>
-      <mat-card class="cardWithShadow" class="w-100">
-        <mat-card-content class="p-24">
-          <mat-card-title>Your recipes for this week</mat-card-title>
-          <div class="table-responsive m-t-16">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Day</th>
-                  <th>Recipes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container cdkDropListGroup *ngFor="let day of days; let i=index">
+<div class="plans-container">
+  <mat-tab-group preserveContent>
+    <mat-tab label="Calendar">
+      <app-calendar></app-calendar>
+    </mat-tab>
+    <mat-tab label="Week View">
+      <div>
+        <mat-card class="cardWithShadow" class="w-100">
+          <mat-card-content class="p-24">
+            <mat-card-title>Your recipes for this week</mat-card-title>
+            <div class="table-responsive m-t-16">
+              <table class="table">
+                <thead>
                   <tr>
-                    <td>{{ day.name }}</td>
-                    <td>
-                      <div 
-                          class="example-list" 
-                          id="{{day.dayId}}"
-                          cdkDropList 
-                          cdkDropListOrientation="horizontal" 
-                          [cdkDropListData]="day.plans"
-                          (cdkDropListDropped)="drop($event)"
-                          [cdkDropListConnectedTo]="connectedTo"
-                        >
-                        <div class="recipe-box" *ngFor="let plan of day.plans" cdkDrag cdkDragData="plan">
-                          <img src="https://localhost:3000/images/{{plan.recipe.imageName}}" class="recipe-image" [routerLink]="['/recipes', plan.recipe.id]" />
-                          <p-button class="remove-btn" (click)="removePlan(i, plan.id)" icon="pi pi-times" 
-                            styleClass="p-button-rounded p-button-danger p-button-text">
-                          </p-button>
-                            {{ plan.recipe.name }}
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <p-button *ngIf="day.plans.length < 3" (click)="showDialog(i)" class="add-btn"  icon="pi pi-plus" ></p-button>
-                    </td>
+                    <th>Day</th>
+                    <th>Recipes</th>
                   </tr>
-                </ng-container>
-              </tbody>  
-            </table>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <div class="card flex justify-content-center">
-        <p-dialog style="z-index: 99 !important;" header="Choose the recipe for the day" [(visible)]="showRecipeSearch" [style]="{ width: '35vw', height: '45vw' }">
-            <div class="flex py-2 justify-content-center">
-
-              <div class="card">
-                <p-table [value]="searchResult" [tableStyle]="{'max-width': '20rem'}">
-                    <ng-template pTemplate="caption">
-                        <div class="flex align-items-center justify-content-between">
-                          <span class="p-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input type="text" pInputText [(ngModel)]="searchQuery"(input)="searchRecipes()"  />
-                          </span>
+                </thead>
+                <tbody>
+                  <ng-container cdkDropListGroup *ngFor="let day of days; let i=index">
+                    <tr>
+                      <td>{{ day.name }}</td>
+                      <td>
+                        <div 
+                            class="example-list" 
+                            id="{{day.dayId}}"
+                            cdkDropList 
+                            cdkDropListOrientation="horizontal" 
+                            [cdkDropListData]="day.plans"
+                            (cdkDropListDropped)="drop($event)"
+                            [cdkDropListConnectedTo]="connectedTo"
+                          >
+                          <div cdkDrag cdkDragData="plan" class="recipe-box" *ngFor="let plan of day.plans" >
+                            <img 
+                              src="https://localhost:3000/images/{{plan.recipe.imageName}}" 
+                              class="recipe-image" 
+                              [routerLink]="['/recipes', plan.recipe.id]" 
+                            />
+                            <p-button class="remove-btn" (click)="removePlan(i, plan.id)" icon="pi pi-times" 
+                              styleClass="p-button-rounded p-button-danger p-button-text">
+                            </p-button>
+                              {{ plan.recipe.name }}
+                          </div>
                         </div>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-recipe>
-                        <tr>
-                            <td><img  (click)="addToDay(recipe)" src="https://localhost:3000/images/{{recipe.imageName}}" style="cursor:pointer;"  width="100" class="shadow-4" /></td>
-                            <td>{{recipe.name}}</td>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="summary">
-                        <div class="flex align-items-center justify-content-between">
-                            Found {{searchResult? searchResult.length : 0 }} recipes.
-                        </div>
-                    </ng-template>
-                </p-table>
-              </div>
-
+                      </td>
+                      <td>
+                        <p-button 
+                          *ngIf="day.plans.length < 3" 
+                          (click)="showDialog(i)" 
+                          class="add-btn"  
+                          icon="pi pi-plus" 
+                        >
+                        </p-button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>  
+              </table>
             </div>
-        </p-dialog>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="card flex justify-content-center">
+          <p-dialog 
+              style="z-index: 99 !important;" 
+              header="Choose the recipe for the day" 
+              [(visible)]="showRecipeSearch" 
+              [style]="{ width: '35vw', height: '45vw' }"
+            >
+              <div class="flex py-2 justify-content-center">
+                <div class="card">
+                  <p-table [value]="searchResult" [tableStyle]="{'max-width': '20rem'}">
+                      <ng-template pTemplate="caption">
+                          <div class="flex align-items-center justify-content-between">
+                            <span class="p-input-icon-left">
+                              <i class="pi pi-search"></i>
+                              <input type="text" pInputText [(ngModel)]="searchQuery"(input)="searchRecipes()"  />
+                            </span>
+                          </div>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-recipe>
+                          <tr>
+                              <td>
+                                <img  
+                                  (click)="addToDay(recipe)" 
+                                  src="https://localhost:3000/images/{{recipe.imageName}}" 
+                                  style="cursor:pointer;"  
+                                  width="100" 
+                                  class="shadow-4" 
+                                />
+                              </td>
+                              <td>{{recipe.name}}</td>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="summary">
+                          <div class="flex align-items-center justify-content-between">
+                              Found {{searchResult? searchResult.length : 0 }} recipes.
+                          </div>
+                      </ng-template>
+                  </p-table>
+                </div>
+              </div>
+          </p-dialog>
+        </div>
+        
       </div>
-      
-    </div>
-  </mat-tab>
-
-</mat-tab-group>
-
-
-
+    </mat-tab>
+  </mat-tab-group>
+</div>

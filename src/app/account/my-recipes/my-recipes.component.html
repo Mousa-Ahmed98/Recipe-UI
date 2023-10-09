@@ -1,58 +1,59 @@
-<div class="col-12">
-    <div class="row" >
-      <div style="width:auto" class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes;index as i" >
-        <mat-card class="cardWithShadow productcard overflow-hidden">
-          
-          <mat-card class="card-image">
-            <a routerLink="/recipes/{{recipe.id}}">
-              <img src="https://localhost:3000/images/{{recipe.imageName }}" alt="Image" class="image">
-            </a>
-            <div class="menu-container">
-              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button (click)="editRecipe(i)" mat-menu-item>
-                  <mat-icon>edit</mat-icon>
-                  <span>Edit</span>
-                </button>
-                <button (click)="deleteRecipe(i)" mat-menu-item>
-                  <mat-icon>delete_forever</mat-icon>
-                  <span>Delete</span>
-                </button>
-              </mat-menu>
-            </div>
-          </mat-card>
-  
-          <mat-card-content class="p-b-12 p-t-12 position-relative">
-            <mat-card-title class="mat-headline-2 f-s-16 m-b-4">
-              {{ recipe.name }}
-            </mat-card-title>
-            
-            <div class="d-flex align-items-center justify-content-between">
-              <div class="m-l-auto d-flex gap-4">
-                <span
-                  ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-                ></span>
-                <span
-                  ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-                ></span>
-                <span
-                  ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-                ></span>
-                <span
-                  ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-                ></span>
-                <span
-                  ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
-                ></span>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
+<div class="row" >
+  <div class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes;index as i" >
+    <mat-card class="cardWithShadow productcard overflow-hidden">
+      
+      <mat-card >
+        <a routerLink="/recipes/{{recipe.id}}">
+          <img 
+            src="{{ImagesUrl}}/{{recipe.imageName }}" 
+            class="w-100 card-image"
+            >
+        </a>
+        <div class="menu-container">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button (click)="editRecipe(i)" mat-menu-item>
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button (click)="deleteRecipe(i)" mat-menu-item>
+              <mat-icon>delete_forever</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </div>
+      </mat-card>
+
+      <mat-card-content class="p-b-12 p-t-12 position-relative">
+        <mat-card-title class="mat-headline-2 f-s-16 m-b-4">
+          {{ recipe.name }}
+        </mat-card-title>
+        
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="m-l-auto d-flex gap-4">
+            <span
+              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+            ></span>
+            <span
+              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+            ></span>
+            <span
+              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+            ></span>
+            <span
+              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+            ></span>
+            <span
+              ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+            ></span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
-    
+</div>
+  
 <app-nothing-here-yet *ngIf="recipes.length === 0"></app-nothing-here-yet>
     

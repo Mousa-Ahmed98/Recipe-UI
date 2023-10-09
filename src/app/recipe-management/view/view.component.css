@@ -1,7 +1,7 @@
 .recipe-container {
-  padding: 0 120px;
+  padding: 0 5%;
   align-items: center;
-  margin: 100px;
+  margin: 5%;
   margin-top: 20px;
 }
 
@@ -9,7 +9,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: #f8f8f8;
+  background-color: #FFFFFF;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 50px;
