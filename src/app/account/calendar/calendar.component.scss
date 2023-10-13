@@ -3,18 +3,18 @@
   margin-top: 50px;
   align-items: center;
   align-self: center;
-  display: flex;
-  width: 800px;
-  max-width: 80%;
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 14px;
+  height: 100%;
 }
 
 .demo-app-sidebar {
-  width: 300px;
+  width: 600px;
   line-height: 1.5;
   background: #eaf9ff;
   border-right: 1px solid #d3e2e8;
+  height: 100%;
+
 }
 
 .demo-app-sidebar-section {
