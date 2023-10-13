@@ -1,8 +1,10 @@
-/// TODO :: make page unscrollable
-/// 
-.mainWrapper{
+// using this to hide mobile view navbar when we're not mobile view, 
+// not the best but works for now :D
+.hide{
+  display: none;
 }
 
-.hide{
-    display: none;
+/// this fixed dashboard hiding under navbar glitch!
+.mainWrapper {
+  position: fixed;
 }

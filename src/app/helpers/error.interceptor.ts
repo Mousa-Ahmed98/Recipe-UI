@@ -11,7 +11,7 @@ import { LoaderService } from '../services/loading.service';
 export class ErrorInterceptor implements HttpInterceptor {
   
   constructor(
-    private accountService: AuthenticationService,
+    private authService: AuthenticationService,
     private router: Router,
     private toastMessageService: ToastMessageService,
     private loadingService: LoaderService
@@ -25,14 +25,14 @@ export class ErrorInterceptor implements HttpInterceptor {
         
         console.error(err);
 
-        if (err.status === 401 && this.accountService.userValue) {
+        if (err.status === 401 && this.authService.userValue) {
           // auto logout if 401 response returned from api
-          this.accountService.logout();
-          this.router.navigate(['account/login']);
+          this.authService.logout();
+          this.router.navigate(['auth/login']);
         }
 
         if (err.status === 403) {
-          this.router.navigate(['account/access-denied']); // TODO: add "access-denied" page
+          this.router.navigate(['auth/access-denied']); // TODO: add "access-denied" page
         }
 
         if (err.status === 500) {

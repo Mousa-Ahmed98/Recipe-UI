@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
   
   constructor(
     private formBuilder: FormBuilder,
-    private accountService: AuthenticationService,
+    private authService: AuthenticationService,
     private messageService: ToastMessageService,
     private router: Router,
 
@@ -63,7 +63,7 @@ export class RegisterComponent implements OnInit {
 
     this.loading = true;
     console.log(this.form.value);
-    this.accountService.register(this.form.value)
+    this.authService.register(this.form.value)
       .pipe(first())
       .subscribe({
         next: () => {

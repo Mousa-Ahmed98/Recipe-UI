@@ -6,6 +6,7 @@ import { RecipeService } from '../../services/recipe.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../services/loading.service';
 import { PageEvent } from '../../models/page.event';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -17,13 +18,14 @@ import { PageEvent } from '../../models/page.event';
 })
 export class SearchComponent implements OnInit {
   @Input() searchVisiable = true;
-  searchResult: RecipeSummary[] = [];
   searchQuery: string = '';
-  first: number = 0;
-  rows: number = 8;
   pageNumber: number = 1;
   totalRecords: number = 0;
-  
+  searchResult: RecipeSummary[] = [];
+  first: number = 0;
+  rows: number = 8;
+  imagesUrl = environment.ImagesUrl;
+
   constructor(
     private recipeService: RecipeService, 
     private loadingService: LoaderService,

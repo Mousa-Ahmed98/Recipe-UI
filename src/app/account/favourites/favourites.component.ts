@@ -12,12 +12,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./favourites.component.scss']
 })
 export class FavouritesComponent implements OnInit {
-  recipes: RecipeSummary[] = [];
+  recipes: RecipeSummary[];
   first: number = 0;
   rows: number = 8;
   pageNumber: number = 1;
   totalRecords: number = 0;
-  scrollingDown = false;
   ImagesUrl = environment.ImagesUrl;
   
   constructor(
@@ -25,9 +24,12 @@ export class FavouritesComponent implements OnInit {
     private accountService: AccountService, 
     private scrollingService: ScrollingService,
     private loadingService: LoaderService
-
   ) {
-    scrollingService.$scrolling.subscribe(e => {
+  }
+
+  ngOnInit(): void {
+    this.recipes = [];
+    this.scrollingService.$scrolling.subscribe(e => {
       if(e.directionY == 1){
         if(this.totalRecords === this.recipes.length ) {// if already got all return
           return; 
@@ -35,9 +37,6 @@ export class FavouritesComponent implements OnInit {
         this.getFavouriteRecipes();
       }
     });
-  }
-
-  ngOnInit(): void {
     this.getFavouriteRecipes();
   }
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component,Injectable, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ConfirmEventType, ConfirmationService} from 'primeng/api';
 
@@ -16,8 +16,6 @@ import { ShoppingItem } from 'src/app/models/shopping_item.model';
 
 import { DOCUMENT } from '@angular/common';
 import { environment } from 'src/environments/environment';
-// import {ConfirmationService} from 'primeng/api';
-// import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-view',
@@ -33,12 +31,11 @@ export class ViewComponent {
   comment: string;
   authorId: string;
   reviewRequest: ReviewRequest;
-  loggedIn = (): boolean => this.accountService.userValue !== null;
   ImagesUrl = environment.ImagesUrl;
+  loggedIn = (): boolean => this.accountService.userValue !== null;
   
-
-  recipeOwner = (): boolean =>{
-    return  this.loggedIn() && this.recipe.author.userName === this.accountService.userValue?.userName;
+  get isRecipeOwner (): boolean {
+    return this.loggedIn() && this.recipe.author.userName === this.accountService.userValue?.userName;
   }
   
   constructor(
@@ -61,10 +58,8 @@ export class ViewComponent {
       this.recipeService.GetRecipeById(this.recipeId)
       .subscribe(res =>{
         this.recipe = res
-        console.log("reviews");
-        console.log(this.recipe.reviews);
         this.loadingService.stopLoading();
-        });
+      });
     });
   }
 
@@ -94,22 +89,11 @@ export class ViewComponent {
   }
 
   shareRecipe() {
-    // Define the URL you want to share
-    const recipeUrl = 'https://localhost:3000/api/recipe/';
-
-    // Create a share URL for a specific social media platform (e.g., Twitter)
-    //const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${{recipeUrl}}`;
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(recipeUrl+this.recipeId)}`;
-    //const shareUrl = `https://wa.me/?text=${encodeURIComponent(recipeUrl)}`;
-
-
-    // Open a new window or tab with the share URL
+    const recipeUrl = `${environment.apiUrl}/recipe/${this.recipeId}`;
+    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(recipeUrl)}`;
     const newWindow = this.document.defaultView!.open(shareUrl, '_blank');
-    
     if (newWindow) {
-      // Window opened successfully, you can add additional logic here if needed
     } else {
-      // Handle if the window was blocked by a popup blocker
       console.error('Popup blocked. Please allow popups for sharing.');
     }
   }
@@ -119,11 +103,15 @@ export class ViewComponent {
       this.recipeService.removeFromfavourites(this.recipeId).subscribe(res =>{
         if(res === true) {
           this.recipe.inFavourites = false;
+          this.messageService.showSuccessMessage("Removed From Favourites Successfully.")
         }
       })
     }else{
       this.recipeService.addToFavourites(this.recipeId).subscribe(res =>{
-        if(res === true) this.recipe.inFavourites = true;
+        if(res === true) {
+          this.recipe.inFavourites = true;
+          this.messageService.showSuccessMessage("Added To Favourites Successfully.")
+        }
       })
     }
   }
@@ -192,7 +180,6 @@ export class ViewComponent {
       });
     })
   }
-
 
   deleteRecipe() {
     this.confirmationService.confirm({

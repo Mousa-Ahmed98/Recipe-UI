@@ -11,7 +11,7 @@
         <span class="flex-1-auto"></span>
 
         <!-- control buttons -->
-        <div *ngIf="recipeOwner()" class="col-offset-8">
+        <div *ngIf="isRecipeOwner" class="col-offset-8">
           <button mat-icon-button (click)="editRecipe()" icon="pi pi-times" label="Delete" class="p-button-danger">
             <i-tabler name="edit" matBadgeColor="primary" style="font-size: 2rem"></i-tabler>
           </button>

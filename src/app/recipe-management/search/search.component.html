@@ -13,7 +13,7 @@
   <ng-template pTemplate="body" let-recipe>
     <tr class="tr-result" [routerLink]="['../', recipe.id]">
       <td style="height:30%;width:100px">
-        <img src="https://localhost:3000/images/{{recipe.imageName}}" class="shadow-4 recipe-img">
+        <img src="{{imagesUrl + '/' + recipe.imageName}}" class="shadow-4 recipe-img">
       </td>
       <td>
         {{recipe.name}}

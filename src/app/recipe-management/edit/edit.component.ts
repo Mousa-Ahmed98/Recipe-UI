@@ -10,6 +10,7 @@ import { Recipe } from 'src/app/models/recipe.model';
 import { RecipeRequest } from 'src/app/models/recipe.request';
 import { AuthenticationService } from 'src/app/services/auth.service';
 import { ToastMessageService } from 'src/app/services/message.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class EditComponent implements OnInit{
   addForm!: FormGroup;
   categories: Category[] = [];
   selectedCategoryId: number = 0; 
+  imagesUrl = environment.ImagesUrl;
 
   constructor(
     private recipeService: RecipeService,

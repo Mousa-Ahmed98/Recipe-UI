@@ -10,6 +10,7 @@ import { LoaderService } from '../services/loading.service';
 import { PageEvent } from '../models/page.event';
 import { UserService } from '../services/user.service';
 import { AppUser } from '../models/appUser.model';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class UserComponent implements OnInit {
   rows: number = 8;
   pageNumber: number = 1;
   totalRecords: number = 0;
-  
+  imageUrl = environment.ImagesUrl;
   username: string;
   user: AppUser;
   loggedIn = (): boolean => this.accountService.userValue !== null;

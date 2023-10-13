@@ -25,7 +25,7 @@ export class IndexComponent implements OnInit{
   pageNumber: number = 1;
   totalRecords: number = 0;
   durationInSeconds: number = 5;
-  ImagesUrl = environment.ImagesUrl;
+  imagesUrl = environment.ImagesUrl;
   
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   

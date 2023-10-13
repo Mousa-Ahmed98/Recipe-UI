@@ -72,7 +72,7 @@
 
       <div class="col-md-6 my-4" >
         <div>
-          <img id="edit-image" [src]="localImageData || 'https://localhost:3000/images/' + recipe.imageName" class="scaled-image" >
+          <img id="edit-image" [src]="localImageData || (imagesUrl + '/' + recipe.imageName) " class="scaled-image" >
         </div>
         <div style="height: 50px;"></div>
         <label for="SelectImag" class="btn btn-primary" (change)="onImageInputChange($event)">Upload Image</label>

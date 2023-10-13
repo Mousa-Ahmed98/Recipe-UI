@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: AuthenticationService,
+    private authService: AuthenticationService,
     private messageService: ToastMessageService
     // private alertService: AlertService
   ) { }
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
 
-    this.accountService.login(this.controls['email'].value, this.controls['password'].value, this.rememberMe)
+    this.authService.login(this.controls['email'].value, this.controls['password'].value, this.rememberMe)
       .pipe(first())
       .subscribe({
         

@@ -35,21 +35,18 @@ export class LayoutComponent {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private scrollingService: ScrollingService
-    ) {
+    ) { }
+
+  ngOnInit(): void {
     this.htmlElement = document.querySelector('html')!;
     this.layoutChangesSubscription = this.breakpointObserver
       .observe([MOBILE_VIEW, TABLET_VIEW, MONITOR_VIEW])
       .subscribe((state) => {
         // SidenavOpened must be reset true when layout changes
-
         this.isMobileScreen = state.breakpoints[MOBILE_VIEW];
-
         this.isContentWidthFixed = state.breakpoints[MONITOR_VIEW];
       });
-      
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();
@@ -66,7 +63,6 @@ export class LayoutComponent {
   onSidenavOpenedChange(isOpened: boolean) {
     this.isCollapsedWidthFixed = !this.isOver;
   }
-  
 
   onScroll(event: any) {
     const currentScrollPosition = event.target.scrollTop;
@@ -78,4 +74,4 @@ export class LayoutComponent {
   
     this.previousScrollPosition = currentScrollPosition;    
   }
-  }
+}

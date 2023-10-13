@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 
+// Components
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -11,15 +12,13 @@ import { LayoutComponent } from './layout/layout.component';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { AuthenticationService } from '../services/auth.service';
 
-// prime ng
-// import { CardModule } from 'primeng/card';
-// import {InputTextModule} from 'primeng/inputtext';
-// import { ButtonModule } from 'primeng/button';
+// Prime ng
 import { ToastModule } from 'primeng/toast';
 import { MessageService, PrimeIcons } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 
+// Material stuff
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 import { MatCardModule} from '@angular/material/card';
@@ -39,9 +38,6 @@ import * as TablerIcons from 'angular-tabler-icons/icons';
     LayoutComponent,
   ],
   imports: [
-    // CardModule,
-    // InputTextModule,
-    // ButtonModule,
     ToastModule,
     CommonModule,
     AuthenticationRoutingModule,
