@@ -3,8 +3,10 @@ import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import { INITIAL_EVENTS, createEventId } from './event-utils';
+import { createEventId } from './event-utils';
 import { PlansService } from 'src/app/services/plans.service';
+import { PlansSharedService } from '../servcies/sharedPlanning.service';
+import { CalendarOptions } from 'fullcalendar';
 
 @Component({
   selector: 'app-calendar',
@@ -13,8 +15,7 @@ import { PlansService } from 'src/app/services/plans.service';
 })
 export class CalendarComponent {
   calendarVisible = signal(true);
-  calendarOptions: any;
-  initialCalendarOptions = signal<any>({
+  calendarOptions: CalendarOptions = {
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
     headerToolbar: {
       left: 'prev,next today',
@@ -22,37 +23,50 @@ export class CalendarComponent {
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
     },
     initialView: 'dayGridMonth',
-    initialEvents: [], // alternatively, use the `events` setting to fetch from a feed
+    initialEvents: [],
+    events: [],
     weekends: true,
     editable: true,
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
-    events: [],
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
     eventChange: this.handleEventChange.bind(this),
-    eventRemove: this.handleEventRemove.bind(this),
-  });
+    eventRemove: this.handleEventRemove.bind(this),  
+  };
+  
   currentEvents = signal<any[]>([]);
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private planService: PlansService
+    private planService: PlansService,
+    private plansSharedService: PlansSharedService,
   ) {
-    planService.GetAllPlans().subscribe((res) => {
-      res.forEach((plan) => {
-        this.initialCalendarOptions.mutate((value) => {
-          value.events.push({
-            id: plan.id,
-            title: plan.recipe.name,
-            start: plan.day.split('T')[0],
-          });
-        });
-      });
-      this.calendarOptions = this.initialCalendarOptions;
+  }
+
+  ngOnInit(): void {
+    this.planService.GetAllPlans().subscribe((res) => {
+      this.updateCalendarEvents(res);
     });
+
+    this.plansSharedService.plans$.subscribe((plans) => {
+      this.updateCalendarEvents(plans);
+    });
+  }
+
+  updateCalendarEvents(plans: any[]): void {
+    const events: any[] = [];
+
+    plans.forEach((plan) => {
+      events.push({
+        id: plan.id,
+        title: plan.recipe.name,
+        start: plan.day.split('T')[0],
+      });
+    });
+    this.calendarOptions.events = events;
   }
 
   handleCalendarToggle() {
@@ -60,9 +74,7 @@ export class CalendarComponent {
   }
 
   handleWeekendsToggle() {
-    this.initialCalendarOptions.mutate((options) => {
-      options.weekends = !options.weekends;
-    });
+
   }
 
   handleDateSelect(selectInfo: any) {
@@ -81,8 +93,6 @@ export class CalendarComponent {
       };
 
       calendarApi.addEvent(newEvent);
-
-      // TODO :: Save the new event to the database
     }
   }
 

@@ -17,7 +17,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container cdkDropListGroup *ngFor="let day of days; let i=index">
+                  <ng-container cdkDropListGroup *ngFor="let day of days; index as i">
                     <tr>
                       <td>{{ day.name }}</td>
                       <td>
@@ -28,11 +28,11 @@
                             cdkDropListOrientation="horizontal" 
                             [cdkDropListData]="day.plans"
                             (cdkDropListDropped)="drop($event)"
-                            [cdkDropListConnectedTo]="connectedTo"
+                            [cdkDropListConnectedTo]="daysIDs"
                           >
                           <div cdkDrag cdkDragData="plan" class="recipe-box" *ngFor="let plan of day.plans" >
                             <img 
-                              src="https://localhost:3000/images/{{plan.recipe.imageName}}" 
+                              src="{{ImagesUrl}}/{{plan.recipe.imageName}}" 
                               class="recipe-image" 
                               [routerLink]="['/recipes', plan.recipe.id]" 
                             />
@@ -79,12 +79,10 @@
                           </div>
                       </ng-template>
                       <ng-template pTemplate="body" let-recipe>
-                          <tr>
+                          <tr class="tr-result" (click)="addPlanToDay(recipe)"  >
                               <td>
                                 <img  
-                                  (click)="addToDay(recipe)" 
-                                  src="https://localhost:3000/images/{{recipe.imageName}}" 
-                                  style="cursor:pointer;"  
+                                  src="{{ImagesUrl}}/{{recipe.imageName}}" 
                                   width="100" 
                                   class="shadow-4" 
                                 />
@@ -105,5 +103,8 @@
         
       </div>
     </mat-tab>
+    
+
+
   </mat-tab-group>
 </div>

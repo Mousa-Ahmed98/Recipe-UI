@@ -94,3 +94,33 @@ th{
 .search{
   width: 30%;
 }
+
+
+.tr-result {
+  transition: background-color 0.3s ease;
+}
+
+.tr-result:hover {
+  background-color: #b3d4fc;
+  cursor: pointer;
+}
+
+.tr-result img {
+  cursor: pointer;
+}
+
+.tr-result img:hover {
+  filter: brightness(70%);
+}
+
+
+.tr-result {
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tr-result:hover {
+  background-color: #b3d4fc;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}

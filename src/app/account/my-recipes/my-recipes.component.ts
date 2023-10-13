@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RecipeSummary } from 'src/app/models/recipe.summary';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { ScrollingService } from '../servcies/scroll.service';
@@ -14,8 +14,8 @@ import { environment } from 'src/environments/environment';
   templateUrl: './my-recipes.component.html',
   styleUrls: ['./my-recipes.component.scss']
 })
-export class MyRecipesComponent {
-  recipes: RecipeSummary[] = [];
+export class MyRecipesComponent implements OnInit {
+  recipes: RecipeSummary[];
   first: number = 0;
   rows: number = 8;
   pageNumber: number = 1;
@@ -32,7 +32,12 @@ export class MyRecipesComponent {
     private confirmationService: ConfirmationService,
     private messageService: ToastMessageService,
   ) {
-    scrollingService.$scrolling.subscribe(e => {
+  }
+
+  ngOnInit(): void {
+    this.recipes = [];
+    this.getMyRecipes();
+    this.scrollingService.$scrolling.subscribe(e => {
       if(e.directionY == 1){
         if(this.totalRecords === this.recipes.length ) {// if already got all return
           return; 
@@ -40,10 +45,6 @@ export class MyRecipesComponent {
         this.getMyRecipes();
       }
     });
-  }
-
-  ngOnInit(): void {
-    this.getMyRecipes();
   }
 
   getMyRecipes(){
