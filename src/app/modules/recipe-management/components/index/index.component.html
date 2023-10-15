@@ -1,0 +1,142 @@
+<div class="banner">
+  <img src="assets/images/backgrounds/banner-1.png">
+</div>
+
+<div class="col-12">
+  <mat-card class="b-1 shadow-none">
+    <mat-card-header>
+      <mat-card-title>What's in your fridge?</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="b-t-1" style="margin-top:10px">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Filter by ingredients ..</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Enter ingredients">
+          <mat-chip-row style="margin-top:10px"
+            *ngFor="let ing of filterIngredients"
+            (removed)="remove(ing)"
+            [editable]="true"
+            (edited)="edit(ing, $event)"
+            [aria-description]="'press enter to edit ' + ing" 
+            class="f-s-14"
+          >
+            {{ ing }}
+            <button
+              matChipRemove
+              [attr.aria-label]="'remove ' + ing"
+            >
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          <input
+            placeholder="New ingredient..."
+            [matChipInputFor]="chipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="false"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-grid>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Recipes Section Begin -->
+<div class="card-list-container">
+  <div class="row">
+    <div  class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes; index as i" >
+      <mat-card class="cardWithShadow productcard overflow-hidden">
+        <a routerLink="/recipes/{{recipe.id}}">
+          <img
+            mat-card-image
+            src="{{ imagesUrl + '/' + recipe.imageName }}"
+            class="w-100 card-image"
+          />
+        </a>
+
+        <mat-card-content class="p-b-24 p-t-12 position-relative">
+          <button
+            mat-mini-fab
+            *ngIf="isLoggedIn()"
+            color="primary"
+            class="cart-btn"
+            matTooltip="{{recipe.inFavourites? 'Remove from Favourites' : 'Add to Favourite'}}"
+            (click)="toggleFav(i)"
+          >
+            <i class="pi {{recipe.inFavourites? 'pi-heart-fill' : 'pi-heart'}}"  style="font-size: 1.5rem;margin-top:6px"></i>
+          </button>
+          
+          <mat-card-title class="mat-headline-2 f-s-16 m-b-4">
+            {{ recipe.name }}
+          </mat-card-title>
+          
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="m-l-auto d-flex gap-4">
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+              <span
+                ><i-tabler name="star" class="fill-warning icon-18"></i-tabler
+              ></span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 32]"></p-paginator>
+</div>
+<!-- Recipes Section End -->
+ 
+
+<!-- Footer Section Begin -->
+<footer class="footer-section" style="background-color: #EFF3F8;">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-5">
+              <div class="fs-left">
+                  <a>
+                      <img style="width: 500px;height: 150px;" src="assets/images/logos/logox.png" alt="">
+                  </a>
+                  <p>
+                    Welcome to RecipeRealm, your ultimate destination for mouthwatering culinary inspiration. 
+                    Discover a world of delectable recipes, cooking tips, and food adventures that will tantalize your taste buds. 
+                    From delightful appetizers to indulgent desserts, our passionate team of food enthusiasts brings you a 
+                    treasure trove of flavorful creations. Join us on a gastronomic journey and unlock the secrets to creating 
+                    extraordinary dishes in your own kitchen. Explore, savor, and share the joy of cooking with RecipeRealm.
+                  </p>
+              </div>
+          </div>
+          <div class="col-lg-6 offset-lg-1">
+              <form action="#" class="subscribe-form">
+                  <h3>Subscribe to our newsletter</h3>
+                  <input type="email" placeholder="Your e-mail">
+                  <button type="submit">Subscribe</button>
+              </form>
+              <div class="social-links">
+                  <a> <i class="fa fa-instagram"></i><span>Instagram</span></a>
+                  <a> <i class="fa fa-pinterest"></i><span>Pinterest</span></a>
+                  <a> <i class="fa fa-facebook"></i><span>Facebook</span></a>
+                  <a> <i class="fa fa-twitter"></i><span>Twitter</span></a>
+                  <a> <i class="fa fa-youtube"></i><span>Youtube</span></a>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="copyright-text">
+                  Copyright &copy;2023 All rights reserved. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> 
+              </div>
+          </div>
+      </div>
+  </div>
+</footer>
+<!-- Footer Section End -->
