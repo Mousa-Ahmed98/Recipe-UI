@@ -1,0 +1,93 @@
+.form {
+  position: relative;
+  margin: 30px 0;
+  /* width: 80%; */
+
+}
+
+.form .fa-search {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #9ca3af;
+}
+
+.form span {
+  position: absolute;
+  right: 17px;
+  top: 13px;
+  padding: 2px;
+  border-left: 1px solid #d1d5db;
+}
+
+.left-pan {
+  padding-left: 7px;
+}
+
+.left-pan i {
+  padding-left: 10px;
+}
+
+.form-input {
+  height: 55px;
+  text-indent: 33px;
+  border-radius: 10px;
+}
+
+.form-input:focus {
+  box-shadow: none;
+  border: none;
+}
+
+
+.search-container{
+  align-items: center;
+  margin: 0 5%;
+}
+
+.recipe-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+td {
+  cursor: pointer;
+  padding: 10px;
+  text-align: start;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.img-td{
+  width: 10%;
+  min-width: 140px;
+}
+
+.tr {
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tr :hover {
+  background-color: #b3d4fc;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.no-results {
+  cursor: auto;
+  text-align: center;
+  font-size: 18px;
+  color: red;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: large;
+  font-weight: bold;
+}

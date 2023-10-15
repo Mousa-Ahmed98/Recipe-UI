@@ -1,0 +1,38 @@
+<div class="search-container">
+  <div class="form">
+    <i class="fa fa-search"></i>
+    <input type="text" class="form-control form-input" [(ngModel)]="searchQuery" placeholder="Search recipes..." 
+      (input)="searchRecipes()"
+    >
+    <span class="left-pan" class="clear-btn">
+      <i (click)="clear()" class="fa fa-times"></i>
+    </span>
+  </div>
+
+  <table class="table table-hover">
+    <thead>
+      <tr *ngIf="searchResult.length > 0" >
+        <th scope="col">Image</th>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let recipe of searchResult; index as i" [routerLink]="['../', recipe.id]">
+        <td class="img-td">
+          <img src="{{imagesUrl + '/' + recipe.imageName}}" class="shadow-4 recipe-img">
+        </td>
+        <td>
+          {{recipe.name}}
+        </td>
+      </tr>
+      <tr *ngIf="!loading && searchResult.length === 0">
+        <td colspan="2">
+          <div class="no-results">No recipes found!</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p-paginator (onPageChange)="onPageChange($any($event))" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[8, 16, 32]">
+  </p-paginator>
+</div>
