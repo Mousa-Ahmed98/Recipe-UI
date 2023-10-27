@@ -14,9 +14,9 @@ export class NotificationsService {
   ) {
   }
 
-  getNotifications(CurrentPage: number, pageSize: number){ 
+  getNotifications(pageNumber: number, pageSize: number){ 
     return this.http.get<PaginatedResponse<Notification>>(
-      this.apiUrl + '/recent-notifications', {params:{CurrentPage, pageSize}}
+      this.apiUrl + '/recent-notifications', {params:{pageNumber, pageSize}}
     );
   }
 

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { Notification, NotificationType } from '../../models/notification.model';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { HubService } from 'src/app/modules/core/services/hub.service';
 
 @Component({
   selector: 'app-header',
@@ -36,12 +37,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   searchQuery = '';
   showFiller = false;
   isLoggedIn: boolean = false;
-  logout = ()=> this.authService.logout();
+  logout = () => this.authService.logout();
 
   constructor(
     private authService: AuthenticationService,
     private notificationsService: NotificationsService,
-    private router: Router
+    private router: Router,
+    private hubService: HubService
   ) { }
 
   // event listener to close the notification if user pressed anywhere on the screen
@@ -63,7 +65,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if(this.isLoggedIn){
       this.loadMoreNotifications();
     }
+
     document.addEventListener('click', this.closeNotifications);
+
+    this.hubService.notification.subscribe(newNotification => {
+      if(newNotification !== null){
+        this.notifications.unshift(newNotification!);
+        this.numOfNewNotifications++;
+      }
+    })
   }
 
   ngOnDestroy(): void {
