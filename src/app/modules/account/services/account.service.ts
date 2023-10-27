@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { PaginatedResponse } from '../../core/models/paginated.response';
 import { environment } from 'src/environments/environment';
@@ -16,14 +15,15 @@ export class AccountService {
   ) {
   }
 
-  getMyRecipes(CurrentPage: number , pageSize: number): Observable<PaginatedResponse<RecipeSummary>> { 
+  getMyRecipes(pageNumber: number , pageSize: number): Observable<PaginatedResponse<RecipeSummary>> { 
     return this.http.get<PaginatedResponse<RecipeSummary>>( `${this.apiUrl}/my-recipes`, 
-      {params : {CurrentPage, pageSize}}
+      {params : {pageNumber, pageSize}}
     );
   } 
 
-  getFavourites(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> {
-    return this.http.get<PaginatedResponse<RecipeSummary>>(`${this.apiUrl}/favourites`, {params : {CurrentPage, pageSize}});
+  getFavourites(pageNumber: number , pageSize: number): Observable<PaginatedResponse<RecipeSummary>> {
+    return this.http.get<PaginatedResponse<RecipeSummary>>
+      (`${this.apiUrl}/favourites`, {params : {pageNumber, pageSize}});
   }
 
 }

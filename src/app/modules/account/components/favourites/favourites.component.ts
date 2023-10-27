@@ -18,7 +18,8 @@ export class FavouritesComponent implements OnInit {
   pageNumber: number = 1;
   totalRecords: number = 0;
   ImagesUrl = environment.ImagesUrl;
-  
+  get loading () { return this.loadingService.isLoading; }
+
   constructor(
     private recipeService: RecipeService, 
     private accountService: AccountService, 

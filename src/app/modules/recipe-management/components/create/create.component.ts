@@ -62,11 +62,9 @@ export class CreateComponent implements OnInit{
 
   onCategorySelectionChange(event: any) {
     // The selectedCategoryId property now contains the ID of the selected category.
-    console.log('Selected Category ID:', this.selectedCategoryId);
   }
 
   onImageInputChange(event: Event): void {
-    console.log(event.target);
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
 
@@ -80,8 +78,6 @@ export class CreateComponent implements OnInit{
 
     reader.onload = (event: any) => {
       this.localImageData = event.target.result;
-      console.log("Image result");
-      console.log(this.localImageData);
     };
 
     reader.readAsDataURL(file);
@@ -103,7 +99,6 @@ export class CreateComponent implements OnInit{
     
     let ingredients: Ingredient[] = [];
     let steps: Step[] = [];
-    console.log(this.addForm.get('recipeData.recipename')!.value);
     const IngredientsArray = (this.addForm.get('ingredients') as FormArray).value;
     for(let i = 0; i < IngredientsArray.length;i++){
       ingredients.push({id: 0, description: IngredientsArray[i]});
@@ -122,17 +117,14 @@ export class CreateComponent implements OnInit{
       Steps : steps
     };
 
-    console.log(recipeRequest);
-
     // Call the service to send the Recipe instance to the API
     this.recipeService.addRecipe(recipeRequest).subscribe(
       (response) => {
         // Handle the API response here
-        this.router.navigate(['/recipes']);
+        this.router.navigate(['/recipes', response.id]);
       },
       (error) => {
         // Handle any errors that occur during the API request
-        console.error('Error adding recipe:', error.error);
         alert(error.error);
       }
     );

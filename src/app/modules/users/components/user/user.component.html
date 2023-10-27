@@ -33,7 +33,7 @@
     <div class="row">
       <div class="col-sm-6 col-lg-3" *ngFor="let recipe of recipes;index as i" >
         <mat-card class="cardWithShadow productcard overflow-hidden">
-          <a [routerLink]="['/recipes/{{recipe.id}}']">
+          <a [routerLink]="['/recipes', recipe.id]">
             <img
               src="{{ imageUrl + '/' + recipe.imageName }}"
               class="w-100 card-image"

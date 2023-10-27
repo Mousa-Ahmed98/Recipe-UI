@@ -72,7 +72,7 @@ export class UserComponent implements OnInit {
       this.loadingService.stopLoading();
     });
   }
-
+  
   toggleFav(idx: number){
     let recipe = this.recipes[idx];
     

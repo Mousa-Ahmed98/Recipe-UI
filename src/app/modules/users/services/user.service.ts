@@ -42,9 +42,9 @@ export class UserService {
               );
   }
 
-  GetUserRecipes(username: string, CurrentPage: number , pageSize: number): Observable<PaginatedResponse<RecipeSummary>> {
+  GetUserRecipes(username: string, pageNumber: number , pageSize: number): Observable<PaginatedResponse<RecipeSummary>> {
     return this.http.get<PaginatedResponse<RecipeSummary>>(
-      `${this.apiUrl}/${username}/recipes`, {params:{CurrentPage, pageSize}}
+      `${this.apiUrl}/${username}/recipes`, {params:{pageNumber, pageSize}}
     )
   }
 }

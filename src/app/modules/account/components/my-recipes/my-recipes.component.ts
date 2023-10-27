@@ -22,6 +22,7 @@ export class MyRecipesComponent implements OnInit {
   totalRecords: number = 0;
   scrollingDown = false;
   ImagesUrl = environment.ImagesUrl;
+  get loading () { return this.loadingService.isLoading; }
 
   constructor(
     private recipeService: RecipeService, 

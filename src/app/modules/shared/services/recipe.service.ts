@@ -22,9 +22,9 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
   
-  GetAllRecipes(CurrentPage:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> {
+  GetAllRecipes(pageNumber:number , pageSize:number): Observable<PaginatedResponse<RecipeSummary>> {
     return this.http.get<PaginatedResponse<RecipeSummary>>(
-      this.apiUrl, {params:{CurrentPage, pageSize}}
+      this.apiUrl, {params:{pageNumber, pageSize}}
       )
   } 
   
@@ -33,9 +33,9 @@ export class RecipeService {
     return this.http.get<PaginatedResponse<RecipeSummary>>(this.apiUrl + '/filter', {params})
   }
 
-  SearchRecipes(query: string, CurrentPage: number = 1 , pageSize: number = 8): Observable<PaginatedResponse<RecipeSummary>> {
+  SearchRecipes(query: string, pageNumber: number = 1 , pageSize: number = 8): Observable<PaginatedResponse<RecipeSummary>> {
     return this.http.get<PaginatedResponse<RecipeSummary>>(this.apiUrl + '/search', 
-      { params: {query, CurrentPage, pageSize} }
+      { params: {query, pageNumber, pageSize} }
     )
   }
   

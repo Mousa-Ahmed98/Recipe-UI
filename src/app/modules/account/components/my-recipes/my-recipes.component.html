@@ -55,5 +55,6 @@
   </div>
 </div>
   
-<app-nothing-here-yet *ngIf="recipes && recipes.length === 0"></app-nothing-here-yet>
+<app-nothing-here-yet *ngIf="!loading && recipes.length === 0"></app-nothing-here-yet>
+
     

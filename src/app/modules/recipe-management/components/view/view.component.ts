@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ConfirmEventType, ConfirmationService} from 'primeng/api';
 
@@ -23,7 +23,7 @@ import { ShoppingService } from 'src/app/modules/shared/services/shopping.servic
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.css']
 })
-export class ViewComponent {
+export class ViewComponent implements OnInit {
   recipeId: number;
   recipe: Recipe;
   planDate: Date = new Date();

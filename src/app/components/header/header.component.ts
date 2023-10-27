@@ -22,13 +22,11 @@ import { NotificationsService } from 'src/app/services/notifications.service';
   ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  @Input() logout: () => void;
   @Input() showToggle = true;
   @Input() toggleChecked = false;
   @Output() toggleMobileNav = new EventEmitter<void>();
   @Output() toggleMobileFilterNav = new EventEmitter<void>();
   @Output() toggleCollapsed = new EventEmitter<void>();
-
 
   notifications: Notification[] = [];
   notificationsOpen = false;
@@ -38,6 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   searchQuery = '';
   showFiller = false;
   isLoggedIn: boolean = false;
+  logout = ()=> this.authService.logout();
 
   constructor(
     private authService: AuthenticationService,
