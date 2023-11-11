@@ -12,10 +12,10 @@
 
         <!-- control buttons -->
         <div *ngIf="isRecipeOwner" class="col-offset-8">
-          <button mat-icon-button (click)="editRecipe()" icon="pi pi-times" label="Delete" class="p-button-danger">
+          <button mat-icon-button (click)="editRecipe()" icon="pi pi-times" class="p-button-danger">
             <i-tabler name="edit" matBadgeColor="primary" style="font-size: 2rem"></i-tabler>
           </button>
-          <button mat-icon-button color="warn" (click)="deleteRecipe()" label="Edit" >
+          <button mat-icon-button color="warn" (click)="deleteRecipe()" >
             <i-tabler name="trash-x" matBadgeColor="primary" style="font-size: 2rem"></i-tabler>
           </button>
         </div>
@@ -37,11 +37,13 @@
       
       <mat-action-row *ngIf="loggedIn()" class="btn-group" name="fontStyle" aria-label="Font Style">
         
-        <p-button (click)="swtichFav()" styleClass="p-button-raised p-button-text" >
+        <p-button matTooltip="Add To Favs" matTooltipPosition="below"
+         (click)="swtichFav()" styleClass="p-button-raised p-button-text" >
           <span  class="pi {{recipe.inFavourites ? 'pi-heart-fill' : 'pi-heart'}}"></span>
         </p-button>
 
-        <p-button (click)="toggleCalendar()" styleClass="p-button-raised p-button-text">
+        <p-button matTooltip="Add To Plans" matTooltipPosition="below"
+          (click)="toggleCalendar()" styleClass="p-button-raised p-button-text">
           <span class="pi pi-calendar-plus"></span>
         </p-button>
 
@@ -50,17 +52,19 @@
           </p-calendar>
         </div>
 
-        <p-button styleClass="p-button-raised p-button-text" (click)="addToShoppingList()" >
+        <p-button matTooltip="Add To Shopping Cart" matTooltipPosition="below"
+          styleClass="p-button-raised p-button-text" (click)="addToShoppingList()" >
           <span class="pi pi-shopping-cart"></span>
         </p-button>
 
-        <p-button styleClass="p-button-raised p-button-text" (click)="shareRecipe()">
+        <p-button matTooltip="Share" matTooltipPosition="below"
+          styleClass="p-button-raised p-button-text" (click)="shareRecipe()">
           <span class="pi pi-send"></span>
         </p-button>
       </mat-action-row>
 
 
-      <div class="p-col-12 p-md-6 p-lg-4">
+      <div class="p-col-12 p-md-6 p-lg-4" style="margin-bottom: 30px;">
         <div class="recipe-details">
           
           <!-- <div class="category">Category: {{ recipe.category.name }}</div> -->
@@ -87,38 +91,15 @@
             </table>
           </div>
         </div>
+      </div>
 
-        <!-- Similar Recipe Section Begin -->
-          <!-- TODO -->
-        <!-- Similar Recipe Section End -->
+      <!-- Similar Recipe Section Begin -->
+        <!-- TODO -->
+      <!-- Similar Recipe Section End -->
 
-
-        <!--
-        <div class="review-section">
-          <h3 class="review-heading">Rates and reviews</h3>
-          
-           <div class="reviews-container">
-            <div *ngFor="let review of recipe.reviews" class="review-card">
-              <div class="review-header">
-                <img src="https://pub-static.fotor.com/assets/projects/pages/ed2f505cd64d46ffbb43c2b4d65cfaf3/600w/fotor-5965bfe16a014c9f81a074bbe55a0244.jpg"
-                  class="avatar" alt="Avatar" />
-                <p class="author-name">{{ review.authorName }}</p>
-              </div>
-              <div class="rating-container">
-                <p-rating [disabled]="true" [(ngModel)]="review.rate" [cancel]="false"></p-rating>
-              </div>
-              <textarea [disabled]="true" [(ngModel)]="review.content" class="comment-input" placeholder="Write your comment here..."></textarea>
-            </div>
-          </div>
-          
-          <div class="add-review-container">
-            <h3 class="add-review-heading" (click)="reset()">Rate and comment</h3>
-            <p-rating [(ngModel)]="rating" [cancel]="false"></p-rating>
-            <textarea [(ngModel)]="comment" class="comment-input" placeholder="Write your comment here..."></textarea>
-            <button class="submit-button" (click)="addReview()">Submit</button>
-          </div>
-        </div> -->
-    
-    </div>
+    <hr class="m-0" > 
+        
+    <app-feedback [recipeId]="recipeId" [ratings]="recipe.ratings" [myRating]="recipe.userRating"></app-feedback>
+  
   </div>
 </div>
