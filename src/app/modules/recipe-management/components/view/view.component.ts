@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ConfirmEventType, ConfirmationService} from 'primeng/api';
 
 import { Recipe } from 'src/app/modules/recipe-management/models/recipe.model';
-import { Review } from 'src/app/modules/recipe-management/models/review.model';
-import { ReviewRequest } from 'src/app/modules/recipe-management/models/review.request';
+import { Rating } from 'src/app/modules/recipe-management/models/review.model';
 
 import { RecipeService } from 'src/app/modules/shared/services/recipe.service';
 import { PlansService } from 'src/app/modules/account/services/plans.service';
@@ -17,6 +16,7 @@ import { ShoppingItem } from 'src/app/modules/account/models/shopping_item.model
 import { DOCUMENT } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { ShoppingService } from 'src/app/modules/shared/services/shopping.service';
+import { AppUser } from 'src/app/modules/authentication/models/appUser.model';
 
 @Component({
   selector: 'app-view',
@@ -24,32 +24,31 @@ import { ShoppingService } from 'src/app/modules/shared/services/shopping.servic
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
-  recipeId: number;
   recipe: Recipe;
+  recipeId: number;
   planDate: Date = new Date();
   selectingDate = false;
-  rating: any;
   comment: string;
   authorId: string;
-  reviewRequest: ReviewRequest;
   ImagesUrl = environment.ImagesUrl;
-  loggedIn = (): boolean => this.accountService.userValue !== null;
   
-  get isRecipeOwner (): boolean {
-    return this.loggedIn() && this.recipe.author.userName === this.accountService.userValue?.userName;
+  loggedIn = (): boolean => this.authService.userValue !== null;
+  
+  get isRecipeOwner(): boolean {
+    return this.loggedIn() && this.recipe.author.userName === this.authService.userValue?.userName;
   }
   
   constructor(
     @Inject(DOCUMENT) private document: Document,
+    private router: Router,
     private route: ActivatedRoute,
     private recipeService: RecipeService,
     private shoppingService: ShoppingService,
-    private router: Router,
-    private accountService: AuthenticationService,
+    private authService: AuthenticationService,
     private confirmationService: ConfirmationService,
     private messageService: ToastMessageService,
     private planService: PlansService,
-    private loadingService: LoaderService
+    private loadingService: LoaderService,
   ) { }
 
   ngOnInit(): void {
@@ -118,50 +117,6 @@ export class ViewComponent implements OnInit {
     }
   }
 
-  reset(){
-    this.rating = 0;
-  }
-
-  myFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
-  };
-
-  addReview(){
-    if(this.rating == null || this.comment == null)
-    return;
-    console.log(this.accountService.userValue?.userId);
-    console.log(this.accountService.userValue?.userName);
-    try{
-      const newReview: ReviewRequest = {
-        authorId: this.accountService.userValue?.userId!, //Mousa id
-        authorName: this.accountService.userValue?.userName!, //Mousa id
-        recipeId: this.recipeId,
-        content: this.comment,
-        rate: this.rating,
-      };
-      this.recipeService.addReview(newReview).subscribe(res => {
-        console.log(res);
-        this.rating = null;
-        this.comment = "";
-        this.recipe.reviews.push(res); 
-      });
-    }
-    catch(e){
-
-    }
-
-  }
-
-  editReview(id: number){
-
-  }
-
-  deleteReview(id: number){
-
-  }
-
   editRecipe(){
     this.router.navigate(['/recipes', this.recipeId, 'edit']);
   }
@@ -170,7 +125,7 @@ export class ViewComponent implements OnInit {
     this.recipe.ingredients.forEach(element =>{
       var newItem: ShoppingItem = {
         Ingredient: element.description,
-        UserId: this.accountService.userValue?.userId!,
+        UserId: this.authService.userValue?.userId!,
         isPurchased: false,
         Quantity: 1,
       };

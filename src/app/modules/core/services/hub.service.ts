@@ -10,7 +10,7 @@ import { AuthenticationService } from './auth.service';
 })
 export class HubService {
 
-  private hubConnection: HubConnection;
+  private hubConnection: HubConnection | null = null;
 
   private notificationSubject: BehaviorSubject<Notification | null> 
     = new BehaviorSubject<Notification | null>(null) ;
@@ -56,6 +56,8 @@ export class HubService {
   }
 
   stopConnection(){
+    if(this.hubConnection === null ) return;
+    
     this.hubConnection.stop()
     .then(() => {
       console.log('Connection stopped');

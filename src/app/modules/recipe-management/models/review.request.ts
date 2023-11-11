@@ -1,7 +1,5 @@
-export interface ReviewRequest{
-    authorId: string,
-    authorName: string,
+export interface RatingRequest{
     recipeId: number,
+    NumberOfStars: number,
     content: string,
-    rate: number
 }

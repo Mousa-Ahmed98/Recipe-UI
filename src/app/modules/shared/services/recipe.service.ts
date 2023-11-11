@@ -9,8 +9,8 @@ import { Recipe } from '../../recipe-management/models/recipe.model';
 import { RecipeRequest } from '../../recipe-management/models/recipe.request';
 import { PaginatedResponse } from '../../core/models/paginated.response';
 import { RecipeSummary } from '../models/recipe.summary';
-import { Review } from '../../recipe-management/models/review.model';
-import { ReviewRequest } from '../../recipe-management/models/review.request';
+import { Rating } from '../../recipe-management/models/review.model';
+import { RatingRequest } from '../../recipe-management/models/review.request';
 
 @Injectable({
   providedIn: 'root'
@@ -67,14 +67,14 @@ export class RecipeService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`)
   }
 
-  addReview(reviewRequest: ReviewRequest): Observable<Review> {
+  addReview(reviewRequest: RatingRequest): Observable<Rating> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
     };
 
-    return this.http.post<Review>(`${this.apiUrl}/addreview`, reviewRequest, httpOptions);
+    return this.http.post<Rating>(`${this.apiUrl}/addreview`, reviewRequest, httpOptions);
   }
   
   addToFavourites(id: number): Observable<boolean> {

@@ -13,6 +13,7 @@ import { CalendarModule } from 'primeng/calendar';
 
 import { RecipeRoutingModule } from "./recipe-routing.module";
 import { SharedModule } from '../shared/shared.module';
+import { FeedbackComponent } from './components/feedback/feedback.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SharedModule } from '../shared/shared.module';
     EditComponent,
     ViewComponent,
     SearchComponent,
+    FeedbackComponent,
   ],
   imports: [
     SharedModule,

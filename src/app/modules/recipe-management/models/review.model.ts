@@ -1,8 +1,10 @@
-export interface Review{
+import { AppUser } from "../../authentication/models/appUser.model"
+
+export interface Rating{
     id: number,
-    authorId: string,
-    authorName: string,
+    user: AppUser,
     recipeId: number,
     content: string,
-    rate: number
+    numberOfStars: number,
+    createdAt: string
 }
