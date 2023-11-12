@@ -105,6 +105,7 @@ export class IndexComponent implements OnInit{
       this.recipes = res.items;
       this.totalRecords = res.totalCount;
       this.loadingService.stopLoading();
+      console.log(this.recipes);
     });
   }
   
@@ -129,5 +130,18 @@ export class IndexComponent implements OnInit{
 
   isLoggedIn(){
     return this.accountService.userValue !== null;
+  }
+
+  getStarIcon(recipeIndex: number, starIndex: number): string {
+    const recipe = this.recipes[recipeIndex];
+
+    if (starIndex <= recipe.averageRating) {
+      return 'star-filled';
+    } else if (starIndex === Math.ceil(recipe.averageRating) && recipe.averageRating % 1 !== 0) {
+      console.log("d");
+      return 'star-half-filled';
+    } else {
+      return 'star';
+    }
   }
 }
