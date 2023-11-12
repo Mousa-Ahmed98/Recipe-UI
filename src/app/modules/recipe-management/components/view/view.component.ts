@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ConfirmEventType, ConfirmationService} from 'primeng/api';
 
 import { Recipe } from 'src/app/modules/recipe-management/models/recipe.model';
-import { Rating } from 'src/app/modules/recipe-management/models/review.model';
 
 import { RecipeService } from 'src/app/modules/shared/services/recipe.service';
 import { PlansService } from 'src/app/modules/account/services/plans.service';
@@ -16,7 +15,9 @@ import { ShoppingItem } from 'src/app/modules/account/models/shopping_item.model
 import { DOCUMENT } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { ShoppingService } from 'src/app/modules/shared/services/shopping.service';
-import { AppUser } from 'src/app/modules/authentication/models/appUser.model';
+
+
+
 
 @Component({
   selector: 'app-view',
@@ -89,12 +90,30 @@ export class ViewComponent implements OnInit {
     }
   }
 
-  shareRecipe() {
+  shareRecipe(platform: string) {
     const recipeUrl = `${environment.apiUrl}/recipe/${this.recipeId}`;
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(recipeUrl)}`;
+    let shareUrl = '';
+  
+    switch (platform) {
+      case 'fb':
+        // Facebook share URL
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(recipeUrl)}`;
+        break;
+      case 'ig':
+        shareUrl = `https://www.instagram.com/?url=${encodeURIComponent(recipeUrl)}`;
+        break;
+      case 'tw':
+        // Twitter share URL
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(recipeUrl)}`;
+        break;
+      default:
+        console.error('Invalid platform:', platform);
+        return;
+    }
+  
     const newWindow = this.document.defaultView!.open(shareUrl, '_blank');
-    if (newWindow) {
-    } else {
+  
+    if (!newWindow) {
       console.error('Popup blocked. Please allow popups for sharing.');
     }
   }
@@ -122,6 +141,8 @@ export class ViewComponent implements OnInit {
   }
 
   addToShoppingList(){
+    this.messageService.showInfoMessgae("Coming soon! 🚀 Feature under construction!");
+    return;
     this.recipe.ingredients.forEach(element =>{
       var newItem: ShoppingItem = {
         Ingredient: element.description,
@@ -160,5 +181,17 @@ export class ViewComponent implements OnInit {
             }
           }
       });
+  }
+
+  getStarIcon(starIndex: number): string {
+    if (starIndex <= this.recipe.averageRating) {
+      return 'star-filled';
+    } else if (starIndex === Math.ceil(this.recipe.averageRating) && this.recipe.averageRating % 1 !== 0) {
+      // the second condition to check whether `averageRating` has a fractional part, 
+      // anything.something % 1 = something eg. ==> 4.2 % 1 = 0.2
+      return 'star-half-filled';
+    } else {
+      return 'star';
+    }
   }
 }

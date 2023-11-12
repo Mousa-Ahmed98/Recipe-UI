@@ -98,3 +98,8 @@ p-button{
  cursor: pointer;
  color: blue
 }
+
+.star-rating{
+  top: 10px; 
+  left: 10px; 
+}
