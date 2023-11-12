@@ -6,13 +6,17 @@ import { environment } from 'src/environments/environment';
 
 import { Rating } from '../models/review.model';
 import { RatingRequest } from '../models/review.request';
+import { CommentRequest } from '../models/comment.request';
+import { ReplyRequest } from '../models/reply.request';
+import { Reply } from '../models/reply.model';
+import { Comment } from '../models/comment.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FeedbackService {
 
-  private getApiUrl(recipeId: number) {
+  private getRatingApiUrl(recipeId: number) {
     return `${environment.apiUrl}/recipe/${recipeId}/rating`;
   }
 
@@ -20,38 +24,79 @@ export class FeedbackService {
 
   // Ratings
 
-  getReview(reviewRequest: RatingRequest): Observable<Rating> {
-    return this.http.get<Rating>(this.getApiUrl(reviewRequest.recipeId));
+  getReview(reviewRequest: RatingRequest, pageNumber: number = 1 , pageSize: number = 10): Observable<Rating> {
+    return this.http.get<Rating>(
+      this.getRatingApiUrl(reviewRequest.recipeId), 
+      { params: {pageNumber, pageSize} }
+    );
   }
 
   addReview(reviewRequest: RatingRequest): Observable<Rating> {
-    return this.http.post<Rating>(this.getApiUrl(reviewRequest.recipeId), reviewRequest);
+    return this.http.post<Rating>(
+      this.getRatingApiUrl(reviewRequest.recipeId), reviewRequest
+    );
   }
 
   updateReview(reviewRequest: RatingRequest): Observable<Rating> {
-    return this.http.put<Rating>(this.getApiUrl(reviewRequest.recipeId), reviewRequest);
+    return this.http.put<Rating>(
+      this.getRatingApiUrl(reviewRequest.recipeId), 
+      reviewRequest
+    );
   }
 
   deleteReview(recipeId: number): Observable<Rating> {
-    return this.http.delete<Rating>(this.getApiUrl(recipeId));
+    return this.http.delete<Rating>(this.getRatingApiUrl(recipeId));
   }
 
   // Comments
 
-  getComment(reviewRequest: RatingRequest): Observable<Rating> {
-    return this.http.get<Rating>(this.getApiUrl(reviewRequest.recipeId));
+  getComments(commentRequest: CommentRequest, pageNumber: number = 1 , pageSize: number = 10): Observable<Comment[]> {
+    const recipeId = commentRequest.recipeId
+    return this.http.get<Comment[]>(
+      `${environment.apiUrl}/comments`, 
+      { params: {recipeId, pageNumber, pageSize} } 
+    );
   }
 
-  addComment(reviewRequest: RatingRequest): Observable<Rating> {
-    return this.http.post<Rating>(this.getApiUrl(reviewRequest.recipeId), reviewRequest);
+  addComment(commentRequest: CommentRequest): Observable<Comment> {
+    return this.http.post<Comment>(
+      `${environment.apiUrl}/comments`, commentRequest
+    );
   }
 
-  updateComment(reviewRequest: RatingRequest): Observable<Rating> {
-    return this.http.put<Rating>(this.getApiUrl(reviewRequest.recipeId), reviewRequest);
+  updateComment(commentId: number, commentRequest: CommentRequest): Observable<Comment> {
+    return this.http.put<Comment>(
+      `${environment.apiUrl}/comments/${commentId}`, 
+      commentRequest
+    );
   }
 
-  deleteComment(reviewRequest: RatingRequest): Observable<Rating> {
-    return this.http.delete<Rating>(this.getApiUrl(reviewRequest.recipeId));
+  deleteComment(commentId: number): Observable<Comment> {
+    return this.http.delete<Comment>(
+      `${environment.apiUrl}/comments/${commentId}`
+    );
+  }
+
+  // Replies
+
+  addReply(commentId: number, replyRequest: ReplyRequest): Observable<Reply> {
+    return this.http.post<Reply>(
+      `${environment.apiUrl}/comments/${commentId}/replies`, 
+      replyRequest
+    );
+  }
+
+  updateReply(commentId: number, replyId: number, replyRequest: ReplyRequest): Observable<Reply> {
+    return this.http.put<Reply>(
+      `${environment.apiUrl}/comments/${commentId}/replies/${replyId}`, 
+      replyRequest
+    );
+  }
+
+  deleteRepy(commentId: number, replyId: number): Observable<Reply> {
+    return this.http.delete<Reply>(
+      `${environment.apiUrl}/comments/${commentId}/replies/${replyId}`
+    );
   }
 
 }

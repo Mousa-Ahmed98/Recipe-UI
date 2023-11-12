@@ -94,15 +94,15 @@ export class UserComponent implements OnInit {
   
   toggleFollow(){
     if(this.user.isFollowed){
-      this.userService.UnfollowUser(this.user.userName).subscribe(res => {
-        this.user.followers -= 1;
+      this.userService.UnfollowUser(this.user.userName!).subscribe(res => {
+        this.user.followers! -= 1;
         this.user.isFollowed = false;
         this.toastMessageService.showSuccessMessage("User Unfollowed Successfully");
       })
     }else{
-      this.userService.FollowUser(this.user.userName).subscribe(res => {
+      this.userService.FollowUser(this.user.userName!).subscribe(res => {
         // this.user.followers++;
-        this.user.followers += 1;
+        this.user.followers! += 1;
         this.user.isFollowed = true;
         this.toastMessageService.showSuccessMessage("User Followed Successfully");
       })
