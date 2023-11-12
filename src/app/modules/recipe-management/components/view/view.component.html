@@ -22,19 +22,26 @@
       </div>
 
       <div class="p-col-12 p-md-6 p-lg-4">
-        <h2>{{ recipe.name }}</h2>
+        <h2>{{ recipe.name }}</h2> 
       </div>
-      
+
       <div class="p-col-12 p-md-6 p-lg-4">
         <div class="image-container">
+          <div class="star-rating">
+            <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let starIndex = index">
+              <span>
+                <i-tabler [name]="getStarIcon(star)" style="color:#FFBC37" class="icon-24"></i-tabler>
+              </span>
+            </ng-container>
+          </div>
           <img src="{{ImagesUrl}}/{{recipe.imageName}}" alt="Recipe Image" class="recipe-image" width="500" height="400" />
         </div>
         By: 
         <span [routerLink]="['/users', recipe.author.userName]" class="user-link">
-            {{recipe.author.firstName + ' ' + recipe.author.lastName }} 
+          {{recipe.author.firstName + ' ' + recipe.author.lastName }} 
         </span>
       </div>
-      
+
       <mat-action-row *ngIf="loggedIn()" class="btn-group" name="fontStyle" aria-label="Font Style">
         
         <p-button matTooltip="Add To Favs" matTooltipPosition="below"
@@ -57,9 +64,15 @@
           <span class="pi pi-shopping-cart"></span>
         </p-button>
 
-        <p-button matTooltip="Share" matTooltipPosition="below"
-          styleClass="p-button-raised p-button-text" (click)="shareRecipe()">
+        <p-button matTooltip="Share" [matMenuTriggerFor]="menu" matTooltipPosition="below"
+          styleClass="p-button-raised p-button-text" >
           <span class="pi pi-send"></span>
+          <mat-menu #menu="matMenu">
+            <!-- only twitter works :O dk why -->
+            <!-- <button mat-menu-item (click)="shareRecipe('fb')">Facebook</button> -->
+            <!-- <button mat-menu-item (click)="shareRecipe('ig')">Instagram</button> -->
+            <button mat-menu-item (click)="shareRecipe('tw')">Twitter</button>
+          </mat-menu>        
         </p-button>
       </mat-action-row>
 
@@ -99,7 +112,13 @@
 
     <hr class="m-0" > 
         
-    <app-feedback [recipeId]="recipeId" [ratings]="recipe.ratings" [myRating]="recipe.userRating"></app-feedback>
+    <app-feedback 
+      [recipeId]="recipeId" 
+      [ratings]="recipe.ratings" 
+      [myRating]="recipe.userRating"
+      [comments]="recipe.comments"
+      >
+    </app-feedback>
   
   </div>
 </div>

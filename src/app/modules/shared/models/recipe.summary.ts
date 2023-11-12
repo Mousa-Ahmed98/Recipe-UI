@@ -3,4 +3,5 @@ export interface RecipeSummary{
   name: string,
   imageName: string,
   inFavourites: boolean,
+  averageRating: number,
 }
