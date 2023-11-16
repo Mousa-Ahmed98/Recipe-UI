@@ -10,6 +10,7 @@ import { CommentRequest } from '../models/comment.request';
 import { ReplyRequest } from '../models/reply.request';
 import { Reply } from '../models/reply.model';
 import { Comment } from '../models/comment.model';
+import { PaginatedResponse } from '../../core/models/paginated.response';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,9 @@ export class FeedbackService {
 
   // Ratings
 
-  getReview(reviewRequest: RatingRequest, pageNumber: number = 1 , pageSize: number = 10): Observable<Rating> {
-    return this.http.get<Rating>(
-      this.getRatingApiUrl(reviewRequest.recipeId), 
+  getReview(recipeId: number, pageNumber: number = 1 , pageSize: number = 10): Observable<PaginatedResponse<Rating>> {
+    return this.http.get<PaginatedResponse<Rating>>(
+      this.getRatingApiUrl(recipeId), 
       { params: {pageNumber, pageSize} }
     );
   }
@@ -50,9 +51,8 @@ export class FeedbackService {
 
   // Comments
 
-  getComments(commentRequest: CommentRequest, pageNumber: number = 1 , pageSize: number = 10): Observable<Comment[]> {
-    const recipeId = commentRequest.recipeId
-    return this.http.get<Comment[]>(
+  getComments(recipeId: number, pageNumber: number = 1 , pageSize: number = 10): Observable<PaginatedResponse<Comment>> {
+    return this.http.get<PaginatedResponse<Comment>>(
       `${environment.apiUrl}/comments`, 
       { params: {recipeId, pageNumber, pageSize} } 
     );

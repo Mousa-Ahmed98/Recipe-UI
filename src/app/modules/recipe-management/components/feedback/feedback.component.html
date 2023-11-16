@@ -76,12 +76,12 @@
 
           <mat-card-title class="mat-mdc-card-title m-t-30 f-s-21 p-t-24">
             Users Reviews 
-            <span class="text-primary p-x-12 p-y-8 rounded bg-light-primary f-w-600 m-l-8 f-s-18"> {{ ratings.length }} </span>
+            <span class="text-primary p-x-12 p-y-8 rounded bg-light-primary f-w-600 m-l-8 f-s-18"> {{ ratings.totalCount }} </span>
           </mat-card-title>
 
-          <div *ngFor="let rating of ratings; index as i" class="bg-light rounded p-24 m-t-24">
+          <div *ngFor="let rating of ratings.items; index as i" class="bg-light rounded p-24 m-t-24">
             <div class="d-flex align-items-center">
-              <img src="/assets/images/profile/user-{{i+1 % 5}}.jpg" alt="user" width="35" class="rounded-circle">
+              <img src="/assets/images/profile/user-{{i % 4 + 1}}.jpg" alt="user" width="35" class="rounded-circle">
               <span class="mat-body-2 f-w-600 m-l-12"> {{ rating.user.firstName + ' ' +  rating.user.lastName }} </span>
               <span class="m-l-12 f-s-12 d-flex align-items-center">
                   <i-tabler name="circle-filled" class="icon-7 op-5 d-flex m-r-4"> </i-tabler> 
@@ -97,6 +97,13 @@
             </p>
             
           </div>
+
+          <p-paginator (onPageChange)="onReviewsPageChange($any($event))" 
+            [first]="ratings.firstNum!" [rows]="ratings.rows!" [totalRecords]="ratings.totalCount" 
+            [rowsPerPageOptions]="[5]"
+          >
+          </p-paginator>
+
         </mat-card-content>
       </mat-card>
     </mat-tab>
@@ -109,6 +116,8 @@
       <mat-card  class="mat-mdc-card mdc-card cardWithShadow">
         <mat-card-content  class="mat-mdc-card-content p-24">
         
+          <!-- Post Comment Form -->
+
           <div *ngIf="loggedIn()">
 
             <mat-card-title class="mat-mdc-card-title m-b-24 f-s-21">Post a Comment!</mat-card-title>
@@ -131,12 +140,12 @@
 
           <mat-card-title class="mat-mdc-card-title m-t-30 f-s-21 p-t-24">
             Comments 
-            <span class="text-primary p-x-12 p-y-8 rounded bg-light-primary f-w-600 m-l-8 f-s-18">{{comments.length}}</span>
+            <span class="text-primary p-x-12 p-y-8 rounded bg-light-primary f-w-600 m-l-8 f-s-18">{{comments.totalCount}}</span>
           </mat-card-title>
             
           <!-- A Comment  -->
           
-          <div *ngFor="let comment of comments; index as i" >
+          <div *ngFor="let comment of comments.items; index as i" >
             
             <div class="bg-light rounded p-24 m-t-24">
 
@@ -150,7 +159,7 @@
               </div>
 
               <div class="d-flex align-items-center">
-                <img src="/assets/images/profile/user-{{i+1 % 5}}.jpg" alt="user" width="35" class="rounded-circle">
+                <img src="/assets/images/profile/user-{{i% 4 + 1}}.jpg" alt="user" width="35" class="rounded-circle">
                 <span class="mat-body-2 f-w-600 m-l-12">{{comment.user.firstName + ' ' + comment.user.lastName }}</span>
                 <span class="m-l-12 f-s-12 d-flex align-items-center">
                   <i-tabler  name="circle-filled" class="icon-7 op-5 d-flex m-r-4"> </i-tabler> 
@@ -249,6 +258,12 @@
             </div>
           </div>
         
+        <p-paginator (onPageChange)="onCommentsPageChange($any($event))" 
+          [first]="comments.firstNum" [rows]="comments.rows" [totalRecords]="comments.totalCount" 
+          [rowsPerPageOptions]="[5]"
+        >
+        </p-paginator>
+
         </mat-card-content>
       </mat-card>
 

@@ -1,14 +1,17 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { ConfirmEventType, ConfirmationService } from 'primeng/api';
+
 import { FeedbackService } from '../../services/feedback.service';
 import { AuthenticationService } from 'src/app/modules/core/services/auth.service';
 import { ToastMessageService } from 'src/app/modules/core/services/toast.message.service';
+import { LoaderService } from 'src/app/modules/core/services/loading.service';
 
 import { Comment } from '../../models/comment.model';
 import { RatingRequest } from '../../models/review.request';
 import { Rating } from '../../models/review.model';
 import { Reply } from '../../models/reply.model';
-
-import { Component, Input, OnInit } from '@angular/core';
-import { ConfirmEventType, ConfirmationService } from 'primeng/api';
+import { PaginatedResponse } from 'src/app/modules/core/models/paginated.response';
+import { PageEvent } from 'src/app/modules/core/models/page.event';
 
 
 @Component({
@@ -18,15 +21,19 @@ import { ConfirmEventType, ConfirmationService } from 'primeng/api';
 })
 export class FeedbackComponent implements OnInit {
   @Input() recipeId: number;
-  @Input() ratings: Rating[];
-  @Input() comments: Comment[];
+  @Input() topRatings: Rating[];
+  @Input() topComments: Comment[];
   @Input() myRating: Rating | null = null;
+  @Input() numOfComments: number;
+  @Input() numOfRatings: number;
   
   constructor(
     private feedbackService: FeedbackService,
     private messageService: ToastMessageService,
     private authService: AuthenticationService,
     private confirmationService: ConfirmationService,
+    private loadingService: LoaderService,
+
     ) {
   }
   
@@ -36,11 +43,13 @@ export class FeedbackComponent implements OnInit {
   // Review
   ratingRequest: RatingRequest;
   editingReview = false;
+  ratings: PaginatedResponse<Rating>;
   
   // Comment
   commmentInput: string = '';
   editCommmentInput: string = '';
   editingCommentId = 0; // id of comment to be edited
+  comments: PaginatedResponse<Comment>;
   
   // Reply
   replyInput: string = '';
@@ -57,10 +66,30 @@ export class FeedbackComponent implements OnInit {
       recipeId : this.recipeId
     };
     
+    this.ratings = {
+      items : this.topRatings,
+      pageNumber : 1,
+      pageSize : 5,
+      totalCount : this.numOfRatings,
+      firstNum: 1,
+      rows: 5,
+    } 
+
+    this.comments = {
+      items : this.topComments,
+      pageNumber : 1,
+      pageSize : 5,
+      totalCount : this.numOfComments,
+      firstNum: 1,
+      rows: 5,
+    } 
+
     // filter the ratings to exclude the user rating 
     // as it will be displayed on the top of the ratingsection
     if(this.loggedIn()){
-      this.ratings = this.ratings.filter(x => x.user.userName !== this.authService.userValue?.userName);
+      this.ratings.items = this.ratings.items.filter(
+        x => x.user.userName !== this.authService.userValue?.userName
+      );
     }
   }
 
@@ -69,17 +98,21 @@ export class FeedbackComponent implements OnInit {
       this.messageService.showInfoMessgae("Please fill review first.");
       return;
     }
-
+    
+    this.loadingService.startLoading();
+    
     if(this.editingReview){
       this.editingReview = false;
       this.feedbackService.updateReview(this.ratingRequest).subscribe(res => {
         this.myRating = res;
+        this.loadingService.stopLoading();
         this.messageService.showSuccessMessage("Rating edited successfully");
       });
     }else{
       const rr = this.ratingRequest;
       this.feedbackService.addReview(this.ratingRequest).subscribe(res => {
         this.myRating = res;
+        this.loadingService.stopLoading();
         this.messageService.showSuccessMessage("Rating Added successfully");
       });
     }
@@ -94,18 +127,45 @@ export class FeedbackComponent implements OnInit {
   }
 
   deleteReview(){
+    this.loadingService.startLoading();
     this.feedbackService.deleteReview(this.recipeId).subscribe(res => {
+      this.loadingService.stopLoading();
       this.myRating = null;
+      this.ratings.totalCount--;
     });
   }
+
+  loadMoreReviews(){
+
+  }
+
+  onReviewsPageChange(event: PageEvent) {
+    
+    this.ratings.pageNumber = event.page;
+    this.loadingService.startLoading();
+    this.feedbackService
+    .getReview(this.recipeId, this.ratings.pageNumber, this.ratings.pageSize)
+    .subscribe(res => {
+      this.loadingService.stopLoading();
+      this.ratings = res;
+      this.ratings.rows = event.rows;
+      this.ratings.firstNum = this.ratings.totalCount;
+    });
+
+  }
+
   
   // *** Comment ***
 
-  postComment(){
+  async postComment(){
     if(this.commmentInput == ''){
       this.messageService.showInfoMessgae("Comment Can't be empty");
       return;
     }
+
+    this.comments.totalCount++;
+    this.loadingService.startLoading();
+
     this.feedbackService.addComment({
       content : this.commmentInput, 
       recipeId : this.recipeId
@@ -113,7 +173,8 @@ export class FeedbackComponent implements OnInit {
       this.messageService.showSuccessMessage("Comment Added Successfully")
       this.commmentInput = '';
       res.user = this.appUser;
-      this.comments.push(res);
+      this.comments.items.push(res);
+      this.loadingService.stopLoading();
     })
   }
 
@@ -132,7 +193,7 @@ export class FeedbackComponent implements OnInit {
         content: this.editCommmentInput,
         recipeId : this.recipeId
       }).subscribe(res => {
-        let comment = this.comments.find(comment => comment.id === this.editingCommentId);
+        let comment = this.comments.items.find(comment => comment.id === this.editingCommentId);
         comment!.content = this.editCommmentInput
         this.editingCommentId = 0;
         this.messageService.showSuccessMessage("Comment Edited Successfully")
@@ -150,7 +211,8 @@ export class FeedbackComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.feedbackService.deleteComment(id).subscribe(res => {
-          this.comments = this.comments = this.comments.filter(comment => comment.id !== id);
+          this.comments.items = this.comments.items.filter(comment => comment.id !== id);
+          this.comments.totalCount--;
           this.messageService.showSuccessMessage("Comment Was Deleted Successfully")
         });
       },
@@ -164,6 +226,23 @@ export class FeedbackComponent implements OnInit {
               break;
           }
         }
+    });
+  }
+
+  
+  loadMoreComments(){
+
+  }
+
+  async onCommentsPageChange(event: PageEvent) {
+    this.comments.pageNumber = event.page;
+
+    this.feedbackService
+    .getComments(this.recipeId, this.comments.pageNumber + 1, this.comments.pageSize)
+    .subscribe(res => {
+      this.comments = res;
+      this.comments.rows = event.rows;
+      this.comments.firstNum = event.first;
     });
   }
 
@@ -182,7 +261,7 @@ export class FeedbackComponent implements OnInit {
       this.replyCommentId, 
       { content: this.replyInput }
     ).subscribe(res =>{
-      let comment = this.comments.find(comment => comment.id === this.replyCommentId);
+      let comment = this.comments.items.find(comment => comment.id === this.replyCommentId);
       res.user = this.appUser;
       comment?.replies.push(res);
       this.replyInput = '';
@@ -198,7 +277,7 @@ export class FeedbackComponent implements OnInit {
       accept: () => {
         this.feedbackService.deleteRepy(reply.commentId, reply.id)
         .subscribe(res => {
-          let comment = this.comments.find(comment => comment.id === reply.commentId);
+          let comment = this.comments.items.find(comment => comment.id === reply.commentId);
           comment!.replies = comment!.replies.filter(x => x.id !== reply.id);
           this.messageService.showSuccessMessage("Reply Was Deleted Successfully")
         });
