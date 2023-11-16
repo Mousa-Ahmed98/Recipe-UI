@@ -114,9 +114,11 @@
         
     <app-feedback 
       [recipeId]="recipeId" 
-      [ratings]="recipe.ratings" 
+      [topRatings]="recipe.ratings" 
       [myRating]="recipe.userRating"
-      [comments]="recipe.comments"
+      [topComments]="recipe.comments"
+      [numOfComments]="recipe.numberOfComments"
+      [numOfRatings]="recipe.numberOfRatings"
       >
     </app-feedback>
   

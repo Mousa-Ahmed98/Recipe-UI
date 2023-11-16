@@ -17,7 +17,9 @@ export interface Recipe{
   steps: Step[],
   ratings: Rating[],
   averageRating: number,
+  numberOfRatings: number,
   comments: Comment[],
+  numberOfComments: number,
   userRating: Rating,
   author: AppUser
 }
